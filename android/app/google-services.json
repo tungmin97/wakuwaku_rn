@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1059353179213",
+    "project_id": "wakuwaku-582d7",
+    "storage_bucket": "wakuwaku-582d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059353179213:android:7ccb89cd6648a9b0ea9804",
+        "android_client_info": {
+          "package_name": "com.wakuwaku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059353179213-vjnptbvci7lg9a3n61sea0bp1dmthsnk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wakuwaku",
+            "certificate_hash": "147227d565125fdf24b642105e37368471ddbdfa"
+          }
+        },
+        {
+          "client_id": "1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWnRjzfE6OI6LEetL3bP6hYY_pD99wnkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
