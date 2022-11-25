@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 const HomeTab = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Watchlist" component={WatchlistScreen} />
       <Tab.Screen name="User" component={UserScreen} />
