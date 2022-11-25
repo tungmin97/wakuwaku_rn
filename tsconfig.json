@@ -11,6 +11,7 @@
       "*": ["./*"],
       "@root/*": ["./*"],
       "@src/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
       "@components/*": ["./src/components/*"],
       "@assets/*": ["./src/assets/*"],
       "@types/*": ["./src/types/*"],
