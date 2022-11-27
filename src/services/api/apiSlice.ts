@@ -10,11 +10,14 @@ export const animeAPI = createApi({
     getTopAnime: builder.query<TopAnime, number>({
       query: (page) => `/top/anime?page=${page}&limit=10`,
     }),
-
+    getUpcomingAnime: builder.query<TopAnime, number>({
+      query: (page) => `/seasons/upcoming?page=${page}&limit=10`,
+    }),
     getAnimeFullById: builder.query<AnimeFullById, number>({
       query: (id) => `/anime/${id}/full`,
     }),
   }),
 });
 
-export const { useGetAnimeFullByIdQuery, useLazyGetTopAnimeQuery } = animeAPI;
+export const { useGetAnimeFullByIdQuery, useLazyGetTopAnimeQuery, useLazyGetUpcomingAnimeQuery } =
+  animeAPI;

@@ -1,18 +1,18 @@
 import { View, FlatList, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { AnimeById } from '@src/types/animeTypes';
-import { useLazyGetTopAnimeQuery } from '@services/api/apiSlice';
+import { useLazyGetUpcomingAnimeQuery } from '@services/api/apiSlice';
 import MainLoading from '@components/Loading/MainLoading';
-import AnimeCard from '@components/AnimeCard/AnimeCard';
+import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
 import CardFooterLoading from '@components/Loading/CardFooterLoading';
 
-export default function HomeTopAnime() {
+export default function HomeUpcomingAnime() {
   const [curPage, setCurPage] = useState(1);
   const [results, setResults] = useState<AnimeById[]>([]);
   const [hasReachedEnd, setHasReachedEnd] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-  const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetTopAnimeQuery();
+  const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetUpcomingAnimeQuery();
 
   useEffect(() => {
     trigger(curPage);
@@ -36,7 +36,6 @@ export default function HomeTopAnime() {
 
   const handleOnEndReached = () => {
     if (!hasReachedEnd) {
-      console.log('Fetching more data...');
       setCurPage(curPage + 1);
     }
   };
@@ -51,13 +50,14 @@ export default function HomeTopAnime() {
   if (isFirstLoad) {
     return <MainLoading />;
   }
+
   return (
-    <View className="flex-1 w-full justify-center items-center bg-black">
+    <View className="flex-1 h-60 justify-center items-center bg-black">
       {isSuccess && (
         <>
           <View>
             <Text className="mr-auto p-3 pb-0 font-main font-extrabold text-2xl text-platinum">
-              Trending now
+              Upcoming
             </Text>
             <FlatList
               horizontal={true}
@@ -66,12 +66,13 @@ export default function HomeTopAnime() {
               scrollEventThrottle={300}
               data={results}
               keyExtractor={(item) => String(item.mal_id)}
-              renderItem={({ item }) => <AnimeCard item={item} />}
+              renderItem={({ item }) => <SmallAnimeCard item={item} />}
               ListFooterComponent={() => <CardFooterLoading isFetching={isFetching} />}
               onEndReachedThreshold={0.3}
               onEndReached={handleOnEndReached}
               refreshing={false}
               onRefresh={handleRefresh}
+              className="h-64"
             />
           </View>
         </>

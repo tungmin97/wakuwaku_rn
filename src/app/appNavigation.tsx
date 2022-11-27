@@ -2,23 +2,93 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import HomeScreen from '@src/screens/HomeScreen';
-import UserScreen from '@src/screens/UserScreen';
-import SplashScreen from '@src/screens/SplashScreen';
-import Authentication from '@src/screens/Authentication';
-import WatchlistScreen from '@src/screens/WatchlistScreen';
-import { HomeStackParamList, RootStackParamList } from 'src/types/types';
+import HomeScreen from '@screens/HomeScreen';
+import UserScreen from '@screens/UserScreen';
+// import SplashScreen from '@screens/SplashScreen';
+import Authentication from '@screens/Authentication';
+import WatchlistScreen from '@screens/WatchlistScreen';
+import {
+  AnimeStackParamList,
+  HomeStackParamList,
+  RootStackParamList,
+  WatchlistStackParamList,
+} from '@src/types/types';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import DetailScreen from '@screens/DetailScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const AnimeStack = createNativeStackNavigator<AnimeStackParamList>();
+const ListStack = createNativeStackNavigator<WatchlistStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
+
+const HomeStack = () => {
+  return (
+    <AnimeStack.Navigator
+      initialRouteName="AnimeHome"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <AnimeStack.Screen name="AnimeHome" component={HomeScreen} />
+      <AnimeStack.Screen name="AnimeDetails" component={DetailScreen} />
+    </AnimeStack.Navigator>
+  );
+};
+
+const WatchlistStack = () => {
+  return (
+    <ListStack.Navigator
+      initialRouteName="ListHome"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <ListStack.Screen name="ListHome" component={WatchlistScreen} />
+      <ListStack.Screen name="ListDetails" component={DetailScreen} />
+    </ListStack.Navigator>
+  );
+};
 
 const HomeTab = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Watchlist" component={WatchlistScreen} />
-      <Tab.Screen name="User" component={UserScreen} />
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          height: 65,
+          paddingHorizontal: 5,
+          paddingTop: 5,
+          backgroundColor: '#1A1A1Aff',
+          borderTopWidth: 0,
+        },
+        tabBarInactiveTintColor: '#564d4d',
+        tabBarActiveTintColor: '#fff',
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarIcon: ({ color }) => <MaterialIcons name="home" size={25} color={color} />,
+          tabBarIconStyle: { marginBottom: 0 },
+          tabBarInactiveTintColor: '#333',
+        }}
+      />
+      <Tab.Screen
+        name="Watchlist"
+        component={WatchlistStack}
+        options={{
+          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarIcon: ({ color }) => <MaterialIcons name="movie-filter" size={25} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="User"
+        component={UserScreen}
+        options={{
+          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarIcon: ({ color }) => <MaterialIcons name="person" size={25} color={color} />,
+        }}
+      />
     </Tab.Navigator>
   );
 };

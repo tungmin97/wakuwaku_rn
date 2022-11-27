@@ -1,6 +1,5 @@
 import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
-// import HomeScreen from '@src/screens/HomeScreen';
 import AppNavigation from '@src/app/appNavigation';
 
 const App = () => {

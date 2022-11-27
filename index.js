@@ -10,9 +10,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 AppRegistry.registerComponent(appName, () => () => (
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>
 ));
