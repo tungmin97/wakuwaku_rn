@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         main: ['Nunito Sans'],
+        title: ['Paytone One'],
       },
       colors: {
         dark: '#222725ff',

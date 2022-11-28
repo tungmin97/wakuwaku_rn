@@ -1,7 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AnimeById, AnimeFullById } from './animeTypes';
+import { AnimeById } from './animeTypes';
 
 export interface AnimeCardProps {
   item: AnimeById;
@@ -21,12 +21,12 @@ export type HomeStackParamList = {
 
 export type AnimeStackParamList = {
   AnimeHome: undefined;
-  AnimeDetails: { item: AnimeFullById };
+  AnimeDetails: { item: AnimeById };
 };
 
 export type WatchlistStackParamList = {
   ListHome: undefined;
-  ListDetails: { item: AnimeFullById };
+  ListDetails: { item: AnimeById };
 };
 
 export type AnimeStackProps = NativeStackScreenProps<AnimeStackParamList>;

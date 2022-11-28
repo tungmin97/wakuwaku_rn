@@ -20,4 +20,4 @@ const AnimeCard = ({ item }: { item: AnimeById }) => {
   );
 };
 
-export default AnimeCard;
+export default memo(AnimeCard);

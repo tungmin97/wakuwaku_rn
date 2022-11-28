@@ -168,3 +168,15 @@ export interface AnimePaginationItem {
   total: number;
   per_page: number;
 }
+
+export enum AnimeSeason {
+  Winter = 'winter',
+  Spring = 'spring',
+  Summer = 'summer',
+  Fall = 'fall',
+}
+
+export interface SeasonQuery {
+  lastSeason: AnimeSeason;
+  lastYear: number;
+}
