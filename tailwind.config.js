@@ -10,6 +10,8 @@ module.exports = {
         dark: '#222725ff',
         lavenderFloral: '#b892ffff',
         ghostWhite: '#f8f7ffff',
+        gray: 'rgb(26, 26, 26)',
+        right: '#6a6a6a',
       },
     },
   },
