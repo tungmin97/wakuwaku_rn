@@ -159,6 +159,7 @@ export interface AnimeLink {
 export interface AnimePagination {
   last_visible_page: number;
   has_next_page: boolean;
+  current_page: number;
   items: AnimePaginationItem;
 }
 
@@ -166,4 +167,16 @@ export interface AnimePaginationItem {
   count: number;
   total: number;
   per_page: number;
+}
+
+export enum AnimeSeason {
+  Winter = 'winter',
+  Spring = 'spring',
+  Summer = 'summer',
+  Fall = 'fall',
+}
+
+export interface SeasonQuery {
+  lastSeason: AnimeSeason;
+  lastYear: number;
 }
