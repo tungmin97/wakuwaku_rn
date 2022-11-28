@@ -14,6 +14,8 @@ module.exports = {
         platinum: '#E6E6E6',
         eerieBlack: '#1A1A1A',
         maxRed: '#E50813ff',
+        gray: 'rgb(26, 26, 26)',
+        darkGray: '#6a6a6a',
       },
     },
   },
