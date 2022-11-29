@@ -16,6 +16,7 @@ export type RootStackParamList = {
 export type HomeStackParamList = {
   Home: AnimeStackParamList;
   Watchlist: WatchlistStackParamList;
+  Schedule: ScheduleStackParamList;
   User: undefined;
 };
 
@@ -27,6 +28,11 @@ export type AnimeStackParamList = {
 export type WatchlistStackParamList = {
   ListHome: undefined;
   ListDetails: { item: AnimeById };
+};
+
+export type ScheduleStackParamList = {
+  ScheduleHome: undefined;
+  ScheduleDetails: { item: AnimeById };
 };
 
 export type AnimeStackProps = NativeStackScreenProps<AnimeStackParamList>;

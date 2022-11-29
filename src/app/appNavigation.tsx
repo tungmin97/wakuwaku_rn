@@ -11,14 +11,17 @@ import {
   AnimeStackParamList,
   HomeStackParamList,
   RootStackParamList,
+  ScheduleStackParamList,
   WatchlistStackParamList,
 } from '@src/types/types';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import DetailScreen from '@screens/DetailScreen';
+import ScheduleScreen from '@screens/ScheduleScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const AnimeStack = createNativeStackNavigator<AnimeStackParamList>();
 const ListStack = createNativeStackNavigator<WatchlistStackParamList>();
+const ScheduleStack = createNativeStackNavigator<ScheduleStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 const HomeStack = () => {
@@ -47,6 +50,19 @@ const WatchlistStack = () => {
   );
 };
 
+const ScheduleStacks = () => {
+  return (
+    <ScheduleStack.Navigator
+      initialRouteName="ScheduleHome"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <ScheduleStack.Screen name="ScheduleHome" component={ScheduleScreen} />
+      <ScheduleStack.Screen name="ScheduleDetails" component={DetailScreen} />
+    </ScheduleStack.Navigator>
+  );
+};
+
 const HomeTab = () => {
   return (
     <Tab.Navigator
@@ -69,6 +85,16 @@ const HomeTab = () => {
         options={{
           tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="home" size={25} color={color} />,
+          tabBarIconStyle: { marginBottom: 0 },
+          tabBarInactiveTintColor: '#333',
+        }}
+      />
+      <Tab.Screen
+        name="Schedule"
+        component={ScheduleStacks}
+        options={{
+          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarIcon: ({ color }) => <MaterialIcons name="apps" size={25} color={color} />,
           tabBarIconStyle: { marginBottom: 0 },
           tabBarInactiveTintColor: '#333',
         }}

@@ -19,6 +19,9 @@ export const animeAPI = createApi({
     getJustMissedAnime: builder.query<TopAnime, any>({
       query: ({ year, season, page }) => `/seasons/${year}/${season}?page=${page}&limit=10`,
     }),
+    getAnimeSchedule: builder.query({
+      query: (day) => `/schedules?sfw=&filter=${day}`,
+    }),
     getAnimeFullById: builder.query<AnimeFullById, number>({
       query: (id) => `/anime/${id}/full`,
     }),
@@ -27,6 +30,7 @@ export const animeAPI = createApi({
 
 export const {
   useGetAnimeFullByIdQuery,
+  useGetAnimeScheduleQuery,
   useLazyGetTopAnimeQuery,
   useLazyGetUpcomingAnimeQuery,
   useLazyGetSeasonalAnimeQuery,
