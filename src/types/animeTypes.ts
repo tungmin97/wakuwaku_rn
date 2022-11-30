@@ -180,3 +180,9 @@ export interface SeasonQuery {
   lastSeason: AnimeSeason;
   lastYear: number;
 }
+
+export interface JustMissedAnimeProps {
+  year: number;
+  season: string;
+  page: number;
+}

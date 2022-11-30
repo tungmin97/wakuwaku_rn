@@ -7,7 +7,7 @@ export default function DetailScreen() {
   const dimensionForScreen = Dimensions.get('screen');
 
   return (
-    <View className="flex-1 bg-black">
+    <View className="flex-1 bg-black pt-7">
       <View className="flex-row justify-between m-4">
         <AntDesign name="arrowleft" size={20} color="white" />
         <AntDesign name="search1" size={20} color="white" />
