@@ -18,6 +18,7 @@ module.exports = {
           '@types': './src/types',
           '@navigations': './src/app/navigations',
           '@services': './src/services',
+          '@utils': './src/utils',
         },
       },
     ],

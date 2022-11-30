@@ -17,7 +17,8 @@
       "@types/*": ["./src/types/*"],
       "@navigations/*": ["./src/app/navigations/*"],
       "@services/*": ["./src/services/*"],
-      "@screens/*": ["./src/screens/*"]
+      "@screens/*": ["./src/screens/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   }
 }
