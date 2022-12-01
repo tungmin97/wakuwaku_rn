@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function HomeScreen() {
   return (
     <SafeAreaView className="bg-black">
-      <ScrollView className="p-2 mb-2">
+      <ScrollView className="mb-2">
         <View className="flex-row justify-between items-center px-1">
           <Text className="font-title text-maxRed text-5xl">W</Text>
           <View className="">

@@ -15,6 +15,7 @@ module.exports = {
         eerieBlack: '#1A1A1A',
         maxRed: '#E50813',
         darkGray: '#6A6A6A',
+        davysGrey: '#525252ff',
       },
     },
   },
