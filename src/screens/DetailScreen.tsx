@@ -13,6 +13,7 @@ export default function DetailScreen({ route }) {
   const item: AnimeById = route.params.item;
 
   return (
+
     <View className="flex-1 bg-black mt-5">
       <View className="flex-row justify-between m-4">
         <TouchableOpacity

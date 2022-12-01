@@ -1,32 +1,28 @@
 import { View, FlatList, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { AnimeById } from '@src/types/animeTypes';
-import { useLazyGetJustMissedAnimeQuery } from '@services/api/apiSlice';
+import { useLazyGetSeasonalAnimeQuery } from '@services/api/apiSlice';
 import MainLoading from '@components/Loading/MainLoading';
 import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
 import CardFooterLoading from '@components/Loading/CardFooterLoading';
-import { getLastSeason } from '@src/utils/getLastSeason';
 
-export default function HomeJustMissed() {
-  const { lastSeason, year } = getLastSeason();
+export default function HomeAnimeByGenres() {
   const [curPage, setCurPage] = useState(1);
   const [results, setResults] = useState<AnimeById[]>([]);
   const [hasReachedEnd, setHasReachedEnd] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-  const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetJustMissedAnimeQuery();
+  const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetSeasonalAnimeQuery();
 
   useEffect(() => {
-    const arg = { year: year, season: lastSeason, page: curPage };
-
-    trigger(arg);
-  }, [curPage, lastSeason, year, trigger]);
+    trigger(curPage);
+  }, [curPage, trigger]);
 
   useEffect(() => {
     if (isFetching || isSuccess === false) {
       return;
     }
-    if (isFetching && originalArgs?.page === 1) {
+    if (isFetching && originalArgs === 1) {
       setIsFirstLoad(true);
     } else {
       setIsFirstLoad(false);
@@ -51,11 +47,10 @@ export default function HomeJustMissed() {
   };
 
   const handleRefresh = () => {
-    console.log('e');
     setIsFirstLoad(true);
     setHasReachedEnd(false);
     setResults([]);
-    trigger({ year: year, season: lastSeason, page: 1 });
+    trigger(1);
   };
 
   if (isFirstLoad) {
@@ -68,7 +63,7 @@ export default function HomeJustMissed() {
         <>
           <View>
             <Text className="mr-auto p-3 pb-0 font-main font-extrabold text-2xl text-platinum">
-              Just Missed
+              This Season
             </Text>
             <FlatList
               horizontal={true}

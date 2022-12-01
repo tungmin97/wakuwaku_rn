@@ -3,8 +3,8 @@ import React from 'react';
 
 export default function WatchlistScreen() {
   return (
-    <View>
-      <Text>WatchlistScreen</Text>
+    <View className="flex-1 bg-black justify-center items-center">
+      <Text className="text-platinum">Not yet implemented</Text>
     </View>
   );
 }

@@ -1,5 +1,6 @@
+import { AnimeByGenres } from './../../types/animeTypes';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AnimeFullById, TopAnime, AnimeVideosEpisodes, AnimeReviews } from '@src/types/animeTypes';
+import { AnimeFullById, TopAnime, JustMissedAnimeProps, AnimeVideosEpisodes, AnimeReviews } from '@src/types/animeTypes';
 
 const baseURL: string = 'https://api.jikan.moe/v4';
 
@@ -16,8 +17,15 @@ export const animeAPI = createApi({
     getSeasonalAnime: builder.query<TopAnime, number>({
       query: (page) => `/seasons/now?page=${page}&limit=10`,
     }),
-    getJustMissedAnime: builder.query<TopAnime, any>({
+    getJustMissedAnime: builder.query<TopAnime, JustMissedAnimeProps>({
       query: ({ year, season, page }) => `/seasons/${year}/${season}?page=${page}&limit=10`,
+    }),
+    getAnimeByGenres: builder.query<TopAnime, AnimeByGenres>({
+      query: ({ page, genre }) =>
+        `/anime?page=${page}&limit=10&type=tv&genres=${genre}&rating=pg13,r17`,
+    }),
+    getAnimeSchedule: builder.query<TopAnime, string>({
+      query: (day) => `/schedules?sfw=false&kids=false&filter=${day}`,
     }),
     getAnimeFullById: builder.query<AnimeFullById, number>({
       query: (id) => `/anime/${id}/full`,
@@ -33,10 +41,12 @@ export const animeAPI = createApi({
 
 export const {
   useGetAnimeFullByIdQuery,
+  useGetAnimeScheduleQuery,
   useLazyGetTopAnimeQuery,
   useLazyGetUpcomingAnimeQuery,
   useLazyGetSeasonalAnimeQuery,
   useLazyGetJustMissedAnimeQuery,
+  useLazyGetAnimeByGenresQuery,
   useGetAnimeVideosEpisodesQuery,
   useGetAnimeReviewsQuery,
 } = animeAPI;

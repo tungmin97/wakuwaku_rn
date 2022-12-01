@@ -4,7 +4,7 @@ import { AnimeById } from '@src/types/animeTypes';
 import { useLazyGetUpcomingAnimeQuery } from '@services/api/apiSlice';
 import MainLoading from '@components/Loading/MainLoading';
 import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
-import CardFooterLoading from '@components/Loading/CardFooterLoading';
+import SmallCardFooterLoading from '@components/Loading/SmallCardFooterLoading';
 
 export default function HomeUpcomingAnime() {
   const [curPage, setCurPage] = useState(1);
@@ -31,7 +31,13 @@ export default function HomeUpcomingAnime() {
       setHasReachedEnd(true);
       return;
     }
-    setResults((prev) => [...new Set([...prev, ...data.data])]);
+    setResults((prev) => [
+      ...new Set(
+        [...prev, ...data.data].filter(
+          (item) => item.rating !== 'R+ - Mild Nudity' || 'Rx - Hentai' || 'PG - Children',
+        ),
+      ),
+    ]);
   }, [data, isFetching, isSuccess, originalArgs]);
 
   const handleOnEndReached = () => {
@@ -54,28 +60,25 @@ export default function HomeUpcomingAnime() {
   return (
     <View className="flex-1 h-60 justify-center items-center bg-black">
       {isSuccess && (
-        <>
-          <View>
-            <Text className="mr-auto p-3 pb-0 font-main font-extrabold text-2xl text-platinum">
-              Upcoming
-            </Text>
-            <FlatList
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              initialNumToRender={5}
-              scrollEventThrottle={300}
-              data={results}
-              keyExtractor={(item) => String(item.mal_id)}
-              renderItem={({ item }) => <SmallAnimeCard item={item} />}
-              ListFooterComponent={() => <CardFooterLoading isFetching={isFetching} />}
-              onEndReachedThreshold={0.3}
-              onEndReached={handleOnEndReached}
-              refreshing={false}
-              onRefresh={handleRefresh}
-              className="h-64"
-            />
-          </View>
-        </>
+        <View>
+          <Text className="mr-auto p-3 pb-0 font-main font-extrabold text-2xl text-platinum">
+            Upcoming
+          </Text>
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            initialNumToRender={5}
+            scrollEventThrottle={300}
+            data={results}
+            keyExtractor={(item) => String(item.mal_id)}
+            renderItem={({ item }) => <SmallAnimeCard item={item} />}
+            ListFooterComponent={() => <SmallCardFooterLoading isFetching={isFetching} />}
+            onEndReachedThreshold={0.3}
+            onEndReached={handleOnEndReached}
+            refreshing={false}
+            onRefresh={handleRefresh}
+          />
+        </View>
       )}
     </View>
   );

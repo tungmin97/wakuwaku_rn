@@ -4,7 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function UserScreen() {
   return (
-    <View className="flex-1 bg-black">
+    <View className="flex-1 bg-black pt-7">
       <TouchableOpacity className="flex-row items-center ml-2 mt-2">
         <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
         <Text className="text-xl ml-2 text-ghostWhite">Profile & Setting</Text>
