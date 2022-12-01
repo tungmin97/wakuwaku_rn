@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AnimeFullById, TopAnime } from '@src/types/animeTypes';
+import { AnimeFullById, TopAnime, AnimeVideosEpisodes, AnimeReviews } from '@src/types/animeTypes';
 
 const baseURL: string = 'https://api.jikan.moe/v4';
 
@@ -22,6 +22,12 @@ export const animeAPI = createApi({
     getAnimeFullById: builder.query<AnimeFullById, number>({
       query: (id) => `/anime/${id}/full`,
     }),
+    getAnimeVideosEpisodes: builder.query<AnimeVideosEpisodes, number>({
+      query: (id) => `/anime/${id}/videos/episodes`,
+    }),
+    getAnimeReviews: builder.query<AnimeReviews, number>({
+      query: (id) => `/anime/${id}/reviews`,
+    }),
   }),
 });
 
@@ -31,4 +37,6 @@ export const {
   useLazyGetUpcomingAnimeQuery,
   useLazyGetSeasonalAnimeQuery,
   useLazyGetJustMissedAnimeQuery,
+  useGetAnimeVideosEpisodesQuery,
+  useGetAnimeReviewsQuery,
 } = animeAPI;
