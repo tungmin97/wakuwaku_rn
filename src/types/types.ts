@@ -14,10 +14,24 @@ export type RootStackParamList = {
 };
 
 export type HomeStackParamList = {
-  Home: undefined;
-  Watchlist: undefined;
+  Home: AnimeStackParamList;
+  Watchlist: WatchlistStackParamList;
   User: undefined;
 };
+
+export type AnimeStackParamList = {
+  AnimeHome: undefined;
+  AnimeDetails: { item: AnimeById };
+};
+
+export type WatchlistStackParamList = {
+  ListHome: undefined;
+  ListDetails: { item: AnimeById };
+};
+
+export type AnimeStackProps = NativeStackScreenProps<AnimeStackParamList>;
+
+export type AnimeStackNavigationProps = NativeStackScreenProps<AnimeStackParamList>['navigation'];
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScreenProps<
   RootStackParamList,

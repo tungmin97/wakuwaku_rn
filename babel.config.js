@@ -2,6 +2,7 @@ module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
     'nativewind/babel',
+    'react-native-reanimated/plugin',
     [
       'module-resolver',
       {
@@ -18,6 +19,7 @@ module.exports = {
           '@types': './src/types',
           '@navigations': './src/app/navigations',
           '@services': './src/services',
+          '@utils': './src/utils',
         },
       },
     ],

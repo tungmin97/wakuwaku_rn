@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
 import { AnimeStackNavigationProps } from 'src/types/types';
 
-const AnimeCard = ({ item }: { item: AnimeById }) => {
+const SmallAnimeCard = ({ item }: { item: AnimeById }) => {
   const navigation = useNavigation<AnimeStackNavigationProps>();
   const handleNavigation = () => navigation.navigate('AnimeDetails', { item: item });
 
@@ -14,10 +14,10 @@ const AnimeCard = ({ item }: { item: AnimeById }) => {
       <FastImage
         resizeMode={FastImage.resizeMode.cover}
         source={{ uri: item.images.jpg.image_url }}
-        className="rounded-md w-44 h-64 justify-end bg-white"
+        className="rounded-md w-32 h-44 justify-end"
       />
     </TouchableOpacity>
   );
 };
 
-export default memo(AnimeCard);
+export default memo(SmallAnimeCard);
