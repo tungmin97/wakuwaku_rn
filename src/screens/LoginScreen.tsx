@@ -1,9 +1,10 @@
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import { Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProps } from '@src/types/types';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
+import LinearGradient from 'react-native-linear-gradient';
 
 GoogleSignin.configure({
   webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
@@ -25,74 +26,53 @@ const LoginScreen = () => {
     return auth().signInWithCredential(googleCredential);
   }
 
-  const loginEmailHandler = () => {
-    auth()
-      .createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
-      .then(() => {
-        console.log('User account created & signed in!');
-      })
-      .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-
-        console.error(error);
-      });
-  };
-
   return (
-    <View className="flex-1 bg-black">
-      <Text className="text-maxRed mt-10 font-title text-4xl text-center">WakuWaku</Text>
-      <View>
-        <TextInput
-          placeholder="Email"
-          placeholderTextColor="#F8F7FF"
-          className="bg-davysGrey rounded-md mx-5 mb-2 p-3"
-        />
-        <TextInput
-          placeholder="Password"
-          placeholderTextColor="#F8F7FF"
-          className="bg-davysGrey rounded-md mx-5 p-3"
-        />
-      </View>
+    <View className="flex-1">
+      <LinearGradient colors={['#0e1111', '#232b2b', '#353839']} style={{ flex: 1 }}>
+        <ImageBackground
+          resizeMode="cover"
+          source={require('../assets/Images/bachgroundAnime.jpeg')}
+          className="flex-1"
+          imageStyle={{ opacity: 0.15 }}>
+          <Text className="text-maxRed mt-48 mb-10 font-title text-4xl text-center">wakuwaku</Text>
+          <View>
+            <TextInput
+              placeholder="Email"
+              placeholderTextColor="#F8F7FF"
+              className="bg-davysGrey rounded-md mx-5 mb-2 p-3"
+            />
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="#F8F7FF"
+              className="bg-davysGrey rounded-md mx-5 p-3"
+              contextMenuHidden={true}
+            />
+          </View>
 
-      <View className=" border-davysGrey border-2 rounded-md mx-5 mt-7">
-        <TouchableOpacity className="bg-black px-5 rounded-md">
-          <Text className="text-ghostWhite text-center py-3 font-main font-bold">Sign In</Text>
-        </TouchableOpacity>
-      </View>
-      <View className=" border-davysGrey border-2 rounded-md mx-5 mt-2">
-        {/* <TouchableOpacity className="bg-black px-5 rounded-md">
-          <Text className="text-ghostWhite text-center py-3 font-main font-bold">
-            Login with Google
-          </Text>
-        </TouchableOpacity> */}
-        <GoogleSigninButton
-          style={{ width: 192, height: 48 }}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={onGoogleButtonPress}
-        />
-      </View>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('SignUp');
-        }}>
-        <Text className="text-darkGray font-bold font-main text-center">
-          New to WakuWaku? Sign up now.
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={loginEmailHandler}>
-        <Text>Login With Email (Create and Sign In)</Text>
-      </TouchableOpacity>
+          <View className=" border-davysGrey border-2 rounded-md mx-5 mt-7">
+            <TouchableOpacity className="bg-black px-5 rounded-md">
+              <Text className="text-ghostWhite text-center py-3 font-main font-bold">Sign In</Text>
+            </TouchableOpacity>
+          </View>
+          <View className=" border-davysGrey border-2 rounded-md mx-5 mt-2">
+            <TouchableOpacity className="bg-black px-5 rounded-md" onPress={onGoogleButtonPress}>
+              <Text className="text-ghostWhite text-center py-3 font-main font-bold">
+                Sign in with Google
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('SignUp');
+            }}>
+            <Text className="text-ghostWhite font-bold font-main text-center m-5">
+              New to WakuWaku? Sign up now.
+            </Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      </LinearGradient>
     </View>
   );
 };
 
 export default LoginScreen;
-
-// const styles = StyleSheet.create({});
