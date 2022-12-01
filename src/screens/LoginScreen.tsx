@@ -5,6 +5,7 @@ import { RootStackNavigationProps } from '@src/types/types';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 
+
 GoogleSignin.configure({
   webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
 });
@@ -24,25 +25,6 @@ const LoginScreen = () => {
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
-
-  const loginEmailHandler = () => {
-    auth()
-      .createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
-      .then(() => {
-        console.log('User account created & signed in!');
-      })
-      .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-
-        console.error(error);
-      });
-  };
 
   return (
     <View className="flex-1 bg-black">
@@ -94,5 +76,3 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
-
-// const styles = StyleSheet.create({});
