@@ -5,12 +5,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import UserScreen from '@screens/UserScreen';
 // import SplashScreen from '@screens/SplashScreen';
-import Authentication from '@screens/Authentication';
 import WatchlistScreen from '@screens/WatchlistScreen';
 import DetailScreen from '@screens/DetailScreen';
 import ScheduleScreen from '@screens/ScheduleScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { HomeStackParamList, RootStackParamList } from '@src/types/types';
+import LoginScreen from '@src/screens/LoginScreen';
+import SignUpScreen from '@src/screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
@@ -72,7 +73,7 @@ const HomeTab = () => {
 };
 
 export default function AppNavigation() {
-  const isSignIn = true;
+  const isSignIn = false;
 
   return (
     <NavigationContainer>
@@ -85,7 +86,8 @@ export default function AppNavigation() {
           </>
         ) : (
           <>
-            <Stack.Screen name="Login" component={Authentication} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
           </>
         )}
       </Stack.Navigator>

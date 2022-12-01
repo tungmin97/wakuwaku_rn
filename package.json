@@ -16,6 +16,8 @@
     "@react-native-community/slider": "^4.3.3",
     "@react-native-firebase/app": "^16.4.6",
     "@react-native-firebase/app-distribution": "^16.4.6",
+    "@react-native-firebase/auth": "^16.4.6",
+    "@react-native-google-signin/google-signin": "^8.2.1",
     "@react-navigation/bottom-tabs": "^6.4.1",
     "@react-navigation/native": "^6.0.14",
     "@react-navigation/native-stack": "^6.9.2",
