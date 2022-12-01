@@ -27,7 +27,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
   const [index, setIndex] = useState(0);
 
   const SynopsisRoute = () => (
-    <ScrollView style={styles.tab}>
+    <ScrollView style={styles.tab} key={1}>
       <Text className="text-ghostWhite font-main mx-5 my-2">{props.synopsis}</Text>
     </ScrollView>
   );
@@ -36,12 +36,13 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
     const { data } = useGetAnimeVideosEpisodesQuery(props.id);
 
     return (
-      <ScrollView>
+      <ScrollView key={2}>
         {data?.data?.map((item) => (
           <EspisodeCard
             img={item?.images?.jpg.image_url}
             espisode={item.mal_id}
             title={item.title}
+            id={item.mal_id}
             key={item.mal_id}
           />
         ))}
@@ -53,13 +54,14 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
     const { data } = useGetAnimeReviewsQuery(props.id);
 
     return (
-      <ScrollView style={styles.tab}>
+      <ScrollView style={styles.tab} key={3}>
         {data?.data.map((item: AnimeReviewData) => (
           <ReviewCard
             userName={item.user.username}
             date={item.date.slice(0, 10)}
             image={item.user.images.jpg.image_url}
             review={item.review}
+            id={item.mal_id}
             key={item.mal_id}
           />
         ))}

@@ -7,11 +7,12 @@ interface PropsInterface {
   date: string;
   image: string;
   review: string;
+  id: number;
 }
 
 const ReviewCard = (props: PropsInterface) => {
   return (
-    <View className="mx-5 mb-5">
+    <View className="mx-5 mb-5" key={props.id}>
       <View className="flex-row justify-between">
         <View>
           <View className="flex-row items-center">

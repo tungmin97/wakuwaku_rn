@@ -12,6 +12,7 @@ export type RootStackParamList = {
   HomeTab: NavigatorScreenParams<HomeStackParamList>;
   Details: { item: AnimeById };
   Login: undefined;
+  SignUp: undefined;
 };
 
 export type HomeStackParamList = {

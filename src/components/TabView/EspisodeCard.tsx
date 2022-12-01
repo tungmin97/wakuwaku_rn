@@ -6,11 +6,12 @@ interface propsInterface {
   img: string;
   espisode: number;
   title: string;
+  id: number;
 }
 
 const EspisodeCard = (props: propsInterface) => {
   return (
-    <TouchableOpacity className="flex-row items-center mx-5 mb-2">
+    <TouchableOpacity className="flex-row items-center mx-5 mb-2" key={props.id}>
       <Image
         source={{
           uri: props.img,
