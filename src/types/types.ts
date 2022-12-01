@@ -10,6 +10,7 @@ export interface AnimeCardProps {
 export type RootStackParamList = {
   SplashScreen: undefined;
   HomeTab: NavigatorScreenParams<HomeStackParamList>;
+  Details: { item: AnimeById };
   Login: undefined;
 };
 
@@ -43,6 +44,7 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScre
   RootStackParamList,
   T
 >;
+export type Props = NativeStackScreenProps<RootStackParamList>;
 
 declare global {
   namespace ReactNavigation {
@@ -50,4 +52,4 @@ declare global {
   }
 }
 
-export type Props = NativeStackScreenProps<RootStackParamList>;
+export type RootStackNavigationProps = NativeStackScreenProps<RootStackParamList>['navigation'];

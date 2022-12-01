@@ -56,7 +56,7 @@ export default function HomeTopAnime() {
       {isSuccess && (
         <View>
           <Text className="mr-auto p-3 pb-0 font-main font-extrabold text-2xl text-platinum">
-            Trending now
+            Top Series
           </Text>
           <FlatList
             horizontal={true}

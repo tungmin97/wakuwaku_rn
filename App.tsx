@@ -1,6 +1,7 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import AppNavigation from '@src/app/appNavigation';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   return (
@@ -11,9 +12,9 @@ const App = () => {
         animated={true}
         backgroundColor={'transparent'}
       />
-      <SafeAreaView className="flex-1">
+      <SafeAreaProvider>
         <AppNavigation />
-      </SafeAreaView>
+      </SafeAreaProvider>
     </>
   );
 };

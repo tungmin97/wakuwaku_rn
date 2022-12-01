@@ -1,13 +1,17 @@
 import { TouchableOpacity } from 'react-native';
-import React, { memo } from 'react';
+import React from 'react';
 import { AnimeById } from '@src/types/animeTypes';
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
-import { AnimeStackNavigationProps } from 'src/types/types';
+import { RootStackNavigationProps } from '@src/types/types';
 
-const AnimeCard = ({ item }: { item: AnimeById }) => {
-  const navigation = useNavigation<AnimeStackNavigationProps>();
-  const handleNavigation = () => navigation.navigate('AnimeDetails', { item: item });
+interface Props {
+  item: AnimeById;
+}
+
+const AnimeCard = ({ item }: Props) => {
+  const navigation = useNavigation<RootStackNavigationProps>();
+  const handleNavigation = () => navigation.navigate('Details', { item: item });
 
   return (
     <TouchableOpacity activeOpacity={0.8} className="p-1.5" onPress={handleNavigation}>
@@ -20,4 +24,4 @@ const AnimeCard = ({ item }: { item: AnimeById }) => {
   );
 };
 
-export default memo(AnimeCard);
+export default AnimeCard;

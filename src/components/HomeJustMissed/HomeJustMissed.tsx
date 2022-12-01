@@ -8,7 +8,7 @@ import CardFooterLoading from '@components/Loading/CardFooterLoading';
 import { getLastSeason } from '@src/utils/getLastSeason';
 
 export default function HomeJustMissed() {
-  const { lastSeason, lastYear } = getLastSeason();
+  const { lastSeason, year } = getLastSeason();
   const [curPage, setCurPage] = useState(1);
   const [results, setResults] = useState<AnimeById[]>([]);
   const [hasReachedEnd, setHasReachedEnd] = useState(false);
@@ -17,10 +17,10 @@ export default function HomeJustMissed() {
   const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetJustMissedAnimeQuery();
 
   useEffect(() => {
-    const arg = { year: lastYear, season: lastSeason, page: curPage };
+    const arg = { year: year, season: lastSeason, page: curPage };
 
     trigger(arg);
-  }, [curPage, lastSeason, lastYear, trigger]);
+  }, [curPage, lastSeason, year, trigger]);
 
   useEffect(() => {
     if (isFetching || isSuccess === false) {
@@ -35,7 +35,13 @@ export default function HomeJustMissed() {
       setHasReachedEnd(true);
       return;
     }
-    setResults((prev) => [...new Set([...prev, ...data.data])]);
+    setResults((prev) => [
+      ...new Set(
+        [...prev, ...data.data].filter(
+          (item) => item.rating !== 'R+ - Mild Nudity' || 'Rx - Hentai' || 'PG - Children',
+        ),
+      ),
+    ]);
   }, [data, isFetching, isSuccess, originalArgs]);
 
   const handleOnEndReached = () => {
@@ -49,7 +55,7 @@ export default function HomeJustMissed() {
     setIsFirstLoad(true);
     setHasReachedEnd(false);
     setResults([]);
-    trigger({ year: lastYear, season: lastSeason, page: 1 });
+    trigger({ year: year, season: lastSeason, page: 1 });
   };
 
   if (isFirstLoad) {

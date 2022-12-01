@@ -31,7 +31,13 @@ export default function HomeUpcomingAnime() {
       setHasReachedEnd(true);
       return;
     }
-    setResults((prev) => [...new Set([...prev, ...data.data])]);
+    setResults((prev) => [
+      ...new Set(
+        [...prev, ...data.data].filter(
+          (item) => item.rating !== 'R+ - Mild Nudity' || 'Rx - Hentai' || 'PG - Children',
+        ),
+      ),
+    ]);
   }, [data, isFetching, isSuccess, originalArgs]);
 
   const handleOnEndReached = () => {

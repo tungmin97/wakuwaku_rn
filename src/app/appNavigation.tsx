@@ -7,61 +7,13 @@ import UserScreen from '@screens/UserScreen';
 // import SplashScreen from '@screens/SplashScreen';
 import Authentication from '@screens/Authentication';
 import WatchlistScreen from '@screens/WatchlistScreen';
-import {
-  AnimeStackParamList,
-  HomeStackParamList,
-  RootStackParamList,
-  ScheduleStackParamList,
-  WatchlistStackParamList,
-} from '@src/types/types';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import DetailScreen from '@screens/DetailScreen';
 import ScheduleScreen from '@screens/ScheduleScreen';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { HomeStackParamList, RootStackParamList } from '@src/types/types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const AnimeStack = createNativeStackNavigator<AnimeStackParamList>();
-const ListStack = createNativeStackNavigator<WatchlistStackParamList>();
-const ScheduleStack = createNativeStackNavigator<ScheduleStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
-
-const HomeStack = () => {
-  return (
-    <AnimeStack.Navigator
-      initialRouteName="AnimeHome"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <AnimeStack.Screen name="AnimeHome" component={HomeScreen} />
-      <AnimeStack.Screen name="AnimeDetails" component={DetailScreen} />
-    </AnimeStack.Navigator>
-  );
-};
-
-const WatchlistStack = () => {
-  return (
-    <ListStack.Navigator
-      initialRouteName="ListHome"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <ListStack.Screen name="ListHome" component={WatchlistScreen} />
-      <ListStack.Screen name="ListDetails" component={DetailScreen} />
-    </ListStack.Navigator>
-  );
-};
-
-const ScheduleStacks = () => {
-  return (
-    <ScheduleStack.Navigator
-      initialRouteName="ScheduleHome"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <ScheduleStack.Screen name="ScheduleHome" component={ScheduleScreen} />
-      <ScheduleStack.Screen name="ScheduleDetails" component={DetailScreen} />
-    </ScheduleStack.Navigator>
-  );
-};
 
 const HomeTab = () => {
   return (
@@ -81,7 +33,7 @@ const HomeTab = () => {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeStack}
+        component={HomeScreen}
         options={{
           tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="home" size={25} color={color} />,
@@ -91,7 +43,7 @@ const HomeTab = () => {
       />
       <Tab.Screen
         name="Schedule"
-        component={ScheduleStacks}
+        component={ScheduleScreen}
         options={{
           tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="apps" size={25} color={color} />,
@@ -101,7 +53,7 @@ const HomeTab = () => {
       />
       <Tab.Screen
         name="Watchlist"
-        component={WatchlistStack}
+        component={WatchlistScreen}
         options={{
           tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="movie-filter" size={25} color={color} />,
@@ -129,6 +81,7 @@ export default function AppNavigation() {
           <>
             {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
             <Stack.Screen name="HomeTab" component={HomeTab} />
+            <Stack.Screen name="Details" component={DetailScreen} />
           </>
         ) : (
           <>

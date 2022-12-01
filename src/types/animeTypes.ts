@@ -178,11 +178,16 @@ export enum AnimeSeason {
 
 export interface SeasonQuery {
   lastSeason: AnimeSeason;
-  lastYear: number;
+  year: number;
 }
 
 export interface JustMissedAnimeProps {
   year: number;
   season: string;
   page: number;
+}
+
+export interface AnimeByGenres {
+  page: number;
+  genre: number;
 }
