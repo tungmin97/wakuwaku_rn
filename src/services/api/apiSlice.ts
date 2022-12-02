@@ -22,13 +22,18 @@ export const animeAPI = createApi({
     getAnimeFullById: builder.query<AnimeFullById, number>({
       query: (id) => `/anime/${id}/full`,
     }),
+    getAnimeSearch: builder.query<TopAnime, string>({
+      query: (string) => `/anime?q=${string}`,
+    }),
   }),
 });
 
 export const {
   useGetAnimeFullByIdQuery,
+  useGetTopAnimeQuery,
   useLazyGetTopAnimeQuery,
   useLazyGetUpcomingAnimeQuery,
   useLazyGetSeasonalAnimeQuery,
   useLazyGetJustMissedAnimeQuery,
+  useGetAnimeSearchQuery,
 } = animeAPI;

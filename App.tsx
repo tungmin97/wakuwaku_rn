@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
-import AppNavigation from '@src/app/appNavigation';
+// import AppNavigation from '@src/app/appNavigation';
+import SearchScreen from '@src/screens/SearchScreen';
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
         backgroundColor={'transparent'}
       />
       <SafeAreaView className="flex-1">
-        <AppNavigation />
+        {/* <AppNavigation /> */}
+        <SearchScreen />
       </SafeAreaView>
     </>
   );
