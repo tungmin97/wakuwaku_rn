@@ -1,3 +1,4 @@
+import { AnimeByGenres } from './../../types/animeTypes';
 import { useEffect, useState } from 'react';
 import { AnimeById, TopAnime } from '@src/types/animeTypes';
 import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
@@ -5,13 +6,21 @@ import { QueryDefinition } from '@reduxjs/toolkit/dist/query/endpointDefinitions
 
 interface Props {
   data: TopAnime | undefined;
-  trigger: LazyQueryTrigger<QueryDefinition<number, any, never, TopAnime, 'animeAPI'>>;
+  trigger: LazyQueryTrigger<QueryDefinition<AnimeByGenres, any, never, TopAnime, 'animeAPI'>>;
   isFetching: boolean;
   isSuccess: boolean;
-  originalArgs: number | undefined;
+  originalArgs: AnimeByGenres | undefined;
+  genre: number;
 }
 
-export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalArgs }: Props) => {
+export const useAnimeGenreQuery = ({
+  data,
+  trigger,
+  isFetching,
+  isSuccess,
+  originalArgs,
+  genre,
+}: Props) => {
   const [curPage, setCurPage] = useState(1);
   const [results, setResults] = useState<AnimeById[]>([]);
   const [hasReachedEnd, setHasReachedEnd] = useState(false);
@@ -19,14 +28,15 @@ export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalAr
   const [isSrolled, setIsSrolled] = useState(false);
 
   useEffect(() => {
-    trigger(curPage);
-  }, [curPage, trigger]);
+    const args = { genre: genre, page: curPage };
+    trigger(args);
+  }, [curPage, genre, trigger]);
 
   useEffect(() => {
     if (isFetching || isSuccess === false) {
       return;
     }
-    if (isFetching && originalArgs === 1) {
+    if (isFetching && originalArgs?.page === 1) {
       setIsFirstLoad(true);
     } else {
       setIsFirstLoad(false);
@@ -36,15 +46,7 @@ export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalAr
     } else {
       setHasReachedEnd(false);
     }
-    data?.data &&
-      setResults((prev) => [
-        ...new Set([
-          ...prev,
-          ...data.data.filter(
-            (item) => item.rating !== 'R+ - Mild Nudity' || 'Rx - Hentai' || 'PG - Children',
-          ),
-        ]),
-      ]);
+    data?.data && setResults((prev) => [...new Set([...prev, ...data.data])]);
   }, [data, isFetching, isSuccess, originalArgs]);
 
   const handleOnEndReached = () => {
@@ -57,7 +59,7 @@ export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalAr
     setIsFirstLoad(true);
     setHasReachedEnd(false);
     setResults([]);
-    trigger(1);
+    trigger({ page: 1, genre: genre });
   };
 
   const handleScroll = () => {

@@ -1,10 +1,12 @@
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProps } from '@src/types/types';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
-
+import {
+  createReminderNotification,
+  displayNotification,
+} from '@services/notification/notificationService';
 
 GoogleSignin.configure({
   webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
@@ -13,18 +15,19 @@ GoogleSignin.configure({
 const LoginScreen = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
 
-  async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    // Get the users ID token
-    const { idToken } = await GoogleSignin.signIn();
+  const getDate = () => {
+    const dateNew = new Date(Date.now());
 
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    dateNew.setSeconds(dateNew.getSeconds() + 7);
+    return dateNew;
+  };
 
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
-  }
+  const handleScheduleNotification = (id: number, name: string, time: Date) =>
+    createReminderNotification({ id, name, time });
+
+  const handleNotification = () => {
+    displayNotification();
+  };
 
   return (
     <View className="flex-1 bg-black">
@@ -43,7 +46,7 @@ const LoginScreen = () => {
       </View>
 
       <View className=" border-davysGrey border-2 rounded-md mx-5 mt-7">
-        <TouchableOpacity className="bg-black px-5 rounded-md">
+        <TouchableOpacity onPress={handleNotification} className="bg-black px-5 rounded-md">
           <Text className="text-ghostWhite text-center py-3 font-main font-bold">Sign In</Text>
         </TouchableOpacity>
       </View>
@@ -54,10 +57,8 @@ const LoginScreen = () => {
           </Text>
         </TouchableOpacity> */}
         <GoogleSigninButton
-          style={{ width: 192, height: 48 }}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
-          onPress={onGoogleButtonPress}
         />
       </View>
       <TouchableOpacity
@@ -68,8 +69,8 @@ const LoginScreen = () => {
           New to WakuWaku? Sign up now.
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={loginEmailHandler}>
-        <Text>Login With Email (Create and Sign In)</Text>
+      <TouchableOpacity onPress={() => handleScheduleNotification(1, 'test', getDate())}>
+        <Text className="text-platinum">Push data to server</Text>
       </TouchableOpacity>
     </View>
   );

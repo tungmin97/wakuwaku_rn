@@ -1,12 +1,13 @@
-import { View, ActivityIndicator } from 'react-native';
 import React from 'react';
+import { View } from 'react-native';
+import SkeletonLoader from './SkeletonLoader';
 
 export default function SmallCardFooterLoading({ isFetching }: { isFetching: boolean }) {
   return (
     <>
       {isFetching && (
-        <View className="w-14 h-44 justify-center items-center">
-          <ActivityIndicator color="#fff" />
+        <View className="p-1.5">
+          <SkeletonLoader />
         </View>
       )}
     </>

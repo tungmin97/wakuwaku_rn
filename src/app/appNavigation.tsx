@@ -73,7 +73,7 @@ const HomeTab = () => {
 };
 
 export default function AppNavigation() {
-  const isSignIn = false;
+  const isSignIn = true;
 
   return (
     <NavigationContainer>

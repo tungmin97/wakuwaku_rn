@@ -41,8 +41,10 @@ export default function HomeModal({ visible, item, handleNavigation, handleModal
                 </TouchableOpacity>
               </View>
               <View className="flex-row mb-1 gap-3">
-                <Text className="text-platinum text-xs">{item.year}</Text>
-                <Text className="text-platinum text-xs">{item.rating.split(' - ')[0]}</Text>
+                {item.year && <Text className="text-platinum text-xs">{item.year}</Text>}
+                {item.rating !== null && (
+                  <Text className="text-platinum text-xs">{item.rating.split(' - ')[0]}</Text>
+                )}
                 {item.episodes !== null && (
                   <Text className="text-platinum text-xs">{item.episodes} Episodes</Text>
                 )}
