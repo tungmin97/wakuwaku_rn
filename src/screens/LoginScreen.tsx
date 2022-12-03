@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 GoogleSignin.configure({
   webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
 });
@@ -31,7 +32,7 @@ const LoginScreen = () => {
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
-
+  
   const signInHandler = () => {
     auth()
       .signInWithEmailAndPassword(email, password)
