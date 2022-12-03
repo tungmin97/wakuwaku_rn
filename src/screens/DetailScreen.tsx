@@ -5,6 +5,7 @@ import YoutubeIframe from 'react-native-youtube-iframe';
 import { useNavigation } from '@react-navigation/native';
 import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
 import { AnimeById } from 'src/types/animeTypes';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function DetailScreen({ route }) {
   const dimensionForScreen = Dimensions.get('screen');
@@ -13,7 +14,7 @@ export default function DetailScreen({ route }) {
   const item: AnimeById = route.params.item;
 
   return (
-    <View className="flex-1 bg-black mt-5">
+    <SafeAreaView className="flex-1 bg-black">
       <View className="flex-row justify-between m-4">
         <TouchableOpacity
           onPress={() => {
@@ -57,6 +58,6 @@ export default function DetailScreen({ route }) {
         </View>
       </View>
       <AnimeDetailTabView synopsis={item.synopsis} id={item.mal_id} />
-    </View>
+    </SafeAreaView>
   );
 }
