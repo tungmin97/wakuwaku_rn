@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 const width: number = Dimensions.get('screen').width;
 
 const SplashScreen = () => {
-  // const naigation = useNavigation();
+  // const navigation = useNavigation();
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -26,13 +26,13 @@ const SplashScreen = () => {
 
   return (
     <View className="flex-1 bg-black justify-center items-center">
-      {/* <Animated.View> */}
-      <Animated.Text
-        className="text-maximumRed font-main text-3xl font-extrabold "
-        style={{ width: fadeAnim }}>
-        WakuWaku
-      </Animated.Text>
-      {/* </Animated.View> */}
+      <Animated.View>
+        <Animated.Text
+          className="text-maximumRed font-main text-3xl font-extrabold "
+          style={{ width: fadeAnim }}>
+          WakuWaku
+        </Animated.Text>
+      </Animated.View>
     </View>
   );
 };
