@@ -31,7 +31,6 @@ const LoginScreen = () => {
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
-
   const signInHandler = () => {
     auth()
       .signInWithEmailAndPassword(email, password)
