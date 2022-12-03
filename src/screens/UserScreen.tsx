@@ -1,8 +1,15 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import auth from '@react-native-firebase/auth';
 
 export default function UserScreen() {
+  const signOutHandler = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
+
   return (
     <View className="flex-1 bg-black pt-7">
       <TouchableOpacity className="flex-row items-center ml-2 mt-2">
@@ -41,7 +48,7 @@ export default function UserScreen() {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={signOutHandler}>
         <Text className="text-2xl self-center rounded-md px-4 py-2 mt-20 text-ghostWhite">
           Sign Out
         </Text>
