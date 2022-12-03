@@ -7,7 +7,6 @@ import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-
 GoogleSignin.configure({
   webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
 });
@@ -20,14 +19,15 @@ const LoginScreen = () => {
 
   const navigation = useNavigation<RootStackNavigationProps>();
 
-  async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    // Get the users ID token
-    const { idToken } = await GoogleSignin.signIn();
+  const getDate = () => {
+    const dateNew = new Date(Date.now());
 
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    dateNew.setSeconds(dateNew.getSeconds() + 7);
+    return dateNew;
+  };
+
+  const handleScheduleNotification = (id: number, name: string, time: Date) =>
+    createReminderNotification({ id, name, time });
 
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
@@ -96,7 +96,6 @@ const LoginScreen = () => {
             ) : null}
           </View>
         </View>
-
         <View className=" border-davysGrey border-2 rounded-md mx-5 mt-7">
           <TouchableOpacity className="bg-black px-5 rounded-md" onPress={signInHandler}>
             <Text className="text-ghostWhite text-center py-3 font-main font-bold">Sign In</Text>

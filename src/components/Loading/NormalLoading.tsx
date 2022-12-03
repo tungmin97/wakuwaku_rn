@@ -1,9 +1,13 @@
 import { View, Text } from 'react-native';
 import React from 'react';
-import SkeletonLoaderBig from './SkeletonLoaderBig';
+import SkeletonLoader from './SkeletonLoader';
 
-export default function MainLoading() {
-  const numOfPlaceholders = [...Array(4)].map((e, i) => i + 1);
+interface Props {
+  num: number;
+}
+
+export default function NormalLoading({ num }: Props) {
+  const numOfPlaceholders = [...Array(num)].map((e, i) => i + 1);
 
   return (
     <View>
@@ -12,7 +16,7 @@ export default function MainLoading() {
       </Text>
       <View className="flex-row px-1">
         {numOfPlaceholders.map((index) => (
-          <SkeletonLoaderBig key={index} />
+          <SkeletonLoader key={index} />
         ))}
       </View>
     </View>

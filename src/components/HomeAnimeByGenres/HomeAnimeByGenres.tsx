@@ -1,57 +1,22 @@
 import { View, FlatList, Text } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { AnimeById } from '@src/types/animeTypes';
-import { useLazyGetSeasonalAnimeQuery } from '@services/api/apiSlice';
+import React from 'react';
+import { useLazyGetAnimeByGenresQuery } from '@services/api/apiSlice';
 import MainLoading from '@components/Loading/MainLoading';
 import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
 import CardFooterLoading from '@components/Loading/CardFooterLoading';
+import { useAnimeGenreQuery } from '@app/hooks/useAnimeGenreQuery';
+import { genresDict } from '@utils/genresDictionary';
 
-export default function HomeAnimeByGenres() {
-  const [curPage, setCurPage] = useState(1);
-  const [results, setResults] = useState<AnimeById[]>([]);
-  const [hasReachedEnd, setHasReachedEnd] = useState(false);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+interface Props {
+  name: string;
+}
 
-  const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetSeasonalAnimeQuery();
-
-  useEffect(() => {
-    trigger(curPage);
-  }, [curPage, trigger]);
-
-  useEffect(() => {
-    if (isFetching || isSuccess === false) {
-      return;
-    }
-    if (isFetching && originalArgs === 1) {
-      setIsFirstLoad(true);
-    } else {
-      setIsFirstLoad(false);
-    }
-    if (!data?.pagination.has_next_page) {
-      setHasReachedEnd(true);
-      return;
-    }
-    setResults((prev) => [
-      ...new Set(
-        [...prev, ...data.data].filter(
-          (item) => item.rating !== 'R+ - Mild Nudity' || 'Rx - Hentai' || 'PG - Children',
-        ),
-      ),
-    ]);
-  }, [data, isFetching, isSuccess, originalArgs]);
-
-  const handleOnEndReached = () => {
-    if (!hasReachedEnd) {
-      setCurPage(curPage + 1);
-    }
-  };
-
-  const handleRefresh = () => {
-    setIsFirstLoad(true);
-    setHasReachedEnd(false);
-    setResults([]);
-    trigger(1);
-  };
+export default function HomeAnimeByGenres({ name }: Props) {
+  const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetAnimeByGenresQuery();
+  const genre = genresDict[name];
+  const Props = { data, trigger, isFetching, isSuccess, originalArgs, genre };
+  const { results, isFirstLoad, handleOnEndReached, handleRefresh, handleScroll } =
+    useAnimeGenreQuery(Props);
 
   if (isFirstLoad) {
     return <MainLoading />;
@@ -62,8 +27,8 @@ export default function HomeAnimeByGenres() {
       {isSuccess && (
         <>
           <View>
-            <Text className="mr-auto p-3 pb-0 font-main font-extrabold text-2xl text-platinum">
-              This Season
+            <Text className="mr-auto p-3 pb-0 font-main font-extrabold text-2xl text-ghostWhite">
+              {name}
             </Text>
             <FlatList
               horizontal={true}
@@ -75,6 +40,7 @@ export default function HomeAnimeByGenres() {
               renderItem={({ item }) => <SmallAnimeCard item={item} />}
               ListFooterComponent={() => <CardFooterLoading isFetching={isFetching} />}
               onEndReachedThreshold={0.3}
+              onMomentumScrollBegin={handleScroll}
               onEndReached={handleOnEndReached}
               refreshing={false}
               onRefresh={handleRefresh}

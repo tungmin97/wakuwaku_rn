@@ -1,17 +1,27 @@
 import { useEffect, useState } from 'react';
-import { AnimeById, TopAnime } from '@src/types/animeTypes';
+import { AnimeById, JustMissedAnimeProps, TopAnime } from '@src/types/animeTypes';
 import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { QueryDefinition } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
+import { getLastSeason } from '@utils/getLastSeason';
 
 interface Props {
   data: TopAnime | undefined;
-  trigger: LazyQueryTrigger<QueryDefinition<number, any, never, TopAnime, 'animeAPI'>>;
+  trigger: LazyQueryTrigger<
+    QueryDefinition<JustMissedAnimeProps, any, never, TopAnime, 'animeAPI'>
+  >;
   isFetching: boolean;
   isSuccess: boolean;
-  originalArgs: number | undefined;
+  originalArgs: JustMissedAnimeProps | undefined;
 }
 
-export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalArgs }: Props) => {
+export const useAnimeSeasonQuery = ({
+  data,
+  trigger,
+  isFetching,
+  isSuccess,
+  originalArgs,
+}: Props) => {
+  const { lastSeason, year } = getLastSeason();
   const [curPage, setCurPage] = useState(1);
   const [results, setResults] = useState<AnimeById[]>([]);
   const [hasReachedEnd, setHasReachedEnd] = useState(false);
@@ -19,14 +29,16 @@ export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalAr
   const [isSrolled, setIsSrolled] = useState(false);
 
   useEffect(() => {
-    trigger(curPage);
-  }, [curPage, trigger]);
+    const args = { year: year, season: lastSeason, page: curPage };
+
+    trigger(args);
+  }, [curPage, lastSeason, year, trigger]);
 
   useEffect(() => {
     if (isFetching || isSuccess === false) {
       return;
     }
-    if (isFetching && originalArgs === 1) {
+    if (isFetching && originalArgs?.page === 1) {
       setIsFirstLoad(true);
     } else {
       setIsFirstLoad(false);
@@ -57,7 +69,7 @@ export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalAr
     setIsFirstLoad(true);
     setHasReachedEnd(false);
     setResults([]);
-    trigger(1);
+    trigger({ year: year, season: lastSeason, page: 1 });
   };
 
   const handleScroll = () => {
