@@ -19,20 +19,19 @@ const LoginScreen = () => {
 
   const navigation = useNavigation<RootStackNavigationProps>();
 
-  const getDate = () => {
-    const dateNew = new Date(Date.now());
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
 
-    dateNew.setSeconds(dateNew.getSeconds() + 7);
-    return dateNew;
-  };
-
-  const handleScheduleNotification = (id: number, name: string, time: Date) =>
-    createReminderNotification({ id, name, time });
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
-  
+
   const signInHandler = () => {
     auth()
       .signInWithEmailAndPassword(email, password)
