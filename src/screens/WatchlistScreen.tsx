@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -33,12 +33,16 @@ export default function WatchlistScreen() {
       <View>
         <View className="flex-row justify-between mx-4">
           <View className="flex-row items-center">
-            <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
+            <TouchableOpacity>
+              <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
+            </TouchableOpacity>
             <Text className="text-ghostWhite text-2xl ml-5 font-bold">My List</Text>
           </View>
-          <View className="flex items-center">
-            <AntDesign name="search1" size={25} color="#f8f7ffff" />
-          </View>
+          <TouchableOpacity>
+            <View className="flex items-center">
+              <AntDesign name="search1" size={25} color="#f8f7ffff" />
+            </View>
+          </TouchableOpacity>
         </View>
         {isSuccess && (
           <View className="m-2 mt-3">
