@@ -15,7 +15,7 @@ import {
 } from '@src/services/api/apiSlice';
 import EspisodeCard from './EspisodeCard';
 import ReviewCard from './ReviewCard';
-import { AnimeReviewData } from 'src/types/animeTypes';
+import { AnimeEspisode, AnimeReviewData } from 'src/types/animeTypes';
 
 interface componentPropsInterface {
   synopsis: string;
@@ -37,13 +37,14 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
 
     return (
       <ScrollView key={2}>
-        {data?.data?.map((item) => (
+        {data?.data?.map((item: AnimeEspisode) => (
           <EspisodeCard
             img={item?.images?.jpg.image_url}
             espisode={item.mal_id}
             title={item.title}
             id={item.mal_id}
             key={item.mal_id}
+            url={item.url}
           />
         ))}
       </ScrollView>
