@@ -5,12 +5,13 @@ import { View, Text, TouchableOpacity, TextInput, ActivityIndicator, FlatList } 
 import { useGetAnimeSearchQuery } from '@services/api/apiSlice';
 import { AnimeById } from 'src/types/animeTypes';
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SearchScreen() {
+  const navigation = useNavigation();
   const [textInput, setTextInput] = useState('');
   //   const { data, isFetching } = useGetTopAnimeQuery(1);
   const { data, isFetching } = useGetAnimeSearchQuery(textInput);
-  //   console.log('123', data, isFetching);
 
   const handleInput = (input: string) => {
     setTextInput(input);
@@ -35,7 +36,11 @@ export default function SearchScreen() {
   };
   return (
     <View className="flex-1 bg-black">
-      <TouchableOpacity className="flex-row items-center ml-4 mt-10">
+      <TouchableOpacity
+        className="flex-row items-center ml-4 mt-10"
+        onPress={() => {
+          navigation.goBack();
+        }}>
         <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
       </TouchableOpacity>
 
