@@ -109,6 +109,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
 
   return (
     <TabView
+      lazy
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}

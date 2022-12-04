@@ -1,12 +1,21 @@
 import { AnimeByGenres } from './../../types/animeTypes';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AnimeFullById, TopAnime, JustMissedAnimeProps, AnimeVideosEpisodes, AnimeReviews } from '@src/types/animeTypes';
+import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
+import {
+  AnimeFullById,
+  TopAnime,
+  JustMissedAnimeProps,
+  AnimeVideosEpisodes,
+  AnimeReviews,
+} from '@src/types/animeTypes';
 
 const baseURL: string = 'https://api.jikan.moe/v4';
+const staggeredBaseQuery = retry(fetchBaseQuery({ baseUrl: baseURL }), {
+  maxRetries: 3,
+});
 
 export const animeAPI = createApi({
   reducerPath: 'animeAPI',
-  baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
+  baseQuery: staggeredBaseQuery,
   endpoints: (builder) => ({
     getTopAnime: builder.query<TopAnime, number>({
       query: (page) => `/top/anime?page=${page}&limit=10`,

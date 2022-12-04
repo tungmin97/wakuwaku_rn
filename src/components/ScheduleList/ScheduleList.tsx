@@ -1,8 +1,9 @@
-import { ActivityIndicator, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import React from 'react';
 import { useGetAnimeScheduleQuery } from '@services/api/apiSlice';
 import { toUnix } from '@utils/formatTime';
 import ScheduleCard from '@components/ScheduleCard/ScheduleCard';
+import SkeletonListLoader from '../Loading/SkeletonListLoader';
 
 interface Props {
   date: string;
@@ -11,7 +12,7 @@ export default function ScheduleList({ date }: Props) {
   const { data } = useGetAnimeScheduleQuery(date);
 
   if (!data) {
-    return <ActivityIndicator />;
+    return <SkeletonListLoader />;
   }
 
   const sortedSchedule = [...data.data]

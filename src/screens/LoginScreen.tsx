@@ -31,6 +31,7 @@ const LoginScreen = () => {
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
+
   const signInHandler = () => {
     auth()
       .signInWithEmailAndPassword(email, password)
@@ -94,7 +95,6 @@ const LoginScreen = () => {
             ) : null}
           </View>
         </View>
-
         <View className=" border-davysGrey border-2 rounded-md mx-5 mt-7">
           <TouchableOpacity className="bg-black px-5 rounded-md" onPress={signInHandler}>
             <Text className="text-ghostWhite text-center py-3 font-main font-bold">Sign In</Text>
