@@ -1,51 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import UserScreen from '@screens/UserScreen';
 // import SplashScreen from '@screens/SplashScreen';
-import Authentication from '@screens/Authentication';
 import WatchlistScreen from '@screens/WatchlistScreen';
-import {
-  AnimeStackParamList,
-  HomeStackParamList,
-  RootStackParamList,
-  WatchlistStackParamList,
-} from '@src/types/types';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import DetailScreen from '@screens/DetailScreen';
+import ScheduleScreen from '@screens/ScheduleScreen';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { HomeStackParamList, RootStackParamList } from '@src/types/types';
+import LoginScreen from '@src/screens/LoginScreen';
+import SignUpScreen from '@src/screens/SignUpScreen';
+import auth from '@react-native-firebase/auth';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const AnimeStack = createNativeStackNavigator<AnimeStackParamList>();
-const ListStack = createNativeStackNavigator<WatchlistStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
-
-const HomeStack = () => {
-  return (
-    <AnimeStack.Navigator
-      initialRouteName="AnimeHome"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <AnimeStack.Screen name="AnimeHome" component={HomeScreen} />
-      <AnimeStack.Screen name="AnimeDetails" component={DetailScreen} />
-    </AnimeStack.Navigator>
-  );
-};
-
-const WatchlistStack = () => {
-  return (
-    <ListStack.Navigator
-      initialRouteName="ListHome"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <ListStack.Screen name="ListHome" component={WatchlistScreen} />
-      <ListStack.Screen name="ListDetails" component={DetailScreen} />
-    </ListStack.Navigator>
-  );
-};
 
 const HomeTab = () => {
   return (
@@ -65,7 +35,7 @@ const HomeTab = () => {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeStack}
+        component={HomeScreen}
         options={{
           tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="home" size={25} color={color} />,
@@ -74,8 +44,18 @@ const HomeTab = () => {
         }}
       />
       <Tab.Screen
+        name="Schedule"
+        component={ScheduleScreen}
+        options={{
+          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarIcon: ({ color }) => <MaterialIcons name="apps" size={25} color={color} />,
+          tabBarIconStyle: { marginBottom: 0 },
+          tabBarInactiveTintColor: '#333',
+        }}
+      />
+      <Tab.Screen
         name="Watchlist"
-        component={WatchlistStack}
+        component={WatchlistScreen}
         options={{
           tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="movie-filter" size={25} color={color} />,
@@ -94,19 +74,36 @@ const HomeTab = () => {
 };
 
 export default function AppNavigation() {
-  const isSignIn = true;
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    console.log(user);
+
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  if (initializing) return null;
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {isSignIn ? (
+        {user ? (
           <>
             {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
             <Stack.Screen name="HomeTab" component={HomeTab} />
+            <Stack.Screen name="Details" component={DetailScreen} />
           </>
         ) : (
           <>
-            <Stack.Screen name="Login" component={Authentication} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
           </>
         )}
       </Stack.Navigator>

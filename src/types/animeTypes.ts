@@ -178,5 +178,89 @@ export enum AnimeSeason {
 
 export interface SeasonQuery {
   lastSeason: AnimeSeason;
-  lastYear: number;
+  year: number;
+}
+
+export interface JustMissedAnimeProps {
+  year: number;
+  season: string;
+  page: number;
+}
+
+export interface AnimeByGenres {
+  page: number;
+  genre: number;
+}
+
+// ESPISODE
+
+export interface Pagination {
+  last_visible_page: number;
+  has_next_page: boolean;
+}
+
+export interface EspisodeImage {
+  jpg: {
+    image_url: string;
+  };
+}
+
+export interface AnimeEspisode {
+  mal_id: number;
+  title: string;
+  episode: string;
+  url: string;
+  images: EspisodeImage;
+}
+
+export interface AnimeVideosEpisodes {
+  pagination: Pagination;
+  data: AnimeEspisode[];
+}
+
+// REVIEW
+export interface UserImages {
+  jpg: {
+    image_url: string;
+  };
+  webp: {
+    image_url: string;
+  };
+}
+
+export interface UserDetail {
+  username: string;
+  url: string;
+  images: UserImages;
+}
+
+export interface AnimeReaction {
+  overall: number;
+  nice: number;
+  love_it: number;
+  funny: number;
+  confusing: number;
+  informative: number;
+  well_written: number;
+  creative: number;
+}
+
+export interface AnimeReviewData {
+  user: UserDetail;
+  mal_id: number;
+  url: string;
+  type: string;
+  reactions: AnimeReaction;
+  date: string;
+  review: string;
+  score: number;
+  tag: string[];
+  is_spoiler: null;
+  is_preliminary: null;
+  episodes_watched: number;
+}
+
+export interface AnimeReviews {
+  pagination: Pagination;
+  data: AnimeReviewData[];
 }
