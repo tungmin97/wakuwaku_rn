@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import UserScreen from '@screens/UserScreen';
-// import SplashScreen from '@screens/SplashScreen';
+import SplashScreen from '@screens/SplashScreen';
 import WatchlistScreen from '@screens/WatchlistScreen';
 import DetailScreen from '@screens/DetailScreen';
 import ScheduleScreen from '@screens/ScheduleScreen';
@@ -77,6 +77,8 @@ export default function AppNavigation() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
+  console.log(user);
+
   function onAuthStateChanged(user) {
     setUser(user);
     console.log(user);
@@ -96,7 +98,7 @@ export default function AppNavigation() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>
-            {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
+            <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="HomeTab" component={HomeTab} />
             <Stack.Screen name="Details" component={DetailScreen} />
           </>

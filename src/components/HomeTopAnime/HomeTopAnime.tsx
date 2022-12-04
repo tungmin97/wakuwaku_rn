@@ -9,7 +9,8 @@ import { useAnimeQuery } from '@app/hooks/useAnimeQuery';
 export default function HomeTopAnime() {
   const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetTopAnimeQuery();
   const Props = { data, trigger, isFetching, isSuccess, originalArgs };
-  const { results, isFirstLoad, handleOnEndReached, handleRefresh } = useAnimeQuery(Props);
+  const { results, isFirstLoad, handleOnEndReached, handleRefresh, handleScroll } =
+    useAnimeQuery(Props);
 
   if (isFirstLoad) {
     return <MainLoading />;
@@ -31,6 +32,7 @@ export default function HomeTopAnime() {
             renderItem={({ item }) => <AnimeCard item={item} />}
             ListFooterComponent={() => <CardFooterLoading isFetching={isFetching} />}
             onEndReachedThreshold={0.3}
+            onMomentumScrollBegin={handleScroll}
             onEndReached={handleOnEndReached}
             refreshing={false}
             onRefresh={handleRefresh}
