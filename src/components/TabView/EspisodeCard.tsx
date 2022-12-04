@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, Linking } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -7,11 +7,17 @@ interface propsInterface {
   espisode: number;
   title: string;
   id: number;
+  url: string;
 }
 
 const EspisodeCard = (props: propsInterface) => {
   return (
-    <TouchableOpacity className="flex-row items-center mx-5 mb-2" key={props.id}>
+    <TouchableOpacity
+      className="flex-row items-center mx-5 mb-2"
+      key={props.id}
+      onPress={() => {
+        Linking.openURL(props.url);
+      }}>
       <Image
         source={{
           uri: props.img,

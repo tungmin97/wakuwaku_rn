@@ -39,6 +39,9 @@ export const animeAPI = createApi({
     getAnimeFullById: builder.query<AnimeFullById, number>({
       query: (id) => `/anime/${id}/full`,
     }),
+    getAnimeSearch: builder.query<TopAnime, string>({
+      query: (string) => `/anime?q=${string}`,
+    }),
     getAnimeVideosEpisodes: builder.query<AnimeVideosEpisodes, number>({
       query: (id) => `/anime/${id}/videos/episodes`,
     }),
@@ -50,11 +53,13 @@ export const animeAPI = createApi({
 
 export const {
   useGetAnimeFullByIdQuery,
+  useGetTopAnimeQuery,
   useGetAnimeScheduleQuery,
   useLazyGetTopAnimeQuery,
   useLazyGetUpcomingAnimeQuery,
   useLazyGetSeasonalAnimeQuery,
   useLazyGetJustMissedAnimeQuery,
+  useGetAnimeSearchQuery,
   useLazyGetAnimeByGenresQuery,
   useGetAnimeVideosEpisodesQuery,
   useGetAnimeReviewsQuery,

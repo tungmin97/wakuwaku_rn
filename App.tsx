@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { StatusBar } from 'react-native';
 import AppNavigation from '@src/app/appNavigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import notifee, { EventType } from '@notifee/react-native';
+import { StatusBar } from 'react-native';
 
 const App = () => {
   useEffect(() => {
