@@ -6,6 +6,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import firestore from '@react-native-firebase/firestore';
 
 GoogleSignin.configure({
   webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
@@ -20,16 +21,24 @@ const LoginScreen = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
 
   async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    // Get the users ID token
     const { idToken } = await GoogleSignin.signIn();
-
-    // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+    return auth()
+      .signInWithCredential(googleCredential)
+      .then(() => {
+        const currentUser = auth().currentUser;
+        const currentUserId = currentUser?.uid;
+        const userData = currentUser?.providerData[0];
+        firestore()
+          .collection('users')
+          .doc(currentUserId)
+          .set({
+            username: userData?.displayName,
+            avatar: userData?.photoURL,
+          })
+          .then(() => console.log('suceeded'));
+      });
   }
 
   const signInHandler = () => {
