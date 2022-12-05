@@ -6,12 +6,16 @@ import { useNavigation } from '@react-navigation/native';
 import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
 import { AnimeById } from 'src/types/animeTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { firebase } from '@react-native-firebase/auth';
+import { RootStackProps } from 'src/types/types';
 
-export default function DetailScreen({ route }) {
+export default function DetailScreen({ route, navigation }: RootStackProps) {
   const dimensionForScreen = Dimensions.get('screen');
-  const navigation = useNavigation();
 
-  const item: AnimeById = route.params.item;
+  const { item } = route.params;
+  // const item: AnimeById = route.params?.item;
+
+  if (firebase.auth().currentUser !== null) console.log(firebase.auth().currentUser?.uid);
 
   return (
     <SafeAreaView className="flex-1 bg-black">

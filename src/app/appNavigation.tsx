@@ -29,17 +29,17 @@ const HomeTab = () => {
           height: 65,
           paddingHorizontal: 5,
           paddingTop: 5,
-          backgroundColor: '#1A1A1Aff',
+          backgroundColor: '#1A1A1A',
           borderTopWidth: 0,
         },
-        tabBarInactiveTintColor: '#564d4d',
+        tabBarInactiveTintColor: '#564D4D',
         tabBarActiveTintColor: '#fff',
       }}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarLabelStyle: { color: '#f8f7ff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="home" size={25} color={color} />,
           tabBarIconStyle: { marginBottom: 0 },
           tabBarInactiveTintColor: '#333',
@@ -49,7 +49,7 @@ const HomeTab = () => {
         name="Schedule"
         component={ScheduleScreen}
         options={{
-          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarLabelStyle: { color: '#f8f7ff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="apps" size={25} color={color} />,
           tabBarIconStyle: { marginBottom: 0 },
           tabBarInactiveTintColor: '#333',
@@ -59,7 +59,7 @@ const HomeTab = () => {
         name="Watchlist"
         component={WatchlistScreen}
         options={{
-          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarLabelStyle: { color: '#f8f7ff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="movie-filter" size={25} color={color} />,
         }}
       />
@@ -67,7 +67,7 @@ const HomeTab = () => {
         name="User"
         component={UserScreen}
         options={{
-          tabBarLabelStyle: { color: '#f8f7ffff', marginBottom: 10 },
+          tabBarLabelStyle: { color: '#f8f7ff', marginBottom: 10 },
           tabBarIcon: ({ color }) => <MaterialIcons name="person" size={25} color={color} />,
         }}
       />
@@ -79,15 +79,18 @@ export default function AppNavigation() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
+  console.log(user);
 
   useEffect(() => {
+    const onAuthStateChanged = (user) => {
+      setUser(user);
+
+      if (initializing) setInitializing(false);
+    };
+
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
-  }, []);
+  }, [initializing]);
 
   if (initializing) return null;
 

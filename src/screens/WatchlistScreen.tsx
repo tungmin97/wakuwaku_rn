@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import FastImage from 'react-native-fast-image';
@@ -15,9 +15,11 @@ export default function WatchlistScreen() {
   const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetUpcomingAnimeQuery();
   const Props = { data, trigger, isFetching, isSuccess, originalArgs };
   const { results, handleOnEndReached, handleRefresh, isFirstLoad } = useAnimeQuery(Props);
+
   if (isFirstLoad) {
     return <NormalLoading num={4} />;
   }
+
   // const [textInput] = useState('');
   //   const { data, isFetching } = useGetTopAnimeQuery(1);
   // const { data } = useGetAnimeSearchQuery(textInput);
@@ -30,6 +32,9 @@ export default function WatchlistScreen() {
   //     </View>
   //   );
   // };
+
+  console.log(results);
+
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View>
