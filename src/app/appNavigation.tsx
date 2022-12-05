@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import UserScreen from '@screens/UserScreen';
-// import SplashScreen from '@screens/SplashScreen';
+import SplashScreen from '@screens/SplashScreen';
 import WatchlistScreen from '@screens/WatchlistScreen';
 import DetailScreen from '@screens/DetailScreen';
 import ScheduleScreen from '@screens/ScheduleScreen';
@@ -13,6 +13,7 @@ import { HomeStackParamList, RootStackParamList } from '@src/types/types';
 import LoginScreen from '@src/screens/LoginScreen';
 import SignUpScreen from '@src/screens/SignUpScreen';
 import auth from '@react-native-firebase/auth';
+import SearchScreen from '@src/screens/SearchScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
@@ -79,7 +80,6 @@ export default function AppNavigation() {
 
   function onAuthStateChanged(user) {
     setUser(user);
-
     if (initializing) setInitializing(false);
   }
 
@@ -95,9 +95,10 @@ export default function AppNavigation() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>
-            {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
+            <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="HomeTab" component={HomeTab} />
             <Stack.Screen name="Details" component={DetailScreen} />
+            <Stack.Screen name="Search" component={SearchScreen} />
           </>
         ) : (
           <>

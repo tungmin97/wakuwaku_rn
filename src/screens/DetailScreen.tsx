@@ -22,7 +22,10 @@ export default function DetailScreen({ route }) {
           }}>
           <AntDesign name="arrowleft" size={20} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Search');
+          }}>
           <AntDesign name="search1" size={20} color="white" />
         </TouchableOpacity>
       </View>

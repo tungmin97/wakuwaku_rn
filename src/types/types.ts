@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Details: { item: AnimeById };
   Login: undefined;
   SignUp: undefined;
+  Search: undefined;
 };
 
 export type HomeStackParamList = {
