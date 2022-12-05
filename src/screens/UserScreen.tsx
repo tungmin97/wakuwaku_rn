@@ -1,7 +1,8 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
+import FastImage from 'react-native-fast-image';
 
 export default function UserScreen() {
   const signOutHandler = () => {
@@ -17,8 +18,9 @@ export default function UserScreen() {
         <Text className="text-xl ml-2 text-ghostWhite">Profile & Setting</Text>
       </TouchableOpacity>
       <View className="flex">
-        <Image
-          source={require('../assets/Images/avatar.png')}
+        <FastImage
+          resizeMode={FastImage.resizeMode.cover}
+          source={{ uri: 'https://i.imgur.com/vL6TLxR.jpg' }}
           className="w-36 h-36 mt-5 self-center rounded-2xl"
         />
       </View>

@@ -15,7 +15,7 @@ import {
 } from '@src/services/api/apiSlice';
 import EspisodeCard from './EspisodeCard';
 import ReviewCard from './ReviewCard';
-import { AnimeEspisode, AnimeReviewData } from 'src/types/animeTypes';
+import { AnimeEspisode, AnimeReviewData } from '@src/types/animeTypes';
 
 interface componentPropsInterface {
   synopsis: string;

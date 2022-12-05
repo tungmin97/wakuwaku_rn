@@ -28,6 +28,9 @@ export default function WatchlistScreen() {
   //     </View>
   //   );
   // };
+
+  console.log(results);
+
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View>
