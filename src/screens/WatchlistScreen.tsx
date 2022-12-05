@@ -1,5 +1,5 @@
-import { View, Text, FlatList } from 'react-native';
 import React, { useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import FastImage from 'react-native-fast-image';
@@ -8,8 +8,10 @@ import { useLazyGetUpcomingAnimeQuery } from '@services/api/apiSlice';
 import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
 import { useAnimeQuery } from '@app/hooks/useAnimeQuery';
 import NormalLoading from '../components/Loading/NormalLoading';
+import { useNavigation } from '@react-navigation/native';
 
 export default function WatchlistScreen() {
+  const navigation = useNavigation();
   const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetUpcomingAnimeQuery();
   const Props = { data, trigger, isFetching, isSuccess, originalArgs };
   const { results, handleOnEndReached, handleRefresh, isFirstLoad } = useAnimeQuery(Props);
@@ -38,7 +40,12 @@ export default function WatchlistScreen() {
       <View>
         <View className="flex-row justify-between mx-4">
           <View className="flex-row items-center">
-            <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
+            </TouchableOpacity>
             <Text className="text-ghostWhite text-2xl ml-5 font-bold">My List</Text>
           </View>
           <View className="flex items-center">

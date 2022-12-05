@@ -13,7 +13,8 @@ import { HomeStackParamList, RootStackParamList } from '@src/types/types';
 import LoginScreen from '@src/screens/LoginScreen';
 import SignUpScreen from '@src/screens/SignUpScreen';
 import auth from '@react-native-firebase/auth';
-import SearchScreen from '@screens/SearchScreen';
+import SearchScreen from '@src/screens/SearchScreen';
+import ChangeUserInfo from '@src/screens/ChangeUserInfo';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
@@ -102,6 +103,8 @@ export default function AppNavigation() {
             <Stack.Screen name="HomeTab" component={HomeTab} />
             <Stack.Screen name="Details" component={DetailScreen} />
             <Stack.Screen name="Search" component={SearchScreen} />
+            <Stack.Screen name="ChangeUserInfo" component={ChangeUserInfo} />
+            <Stack.Screen name="Watchlist" component={WatchlistScreen} />
           </>
         ) : (
           <>
