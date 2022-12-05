@@ -94,7 +94,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
           });
 
           return (
-            <TouchableOpacity style={styles.tabItem} onPress={() => setIndex(i)}>
+            <TouchableOpacity key={i} style={styles.tabItem} onPress={() => setIndex(i)}>
               <Animated.Text
                 className="font-main text-[13px]"
                 style={[styles.tabItemText, { opacity }]}>
