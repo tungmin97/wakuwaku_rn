@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
+import Toast from 'react-native-toast-message';
 
 const { width } = Dimensions.get('screen');
 
@@ -26,6 +27,30 @@ const SignUpScreen = () => {
   const [isBlurPassword, setIsBlurPassword] = useState(false);
   const [isBlurEmail, setIsBlurEmail] = useState(false);
 
+  const showToastEmailUsed = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Invalid email address',
+      text2: 'Email address is already in use!',
+    });
+  };
+
+  const showToastEmailInvalid = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Invalid email address',
+      text2: 'The email address is badly formatted.',
+    });
+  };
+
+  const showToastPasswordInvalid = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Invalid password',
+      text2: 'Password should be at least 6 characters',
+    });
+  };
+
   const signUpHandler = () => {
     auth()
       .createUserWithEmailAndPassword(email, password)
@@ -34,13 +59,15 @@ const SignUpScreen = () => {
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
+          showToastEmailUsed();
         }
 
         if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
+          showToastEmailInvalid();
         }
-
+        if (error.code === 'auth/weak-password') {
+          showToastPasswordInvalid();
+        }
         console.error(error);
       });
   };
@@ -55,7 +82,7 @@ const SignUpScreen = () => {
           className="flex-1"
           imageStyle={styles.imageBackground}>
           <View className="flex-row items-center justify-between mx-5 my-2">
-            <Text className="text-ghostWhite text-5xl font-title text-maxRed">W</Text>
+            <Text className="text-5xl font-title text-maxRed">W</Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
@@ -141,6 +168,7 @@ const SignUpScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
+            <Toast position="top" />
           </KeyboardAvoidingView>
         </ImageBackground>
       </LinearGradient>

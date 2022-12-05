@@ -14,6 +14,7 @@ export type RootStackParamList = {
   Search: undefined;
   Login: undefined;
   SignUp: undefined;
+  Search: undefined;
 };
 
 export type HomeStackParamList = {
