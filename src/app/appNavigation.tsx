@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import UserScreen from '@screens/UserScreen';
-import SplashScreen from '@screens/SplashScreen';
+// import SplashScreen from '@screens/SplashScreen';
 import WatchlistScreen from '@screens/WatchlistScreen';
 import DetailScreen from '@screens/DetailScreen';
 import ScheduleScreen from '@screens/ScheduleScreen';
@@ -12,7 +12,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { HomeStackParamList, RootStackParamList } from '@src/types/types';
 import LoginScreen from '@src/screens/LoginScreen';
 import SignUpScreen from '@src/screens/SignUpScreen';
-import auth from '@react-native-firebase/auth';
+import { useAuth } from '@app/hooks/useAuth';
 import SearchScreen from '@src/screens/SearchScreen';
 import ChangeUserInfo from '@src/screens/ChangeUserInfo';
 
@@ -76,30 +76,14 @@ const HomeTab = () => {
 };
 
 export default function AppNavigation() {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-
-  console.log(user);
-
-  useEffect(() => {
-    const onAuthStateChanged = (user) => {
-      setUser(user);
-
-      if (initializing) setInitializing(false);
-    };
-
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, [initializing]);
-
-  if (initializing) return null;
+  const { user } = useAuth();
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>
-            <Stack.Screen name="SplashScreen" component={SplashScreen} />
+            {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
             <Stack.Screen name="HomeTab" component={HomeTab} />
             <Stack.Screen name="Details" component={DetailScreen} />
             <Stack.Screen name="Search" component={SearchScreen} />

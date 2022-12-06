@@ -11,7 +11,6 @@ export type RootStackParamList = {
   SplashScreen: undefined;
   HomeTab: NavigatorScreenParams<HomeStackParamList>;
   Details: { item: AnimeById };
-  Search: undefined;
   Login: undefined;
   SignUp: undefined;
   Search: undefined;
@@ -48,11 +47,7 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScre
 >;
 export type RootStackProps = NativeStackScreenProps<RootStackParamList>;
 
-// declare global {
-//   namespace ReactNavigation {
-//     interface RootParamList extends RootStackParamList {}
-//   }
-// }
+export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 export type RootStackNavigationProps = NativeStackScreenProps<RootStackParamList>['navigation'];
 
