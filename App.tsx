@@ -4,8 +4,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import notifee, { EventType } from '@notifee/react-native';
 import { StatusBar } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useAppSelector } from '@app/hooks/main';
+import { useAsyncStorage } from '@app/hooks/useAsyncStorage';
 
 const App = () => {
+  const { setStorage } = useAsyncStorage('credential');
+  const curUser = useAppSelector((state) => state.user.currentUser?.data());
+  curUser && setStorage(curUser);
+
   useEffect(() => {
     return notifee.onForegroundEvent(({ type, detail }) => {
       if (type === EventType.APP_BLOCKED) {

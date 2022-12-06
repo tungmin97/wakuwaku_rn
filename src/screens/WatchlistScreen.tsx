@@ -1,26 +1,9 @@
 import { View, Text, FlatList, TouchableOpacity, Dimensions } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import FastImage from 'react-native-fast-image';
-import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
-import { ActivityIndicator } from 'react-native';
-import { useWatchList } from '@app/hooks/useWatchList';
-import { useNavigation } from '@react-navigation/native';
-import { AnimeById } from 'src/types/animeTypes';
 
-export default function WatchlistScreen({ route }) {
-  const dimensionForScreen = Dimensions.get('screen');
-  const navigation = useNavigation();
-
-  const item: AnimeById = route.params.item;
-  const [loading, setLoading] = useState(true);
-  const { handleAddWatchList, watchList } = useWatchList(item);
-
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
+export default function WatchlistScreen() {
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View>
@@ -30,7 +13,7 @@ export default function WatchlistScreen({ route }) {
             <AntDesign name="search1" size={25} color="#f8f7ffff" />
           </View>
         </View>
-        {isSuccess && (
+        {/* {isSuccess && (
           <View className="m-2">
             <FlatList
               ItemSeparatorComponent={() => <View className="w-full h-[2px] bg-black" />}
@@ -46,7 +29,7 @@ export default function WatchlistScreen({ route }) {
               onRefresh={handleRefresh}
             />
           </View>
-        )}
+        )} */}
       </View>
     </SafeAreaView>
   );
