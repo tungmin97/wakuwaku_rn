@@ -1,34 +1,36 @@
-import auth from '@react-native-firebase/auth';
+import { AnimeById, WatchListProps } from '@src/types/animeTypes';
+import { useAsyncStorage } from './useAsyncStorage';
 import { useEffect, useState } from 'react';
-import firestore, { firebase } from '@react-native-firebase/firestore';
+import firestore, { firebase, FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
-export const useWatchList = (item) => {
-  const [userId, setUserId] = useState();
-  const [watchList, setWatchList] = useState([]);
-  const onAuthStateChanged = (user) => {
-    setUserId(user.uid);
+export const useWatchList = () => {
+  const [watchList, setWatchList] = useState<FirebaseFirestoreTypes.DocumentData | WatchListProps>({
+    animeList: [],
+  });
+
+  const { data } = useAsyncStorage('credential');
+  const uid = data?.uid;
+
+  const handleAddWatchList = (item: AnimeById) => {
+    const animeList = { animeList: firebase.firestore.FieldValue.arrayUnion(item) };
+    firestore().collection('anime').doc(uid).set(animeList, { merge: true });
   };
+
+  const handleRemoveWatchList = (item: AnimeById) => {
+    const animeList = { animeList: firebase.firestore.FieldValue.arrayRemove(item) };
+    firestore().collection('anime').doc(uid).set(animeList, { merge: true });
+  };
+
   useEffect(() => {
-    const userData = auth().onAuthStateChanged(onAuthStateChanged);
-    return userData;
-  }, []);
-
-  const handleAddWatchList = () => {
-    const data = { animeList: firebase.firestore.FieldValue.arrayUnion(item) };
-    firestore().collection('anime').doc(userId).set(data, { merge: true });
-  };
-
-  const handleRemoveWatchList = () => {};
-
-  const getWatchList = () => {
-    firestore()
+    const subscriber = firestore()
       .collection('anime')
-      .doc(userId)
-      .get()
-      .then((documentSnapshot) => {
-        return 123;
+      .doc(uid)
+      .onSnapshot((documentSnapshot) => {
+        setWatchList(documentSnapshot.data() || { animeList: [] });
       });
-  };
 
-  return { handleAddWatchList, getWatchList };
+    return () => subscriber();
+  }, [uid]);
+
+  return { handleAddWatchList, handleRemoveWatchList, watchList };
 };

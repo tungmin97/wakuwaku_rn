@@ -24,12 +24,12 @@ const WatchList = ({ item }: Props) => {
     setModalVisible(!isModalVisible);
     createReminderNotification;
   };
-  console.log('333', item);
 
   const time = item.broadcast.time;
   const day = item.broadcast.day;
 
   const aringData = formatTime(day, time);
+  console.log(aringData);
   return (
     <>
       <TouchableOpacity activeOpacity={0.8} className="p-1.5" onPress={handleModal}>
