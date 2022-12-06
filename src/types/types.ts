@@ -14,7 +14,6 @@ export type RootStackParamList = {
   Search: undefined;
   Login: undefined;
   SignUp: undefined;
-  Search: undefined;
 };
 
 export type HomeStackParamList = {
@@ -47,11 +46,7 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScre
 >;
 export type RootStackProps = NativeStackScreenProps<RootStackParamList>;
 
-// declare global {
-//   namespace ReactNavigation {
-//     interface RootParamList extends RootStackParamList {}
-//   }
-// }
+export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 export type RootStackNavigationProps = NativeStackScreenProps<RootStackParamList>['navigation'];
 

@@ -1,16 +1,14 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import auth from '@react-native-firebase/auth';
 import FastImage from 'react-native-fast-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '@app/hooks/useAuth';
 
 export default function UserScreen() {
-  const signOutHandler = () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'));
-  };
+  const { user, isLoading, handleSignOut } = useAuth();
+  console.log(user);
+  isLoading && <ActivityIndicator />;
 
   return (
     <SafeAreaView className="flex-1 bg-black ">
@@ -53,7 +51,7 @@ export default function UserScreen() {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={signOutHandler}>
+      <TouchableOpacity onPress={handleSignOut}>
         <Text className="text-xl self-center rounded-md px-4 py-2 mt-20 text-ghostWhite">
           Sign Out
         </Text>
