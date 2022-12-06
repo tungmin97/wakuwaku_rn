@@ -1,20 +1,29 @@
-import { View, Text, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+  StyleSheet,
+} from 'react-native';
 import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FastImage from 'react-native-fast-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { launchImageLibrary } from 'react-native-image-picker';
 import { useAuth } from '@app/hooks/useAuth';
 import { RootStackProps } from '@src/types/types';
+import { SetUserProps } from '@src/types/authTypes';
+import { useSetAndGetUser } from '@src/app/hooks/useSetAndGetUser';
+import { setCurrentUser } from '@src/services/users/userSlice';
+import ImagePicker from 'react-native-image-crop-picker';
 import { useAsyncStorage } from '@app/hooks/useAsyncStorage';
 import { useViewportUnits } from '@app/hooks/main';
 
 export default function UserScreen({ navigation }: RootStackProps) {
-  const { vw } = useViewportUnits();
   const { handleSignOut } = useAuth();
+  const { updateUsername, getUser, updateUserAvatar } = useSetAndGetUser();
+  const { vw } = useViewportUnits();
   const { data, setStorage } = useAsyncStorage('credential');
-  console.log(data);
-
   const [isOnEdit, setIsOnEdit] = useState(false);
   const [newUsername, setNewUsername] = useState<string | null>('');
   const handleUsername = (input: string) => setNewUsername(input);
@@ -26,34 +35,42 @@ export default function UserScreen({ navigation }: RootStackProps) {
     <ActivityIndicator />;
   }
 
+  const onPressHandler = async () => {
+    if (!isOnEdit) {
+      setIsOnEdit(true);
+    } else {
+      setIsOnEdit(false);
+      if (editUsername !== user.username) {
+        await updateUsername(user.uid, editUsername);
+      }
+      dispatch(setCurrentUser(await getUser(user.uid)));
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-black ">
       <Text className="mr-auto font-main font-extrabold text-3xl text-platinum p-3">
         Profile & Settings
       </Text>
       <View className="flex">
-        <FastImage
-          resizeMode={FastImage.resizeMode.cover}
-          source={{
-            uri: data?.avatar,
-          }}
-          fallback={true}
-          onError={() => console.log('FastImage')}
-          className="w-36 h-36 mt-10 self-center rounded-full">
-          <TouchableOpacity
-            onPress={() => {
-              launchImageLibrary({
-                mediaType: 'photo',
-                includeBase64: false,
-                maxHeight: 200,
-                maxWidth: 200,
+        <Image source={{ uri: data.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
+        <TouchableOpacity
+          style={style.cameraIcon}
+          onPress={() => {
+            ImagePicker.openPicker({
+              width: 300,
+              height: 400,
+              cropping: true,
+            })
+              .then((image) => {
+                updateUserAvatar(data.uid, image.path);
+              })
+              .then(async () => {
+                dispatch(setCurrentUser(await getUser(data.uid)));
               });
-              // launchCamera();
-            }}
-            className="flex-1 justify-center items-center">
-            <AntDesign name="camera" size={25} color="#f8f7ffff" />
-          </TouchableOpacity>
-        </FastImage>
+          }}>
+          <AntDesign name="camera" size={25} color="#f8f7ffff" />
+        </TouchableOpacity>
       </View>
       <View className="flex-row justify-center mt-2 mb-10 items-center">
         <TextInput
@@ -63,21 +80,10 @@ export default function UserScreen({ navigation }: RootStackProps) {
           onChangeText={handleUsername}
           onSubmitEditing={handleSubmitUsername}
         />
-        <TouchableOpacity
-          onPress={() => {
-            !isOnEdit ? setIsOnEdit(true) : setIsOnEdit(false);
-          }}>
+        <TouchableOpacity onPress={onPressHandler}>
           <AntDesign name="edit" size={20} color="#f8f7ffff" />
         </TouchableOpacity>
       </View>
-      {/* <TouchableOpacity
-        className="flex-row justify-center"
-        onPress={() => {
-          navigation.navigate('ChangeUserInfo');
-        }}>
-        <Text className="text-center text-base mb-10 mr-3 text-ghostWhite">Change Information</Text>
-        <AntDesign name="edit" size={25} color="#f8f7ffff" />
-      </TouchableOpacity> */}
       <TouchableOpacity
         className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md"
         onPress={() => {
@@ -100,10 +106,15 @@ export default function UserScreen({ navigation }: RootStackProps) {
       </TouchableOpacity>
       <TouchableOpacity
         className="bg-davysGrey p-3 absolute bottom-0 mb-10 rounded-xl self-center"
-        style={{ width: vw * 100 - 50 }}
+        style={style.signOut}
         onPress={handleSignOut}>
         <Text className="text-ghostWhite text-center font-main text-base">Sign Out</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 }
+
+const style = StyleSheet.create({
+  cameraIcon: { position: 'absolute', alignSelf: 'center', top: 100 },
+  signOut: { width: width: vw * 100 - 50},
+});
