@@ -25,7 +25,7 @@ const EspisodeCard = (props: propsInterface) => {
         style={styles.image}
       />
       <AntDesign name="playcircleo" size={20} color="white" style={styles.iconPlay} />
-      <Text className="text-ghostWhite w-40 text-xs">
+      <Text className="text-ghostWhite font-main w-40 text-xs">
         {props.espisode}. {props.title}
       </Text>
       <AntDesign name="right" size={20} color="white" style={styles.iconRight} />
