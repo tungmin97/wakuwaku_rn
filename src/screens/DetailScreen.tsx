@@ -1,17 +1,18 @@
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import YoutubeIframe from 'react-native-youtube-iframe';
 import { useNavigation } from '@react-navigation/native';
 import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
 import { AnimeById } from 'src/types/animeTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useWatchList } from '@app/hooks/useWatchList';
+import { DetailScreenProps } from 'src/types/types';
 
-export default function DetailScreen({ route }) {
+export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const dimensionForScreen = Dimensions.get('screen');
-  const navigation = useNavigation();
-
-  const item: AnimeById = route.params.item;
+  const { item } = route.params;
+  const { handleAddWatchList, getWatchList } = useWatchList(item);
 
   return (
     <SafeAreaView className="flex-1 bg-black">
@@ -46,7 +47,7 @@ export default function DetailScreen({ route }) {
         </View>
 
         <View className="flex-row justify-around items-center my-5">
-          <TouchableOpacity className="flex-col items-center">
+          <TouchableOpacity className="flex-col items-center" onPress={handleAddWatchList}>
             <AntDesign name="plus" size={22} color="white" />
             <Text className=" text-ghostWhite text-[13px] mt-1">My list</Text>
           </TouchableOpacity>
