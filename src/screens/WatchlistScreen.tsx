@@ -8,10 +8,8 @@ import { useLazyGetUpcomingAnimeQuery } from '@services/api/apiSlice';
 import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
 import { useAnimeQuery } from '@app/hooks/useAnimeQuery';
 import NormalLoading from '../components/Loading/NormalLoading';
-import { useNavigation } from '@react-navigation/native';
 
 export default function WatchlistScreen() {
-  const navigation = useNavigation();
   const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetUpcomingAnimeQuery();
   const Props = { data, trigger, isFetching, isSuccess, originalArgs };
   const { results, handleOnEndReached, handleRefresh, isFirstLoad } = useAnimeQuery(Props);
@@ -33,22 +31,14 @@ export default function WatchlistScreen() {
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View>
-        <View className="flex-row justify-between mx-4">
-          <View className="flex-row items-center">
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
-            </TouchableOpacity>
-            <Text className="text-ghostWhite text-2xl ml-5 font-bold">My List</Text>
-          </View>
+        <View className="flex-row justify-between p-3">
+          <Text className="mr-auto font-main font-extrabold text-3xl text-platinum">My List</Text>
           <View className="flex items-center">
             <AntDesign name="search1" size={25} color="#f8f7ffff" />
           </View>
         </View>
         {isSuccess && (
-          <View className="m-2 mt-3">
+          <View className="m-2">
             <FlatList
               ItemSeparatorComponent={() => <View className="w-full h-[2px] bg-black" />}
               data={results}

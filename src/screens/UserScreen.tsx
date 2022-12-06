@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
@@ -6,6 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { useAppSelector } from '@src/app/hooks/main';
+
+const { width } = Dimensions.get('screen');
 
 export default function UserScreen() {
   const navigation = useNavigation();
@@ -24,10 +26,9 @@ export default function UserScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-black ">
-      <TouchableOpacity className="flex-row items-center ml-2 mt-2">
-        <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
-        <Text className="text-xl ml-2 text-ghostWhite">Profile & Setting</Text>
-      </TouchableOpacity>
+      <Text className="mr-auto font-main font-extrabold text-3xl text-platinum p-3">
+        Profile & Setting
+      </Text>
       <View className="flex">
         <Image source={{ uri: user.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
         <TouchableOpacity
@@ -44,9 +45,9 @@ export default function UserScreen() {
           <AntDesign name="camera" size={25} color="#f8f7ffff" />
         </TouchableOpacity>
       </View>
-      <View className="flex-row justify-center mt-5 items-center">
+      <View className="flex-row justify-center mt-2 mb-10 items-center">
         <TextInput
-          className="text-lg text-ghostWhite mr-2"
+          className="text-lg text-ghostWhite mr-2 font-main"
           defaultValue={user.username}
           editable={isOnEdit}
           onChangeText={(text) => setEditUsername(text)}
@@ -65,7 +66,7 @@ export default function UserScreen() {
         }}>
         <View className="flex flex-row justify-center items-center">
           <AntDesign name="menuunfold" size={25} color="#f8f7ffff" />
-          <Text className="text-base ml-3 text-ghostWhite">My List</Text>
+          <Text className="text-base ml-3 text-ghostWhite font-main">My List</Text>
         </View>
         <AntDesign name="right" size={25} color="#6a6a6a" />
       </TouchableOpacity>
@@ -73,17 +74,20 @@ export default function UserScreen() {
         <View className="flex-row justify-between w-11/12 p-3 mx-auto bg-gray rounded-md">
           <View className="flex flex-row justify-center items-center">
             <AntDesign name="retweet" size={25} color="#f8f7ffff" />
-            <Text className="text-base ml-3 text-ghostWhite">Switch Mode</Text>
+            <Text className="text-base ml-3 text-ghostWhite font-main">Switch Mode</Text>
           </View>
           <AntDesign name="right" size={25} color="#6a6a6a" />
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={signOutHandler}>
-        <Text className="text-xl self-center rounded-md px-4 py-2 mt-20 text-ghostWhite">
-          Sign Out
-        </Text>
+      <TouchableOpacity
+        className="bg-davysGrey p-3 absolute bottom-0 mb-10 rounded-xl self-center"
+        style={{ width: width - 50 }}
+        onPress={signOutHandler}>
+        <Text className="text-ghostWhite text-center font-main text-base">Sign Out</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 }
+
+// className="text-xl self-center rounded-md px-4 py-2 mt-20 text-ghostWhite"
