@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import { View, Text, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -21,6 +20,7 @@ export default function WatchlistScreen({ route }) {
   if (loading) {
     return <ActivityIndicator />;
   }
+
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View>

@@ -14,6 +14,7 @@ export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   Search: undefined;
+  ChangeUserInfo: undefined;
 };
 
 export type HomeStackParamList = {
@@ -40,18 +41,14 @@ export type ScheduleStackParamList = {
 
 export type AnimeStackProps = NativeStackScreenProps<AnimeStackParamList>;
 
-export type AnimeStackNavigationProps = NativeStackScreenProps<AnimeStackParamList>['navigation'];
-
 export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScreenProps<
   RootStackParamList,
   T
 >;
-export type Props = NativeStackScreenProps<RootStackParamList>;
+export type RootStackProps = NativeStackScreenProps<RootStackParamList>;
 
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}
+export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 export type RootStackNavigationProps = NativeStackScreenProps<RootStackParamList>['navigation'];
+
+export type AnimeStackNavigationProps = NativeStackScreenProps<AnimeStackParamList>['navigation'];

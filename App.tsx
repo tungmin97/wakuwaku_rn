@@ -3,6 +3,7 @@ import AppNavigation from '@src/app/appNavigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import notifee, { EventType } from '@notifee/react-native';
 import { StatusBar } from 'react-native';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const App = () => {
   useEffect(() => {
@@ -42,6 +43,7 @@ const App = () => {
       />
       <SafeAreaProvider>
         <AppNavigation />
+        <Toast />
       </SafeAreaProvider>
     </>
   );

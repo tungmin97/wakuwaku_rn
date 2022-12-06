@@ -7,14 +7,12 @@ import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
 import { AnimeById } from 'src/types/animeTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useWatchList } from '@app/hooks/useWatchList';
+import { DetailScreenProps } from 'src/types/types';
 
-export default function DetailScreen({ route }) {
+export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const dimensionForScreen = Dimensions.get('screen');
-  const navigation = useNavigation();
-
-  const item: AnimeById = route.params.item;
+  const { item } = route.params;
   const { handleAddWatchList, getWatchList } = useWatchList(item);
-  console.log('333', getWatchList());
 
   return (
     <SafeAreaView className="flex-1 bg-black">
