@@ -264,3 +264,7 @@ export interface AnimeReviews {
   pagination: Pagination;
   data: AnimeReviewData[];
 }
+
+export interface WatchListProps {
+  animeList: AnimeById[];
+}

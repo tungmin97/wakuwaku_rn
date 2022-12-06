@@ -1,18 +1,18 @@
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import YoutubeIframe from 'react-native-youtube-iframe';
-import { useNavigation } from '@react-navigation/native';
 import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
-import { AnimeById } from 'src/types/animeTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useWatchList } from '@app/hooks/useWatchList';
-import { DetailScreenProps } from 'src/types/types';
+import { DetailScreenProps } from '@src/types/types';
+import { useViewportUnits } from '@app/hooks/main';
 
 export default function DetailScreen({ route, navigation }: DetailScreenProps) {
-  const dimensionForScreen = Dimensions.get('screen');
+  const { vw } = useViewportUnits();
   const { item } = route.params;
-  const { handleAddWatchList, getWatchList } = useWatchList(item);
+  const { handleAddWatchList, handleRemoveWatchList } = useWatchList();
+  console.log(handleRemoveWatchList);
 
   return (
     <SafeAreaView className="flex-1 bg-black">
@@ -32,15 +32,9 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
       </View>
 
       <View>
-        <YoutubeIframe
-          height={220}
-          width={dimensionForScreen.width}
-          videoId={item.trailer.youtube_id}
-        />
+        <YoutubeIframe height={220} width={vw * 100} videoId={item.trailer.youtube_id} />
         <View className="mx-5">
-          <Text className=" text-ghostWhite mt-5 font-main text-2xl font-bold font-main">
-            {item.title}
-          </Text>
+          <Text className=" text-ghostWhite mt-5 text-2xl font-bold font-main">{item.title}</Text>
           <View className="flex-row my-2">
             <Text className="text-platinum text-[10px] font-main">{item.year}</Text>
             <Text className="text-platinum mx-2 text-[10px] font-main">
@@ -51,7 +45,9 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
         </View>
 
         <View className="flex-row justify-around items-center my-5">
-          <TouchableOpacity className="flex-col items-center" onPress={handleAddWatchList}>
+          <TouchableOpacity
+            className="flex-col items-center"
+            onPress={() => handleAddWatchList(item)}>
             <AntDesign name="plus" size={22} color="white" />
             <Text className=" text-ghostWhite text-[13px] mt-2 font-main">My list</Text>
           </TouchableOpacity>

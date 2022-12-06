@@ -13,8 +13,6 @@ export default function UserScreen({ navigation }: RootStackProps) {
   const { vw } = useViewportUnits();
   const { handleSignOut } = useAuth();
   const { data, setStorage } = useAsyncStorage('credential');
-  console.log(data);
-
   const [isOnEdit, setIsOnEdit] = useState(false);
   const [newUsername, setNewUsername] = useState<string | null>('');
   const handleUsername = (input: string) => setNewUsername(input);
