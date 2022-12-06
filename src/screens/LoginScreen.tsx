@@ -7,16 +7,24 @@ import auth from '@react-native-firebase/auth';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '@src/slices/userSlice';
 
 GoogleSignin.configure({
   webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
 });
+
+const getUser = async (uid: any) => {
+  const user = await firestore().collection('users').doc(uid).get();
+  return user;
+};
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isWrongEmail, setIsWrongEmail] = useState(false);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
+  const dispatch = useDispatch();
 
   const navigation = useNavigation<RootStackNavigationProps>();
 
@@ -37,7 +45,9 @@ const LoginScreen = () => {
             username: userData?.displayName,
             avatar: userData?.photoURL,
           })
-          .then(() => console.log('suceeded'));
+          .then(() => {
+            dispatch(setCurrentUser(getUser(currentUserId)));
+          });
       });
   }
 
@@ -45,7 +55,9 @@ const LoginScreen = () => {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        console.log('User signed in!');
+        const currentUser = auth().currentUser;
+        const currentUserId = currentUser?.uid;
+        dispatch(setCurrentUser(getUser(currentUserId)));
         setIsWrongEmail(false);
         setIsWrongPassword(false);
       })
@@ -57,7 +69,6 @@ const LoginScreen = () => {
         if (error.code === 'auth/wrong-password') {
           setIsWrongPassword(true);
         }
-
         console.error(error);
       });
     setIsWrongEmail(false);
