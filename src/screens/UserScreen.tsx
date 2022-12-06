@@ -4,32 +4,36 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Dimensions,
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
 import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAppDispatch, useAppSelector } from '@src/app/hooks/main';
 import { useAuth } from '@app/hooks/useAuth';
 import { RootStackProps } from '@src/types/types';
 import { SetUserProps } from '@src/types/authTypes';
 import { useSetAndGetUser } from '@src/app/hooks/useSetAndGetUser';
 import { setCurrentUser } from '@src/services/users/userSlice';
 import ImagePicker from 'react-native-image-crop-picker';
-
-const { width } = Dimensions.get('screen');
+import { useAsyncStorage } from '@app/hooks/useAsyncStorage';
+import { useViewportUnits } from '@app/hooks/main';
 
 export default function UserScreen({ navigation }: RootStackProps) {
-  const { isLoading, handleSignOut } = useAuth();
+  const { handleSignOut } = useAuth();
   const { updateUsername, getUser, updateUserAvatar } = useSetAndGetUser();
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.currentUser?.data() as SetUserProps);
+  const { vw } = useViewportUnits();
+  const { data, setStorage } = useAsyncStorage('credential');
   const [isOnEdit, setIsOnEdit] = useState(false);
-  const [editUsername, setEditUsername] = useState('');
+  const [newUsername, setNewUsername] = useState<string | null>('');
+  const handleUsername = (input: string) => setNewUsername(input);
+  const handleSubmitUsername = () => {
+    setStorage({ ...data!, username: newUsername });
+  };
 
-  isLoading && <ActivityIndicator />;
+  if (!data) {
+    <ActivityIndicator />;
+  }
 
   const onPressHandler = async () => {
     if (!isOnEdit) {
@@ -46,10 +50,10 @@ export default function UserScreen({ navigation }: RootStackProps) {
   return (
     <SafeAreaView className="flex-1 bg-black ">
       <Text className="mr-auto font-main font-extrabold text-3xl text-platinum p-3">
-        Profile & Setting
+        Profile & Settings
       </Text>
       <View className="flex">
-        <Image source={{ uri: user.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
+        <Image source={{ uri: data.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
         <TouchableOpacity
           style={style.cameraIcon}
           onPress={() => {
@@ -59,10 +63,10 @@ export default function UserScreen({ navigation }: RootStackProps) {
               cropping: true,
             })
               .then((image) => {
-                updateUserAvatar(user.uid, image.path);
+                updateUserAvatar(data.uid, image.path);
               })
               .then(async () => {
-                dispatch(setCurrentUser(await getUser(user.uid)));
+                dispatch(setCurrentUser(await getUser(data.uid)));
               });
           }}>
           <AntDesign name="camera" size={25} color="#f8f7ffff" />
@@ -71,9 +75,10 @@ export default function UserScreen({ navigation }: RootStackProps) {
       <View className="flex-row justify-center mt-2 mb-10 items-center">
         <TextInput
           className="text-lg text-ghostWhite mr-2 font-main"
-          defaultValue={user.username}
+          defaultValue={data?.username!}
           editable={isOnEdit}
-          onChangeText={(text) => setEditUsername(text)}
+          onChangeText={handleUsername}
+          onSubmitEditing={handleSubmitUsername}
         />
         <TouchableOpacity onPress={onPressHandler}>
           <AntDesign name="edit" size={20} color="#f8f7ffff" />
@@ -111,5 +116,5 @@ export default function UserScreen({ navigation }: RootStackProps) {
 
 const style = StyleSheet.create({
   cameraIcon: { position: 'absolute', alignSelf: 'center', top: 100 },
-  signOut: { width: width - 50 },
+  signOut: { width: width: vw * 100 - 50},
 });

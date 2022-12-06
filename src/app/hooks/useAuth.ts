@@ -15,8 +15,8 @@ export const useAuth = () => {
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
-  const { getUser, storeUserSocial } = useSetAndGetUser();
 
+  const { getUser, storeUserSocial } = useSetAndGetUser();
   const dispatch = useAppDispatch();
 
   GoogleSignin.configure({
@@ -57,20 +57,16 @@ export const useAuth = () => {
     }
   };
 
-  const handleUser = useCallback(
-    (credential: FirebaseAuthTypes.User | null) => {
-      setIsLoading(true);
-      if (credential) {
-        setUser(credential);
-        console.log(user?.uid);
-        setIsLoading(false);
-      } else {
-        setUser(null);
-        setIsLoading(false);
-      }
-    },
-    [user],
-  );
+  const handleUser = useCallback((credential: FirebaseAuthTypes.User | null) => {
+    setIsLoading(true);
+    if (credential) {
+      setUser(credential);
+      setIsLoading(false);
+    } else {
+      setUser(null);
+      setIsLoading(false);
+    }
+  }, []);
 
   const handleGoogleButtonPress = async () => {
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -80,9 +76,9 @@ export const useAuth = () => {
       .signInWithCredential(googleCredential)
       .then(() => {
         const { uid, displayName, photoURL } = auth().currentUser!;
-        storeUserSocial({ uid, username: displayName, avatar: photoURL }).then(async () =>
-          dispatch(setCurrentUser(await getUser(uid))),
-        );
+        storeUserSocial({ uid, username: displayName, avatar: photoURL }).then(async () => {
+          dispatch(setCurrentUser(await getUser(uid)));
+        });
       });
   };
 
