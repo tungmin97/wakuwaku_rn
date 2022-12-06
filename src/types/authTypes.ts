@@ -1,6 +1,6 @@
 export interface SetUserProps {
   uid: string;
-  username: string | undefined;
+  username: string | null;
   avatar?: string;
   email?: string;
   password?: string;
