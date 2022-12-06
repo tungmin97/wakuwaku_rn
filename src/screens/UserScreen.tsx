@@ -12,14 +12,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@app/hooks/useAuth';
 import { RootStackProps } from '@src/types/types';
-import { SetUserProps } from '@src/types/authTypes';
-import { useSetAndGetUser } from '@src/app/hooks/useSetAndGetUser';
-import { setCurrentUser } from '@src/services/users/userSlice';
+import { useSetAndGetUser } from '@app/hooks/useSetAndGetUser';
+import { setCurrentUser } from '@services/users/userSlice';
 import ImagePicker from 'react-native-image-crop-picker';
 import { useAsyncStorage } from '@app/hooks/useAsyncStorage';
-import { useViewportUnits } from '@app/hooks/main';
+import { useAppDispatch, useViewportUnits } from '@app/hooks/main';
 
 export default function UserScreen({ navigation }: RootStackProps) {
+  const dispatch = useAppDispatch();
   const { handleSignOut } = useAuth();
   const { updateUsername, getUser, updateUserAvatar } = useSetAndGetUser();
   const { vw } = useViewportUnits();
@@ -40,12 +40,17 @@ export default function UserScreen({ navigation }: RootStackProps) {
       setIsOnEdit(true);
     } else {
       setIsOnEdit(false);
-      if (editUsername !== user.username) {
-        await updateUsername(user.uid, editUsername);
+      if (newUsername !== data?.username) {
+        await updateUsername(data?.uid!, newUsername!);
       }
-      dispatch(setCurrentUser(await getUser(user.uid)));
+      dispatch(setCurrentUser(await getUser(data?.uid!)));
     }
   };
+
+  const style = StyleSheet.create({
+    cameraIcon: { position: 'absolute', alignSelf: 'center', top: 100 },
+    signOut: { width: vw * 100 - 50 },
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-black ">
@@ -53,7 +58,7 @@ export default function UserScreen({ navigation }: RootStackProps) {
         Profile & Settings
       </Text>
       <View className="flex">
-        <Image source={{ uri: data.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
+        <Image source={{ uri: data?.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
         <TouchableOpacity
           style={style.cameraIcon}
           onPress={() => {
@@ -63,10 +68,10 @@ export default function UserScreen({ navigation }: RootStackProps) {
               cropping: true,
             })
               .then((image) => {
-                updateUserAvatar(data.uid, image.path);
+                updateUserAvatar(data?.uid!, image.path);
               })
               .then(async () => {
-                dispatch(setCurrentUser(await getUser(data.uid)));
+                dispatch(setCurrentUser(await getUser(data?.uid!)));
               });
           }}>
           <AntDesign name="camera" size={25} color="#f8f7ffff" />
@@ -113,8 +118,3 @@ export default function UserScreen({ navigation }: RootStackProps) {
     </SafeAreaView>
   );
 }
-
-const style = StyleSheet.create({
-  cameraIcon: { position: 'absolute', alignSelf: 'center', top: 100 },
-  signOut: { width: width: vw * 100 - 50},
-});

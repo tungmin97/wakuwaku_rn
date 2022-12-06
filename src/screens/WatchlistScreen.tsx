@@ -12,9 +12,21 @@ export default function WatchlistScreen({ navigation }: RootStackProps) {
 
   if (watchList.animeList.length < 1) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <Text>You haven't added any show yet...</Text>
-      </View>
+      <SafeAreaView className="flex-1 bg-black">
+        <View className="flex-row justify-between mx-4">
+          <View className="flex-row items-center">
+            <Text className="text-ghostWhite text-2xl ml-5 font-bold">My List</Text>
+          </View>
+          <TouchableOpacity onPress={handleNavigation}>
+            <View className="flex items-center mt-1 mr-2 font-bold">
+              <AntDesign name="search1" size={25} color="#f8f7ffff" />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-platinum">You haven't added any show yet...</Text>
+        </View>
+      </SafeAreaView>
     );
   }
   return (
