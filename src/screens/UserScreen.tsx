@@ -1,11 +1,29 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import React from 'react';
+import { View, Text, TextInput, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from '@app/hooks/useAuth';
+import { useNavigation } from '@react-navigation/native';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import { useAppSelector } from '@src/app/hooks/main';
 
 export default function UserScreen() {
+  const navigation = useNavigation();
+  const res = useAppSelector((state) => state.user.currentUser);
+  const user = res._j._data;
+  console.log(user);
+
+  const [isOnEdit, setIsOnEdit] = useState(false);
+  const [editUsername, setEditUsername] = useState('');
+
+  const signOutHandler = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
+
+import { useAuth } from '@app/hooks/useAuth';
+
   const { user, isLoading, handleSignOut } = useAuth();
   isLoading && <ActivityIndicator />;
 
@@ -16,11 +34,34 @@ export default function UserScreen() {
         <Text className="text-xl ml-2 text-ghostWhite">Profile & Setting</Text>
       </TouchableOpacity>
       <View className="flex">
-        <FastImage
-          resizeMode={FastImage.resizeMode.cover}
-          source={{ uri: 'https://i.imgur.com/vL6TLxR.jpg' }}
-          className="w-36 h-36 mt-5 self-center rounded-2xl"
+        <Image source={{ uri: user.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
+        <TouchableOpacity
+          style={{ position: 'absolute', alignSelf: 'center', top: 100 }}
+          onPress={() => {
+            launchImageLibrary({
+              mediaType: 'photo',
+              includeBase64: false,
+              maxHeight: 200,
+              maxWidth: 200,
+            });
+            launchCamera(() => {});
+          }}>
+          <AntDesign name="camera" size={25} color="#f8f7ffff" />
+        </TouchableOpacity>
+      </View>
+      <View className="flex-row justify-center mt-5 items-center">
+        <TextInput
+          className="text-lg text-ghostWhite mr-2"
+          defaultValue={user.username}
+          editable={isOnEdit}
+          onChangeText={(text) => setEditUsername(text)}
         />
+        <TouchableOpacity
+          onPress={() => {
+            !isOnEdit ? setIsOnEdit(true) : setIsOnEdit(false);
+          }}>
+          <AntDesign name="edit" size={20} color="#f8f7ffff" />
+        </TouchableOpacity>
       </View>
       <Text className="text-center mt-3 text-lg mb-3 text-ghostWhite">User Name</Text>
       <TouchableOpacity
@@ -31,6 +72,7 @@ export default function UserScreen() {
         <Text className="text-center text-base mb-10 mr-3 text-ghostWhite">Change Information</Text>
         <AntDesign name="edit" size={25} color="#f8f7ffff" />
       </TouchableOpacity>
+
       <TouchableOpacity
         className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md"
         onPress={() => {

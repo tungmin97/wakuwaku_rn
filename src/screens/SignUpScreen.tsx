@@ -16,8 +16,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 import firestore from '@react-native-firebase/firestore';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '@src/slices/userSlice';
 
 const { width } = Dimensions.get('screen');
+const getUser = async (uid: any) => {
+  const user = await firestore().collection('users').doc(uid).get();
+  return user;
+};
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -27,6 +33,7 @@ const SignUpScreen = () => {
   const [isBlurUsername, setIsBlurUsername] = useState(false);
   const [isBlurPassword, setIsBlurPassword] = useState(false);
   const [isBlurEmail, setIsBlurEmail] = useState(false);
+  const dispatch = useDispatch();
 
   const showToastEmailUsed = () => {
     Toast.show({
@@ -69,7 +76,7 @@ const SignUpScreen = () => {
               'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-couple-boy-cute-avatar-image_1153281.jpg',
           })
           .then(() => {
-            console.log('User added!');
+            dispatch(setCurrentUser(getUser(currentUserId)));
           });
       })
       .catch((error) => {
