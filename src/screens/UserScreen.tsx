@@ -3,28 +3,19 @@ import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { useAppSelector } from '@src/app/hooks/main';
+import { useAuth } from '@app/hooks/useAuth';
+import { RootStackProps } from 'src/types/types';
+import { SetUserProps } from 'src/types/authTypes';
 
-export default function UserScreen() {
-  const navigation = useNavigation();
-  const res = useAppSelector((state) => state.user.currentUser);
-  const user = res._j._data;
-  console.log(user);
+export default function UserScreen({ navigation }: RootStackProps) {
+  const { isLoading, handleSignOut } = useAuth();
+  const user = useAppSelector((state) => state.user.currentUser?.data() as SetUserProps);
 
   const [isOnEdit, setIsOnEdit] = useState(false);
   const [editUsername, setEditUsername] = useState('');
 
-  const signOutHandler = () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'));
-  };
-
-import { useAuth } from '@app/hooks/useAuth';
-
-  const { user, isLoading, handleSignOut } = useAuth();
   isLoading && <ActivityIndicator />;
 
   return (
@@ -63,7 +54,6 @@ import { useAuth } from '@app/hooks/useAuth';
           <AntDesign name="edit" size={20} color="#f8f7ffff" />
         </TouchableOpacity>
       </View>
-      <Text className="text-center mt-3 text-lg mb-3 text-ghostWhite">User Name</Text>
       <TouchableOpacity
         className="flex-row justify-center"
         onPress={() => {

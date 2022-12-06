@@ -1,14 +1,29 @@
 import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+import { useSetAndGetUser } from './useSetAndGetUser';
+import { useAppDispatch } from './main';
+import { setCurrentUser } from '@services/users/userSlice';
 
-export const useUserCreation = () => {
+export const useSignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isBlurUsername, setIsBlurUsername] = useState(false);
-  const [isBlurPassword, setIsBlurPassword] = useState(false);
-  const [isBlurEmail, setIsBlurEmail] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+  const [isUsernameEmpty, setisUsernameEmpty] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const { getUser, setUser } = useSetAndGetUser();
+
+  const handleUsername = (input: string) => {
+    if (!input.trim()) {
+      setisUsernameEmpty(true);
+    } else {
+      setisUsernameEmpty(false);
+      setUsername(input);
+    }
+  };
 
   const handleEmail = (input: string) => {
     if (!input.trim()) {
@@ -76,13 +91,17 @@ export const useUserCreation = () => {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
+        const currentUser = auth().currentUser;
+        const { uid } = currentUser!;
+        setUser({ uid, username, email, password }).then(async () =>
+          dispatch(setCurrentUser(await getUser(uid))),
+        );
         handleSuccessToast();
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
           handleToastEmailUsed();
         }
-
         if (error.code === 'auth/invalid-email') {
           handleToastEmailInvalid();
         }
@@ -92,5 +111,13 @@ export const useUserCreation = () => {
       });
   };
 
-  return { handleSignUp };
+  return {
+    isUsernameEmpty,
+    isEmailEmpty,
+    isPasswordEmpty,
+    handleUsername,
+    handleEmail,
+    handlePassword,
+    handleSignUp,
+  };
 };
