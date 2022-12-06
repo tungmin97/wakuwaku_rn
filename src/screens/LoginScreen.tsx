@@ -44,7 +44,7 @@ const LoginScreen = ({ navigation }: RootStackProps) => {
         <TouchableWithoutFeedback className="flex-1" onPress={handeDismissKeyboard}>
           <LinearGradient
             colors={['rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.8)']}
-            locations={[0, 0.5]}
+            locations={[0, 1]}
             className="absolute top-0 left-0 bottom-0 right-0 bg-transparent">
             <>
               <Text className="text-maxRed mt-48 mb-10 font-title text-4xl text-center">

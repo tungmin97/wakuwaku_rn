@@ -1,7 +1,10 @@
 import Toast from 'react-native-toast-message';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useSetAndGetUser } from '@app/hooks/useSetAndGetUser';
+import { useAppDispatch } from './main';
+import { setCurrentUser } from '@services/users/userSlice';
 
 export const useAuth = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
@@ -12,6 +15,9 @@ export const useAuth = () => {
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+  const { getUser, storeUserSocial } = useSetAndGetUser();
+
+  const dispatch = useAppDispatch();
 
   GoogleSignin.configure({
     webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
@@ -51,21 +57,33 @@ export const useAuth = () => {
     }
   };
 
-  const handleUser = (credential: FirebaseAuthTypes.User | null) => {
-    setIsLoading(true);
-    if (credential) {
-      setUser(credential);
-    } else {
-      setUser(null);
-    }
-    setIsLoading(false);
-  };
+  const handleUser = useCallback(
+    (credential: FirebaseAuthTypes.User | null) => {
+      setIsLoading(true);
+      if (credential) {
+        setUser(credential);
+        console.log(user?.uid);
+        setIsLoading(false);
+      } else {
+        setUser(null);
+        setIsLoading(false);
+      }
+    },
+    [user],
+  );
 
   const handleGoogleButtonPress = async () => {
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     const { idToken } = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    return auth().signInWithCredential(googleCredential);
+    return auth()
+      .signInWithCredential(googleCredential)
+      .then(() => {
+        const { uid, displayName, photoURL } = auth().currentUser!;
+        storeUserSocial({ uid, username: displayName, avatar: photoURL }).then(async () =>
+          dispatch(setCurrentUser(await getUser(uid))),
+        );
+      });
   };
 
   const handleSignIn = () => {
@@ -75,8 +93,12 @@ export const useAuth = () => {
     }
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
+      .then(async () => {
         handleSuccessToast();
+        const { uid } = auth().currentUser!;
+        console.log(uid);
+        console.log(auth().currentUser);
+        dispatch(setCurrentUser(await getUser(uid)));
         setIsWrongEmail(false);
         setIsWrongPassword(false);
       })
@@ -84,7 +106,6 @@ export const useAuth = () => {
         if (error.code === 'auth/user-not-found') {
           setIsWrongEmail(true);
         }
-
         if (error.code === 'auth/wrong-password') {
           setIsWrongPassword(true);
         }
@@ -101,9 +122,9 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = auth().onIdTokenChanged(handleUser);
+    const unsubscribe = auth().onAuthStateChanged(handleUser);
     return () => unsubscribe();
-  }, []);
+  }, [handleUser]);
 
   return {
     user,

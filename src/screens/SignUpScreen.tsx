@@ -8,95 +8,33 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
-import firestore from '@react-native-firebase/firestore';
-import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '@src/slices/userSlice';
-
+import { useSignUp } from '@app/hooks/useSignUp';
+import { RootStackProps } from 'src/types/types';
 const { width } = Dimensions.get('screen');
-const getUser = async (uid: any) => {
-  const user = await firestore().collection('users').doc(uid).get();
-  return user;
-};
 
-const SignUpScreen = () => {
-  const navigation = useNavigation();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isBlurUsername, setIsBlurUsername] = useState(false);
-  const [isBlurPassword, setIsBlurPassword] = useState(false);
-  const [isBlurEmail, setIsBlurEmail] = useState(false);
-  const dispatch = useDispatch();
+const SignUpScreen = ({ navigation }: RootStackProps) => {
+  const {
+    isUsernameEmpty,
+    isEmailEmpty,
+    isPasswordEmpty,
+    handleUsername,
+    handleEmail,
+    handlePassword,
+    handleSignUp,
+  } = useSignUp();
 
-  const showToastEmailUsed = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Invalid email address',
-      text2: 'Email address is already in use!',
-    });
-  };
-
-  const showToastEmailInvalid = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Invalid email address',
-      text2: 'The email address is badly formatted.',
-    });
-  };
-
-  const showToastPasswordInvalid = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Invalid password',
-      text2: 'Password should be at least 6 characters',
-    });
-  };
-
-  const signUpHandler = () => {
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        const currentUser = auth().currentUser;
-        const currentUserId = currentUser?.uid;
-        firestore()
-          .collection('users')
-          .doc(currentUserId)
-          .set({
-            username,
-            email,
-            password,
-            avatar:
-              'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-couple-boy-cute-avatar-image_1153281.jpg',
-          })
-          .then(() => {
-            dispatch(setCurrentUser(getUser(currentUserId)));
-          });
-      })
-      .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          showToastEmailUsed();
-        }
-        if (error.code === 'auth/invalid-email') {
-          showToastEmailInvalid();
-        }
-        if (error.code === 'auth/weak-password') {
-          showToastPasswordInvalid();
-        }
-        console.error(error);
-      });
-  };
+  const handleNavigation = () => navigation.navigate('Login');
 
   return (
     <SafeAreaView className="bg-black flex-1">
       <LinearGradient
-        colors={['#000', '#000', '#353839', '#000', '#000', '#000', '#000']}
+        colors={['rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.8)']}
+        locations={[0, 1]}
         className="flex-1">
         <ImageBackground
           source={require('../assets/Images/8afaf7262830dc9480760b8f4878c1c1.jpg')}
@@ -104,10 +42,7 @@ const SignUpScreen = () => {
           imageStyle={styles.imageBackground}>
           <View className="flex-row items-center justify-between mx-5 my-2">
             <Text className="text-5xl font-title text-maxRed">W</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
+            <TouchableOpacity onPress={handleNavigation}>
               <Text className="text-ghostWhite font-bold"> SIGN IN</Text>
             </TouchableOpacity>
           </View>
@@ -116,7 +51,6 @@ const SignUpScreen = () => {
               <Text className="text-ghostWhite font-bold text-center mb-7 text-2xl">
                 Create account
               </Text>
-
               <View className="mb-5">
                 <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
                   <AntDesign name="user" size={20} color="#fff" />
@@ -125,19 +59,13 @@ const SignUpScreen = () => {
                     placeholder="Username"
                     placeholderTextColor="#F8F7FF"
                     className="px-3"
-                    onChangeText={(text) => {
-                      setUsername(text);
-                    }}
-                    onBlur={() => {
-                      setIsBlurUsername(true);
-                    }}
+                    onChangeText={handleUsername}
                   />
                 </View>
-                {isBlurUsername && username.trim().length === 0 ? (
-                  <Text className="text-maxRed mx-5 mt-2">Username is not required</Text>
-                ) : null}
+                {isUsernameEmpty && (
+                  <Text className="text-maxRed mx-5 mt-2">Username is required</Text>
+                )}
               </View>
-
               <View className="mb-5">
                 <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
                   <AntDesign name="mail" size={20} color="#fff" />
@@ -146,19 +74,11 @@ const SignUpScreen = () => {
                     placeholder="Email"
                     placeholderTextColor="#F8F7FF"
                     className="px-3"
-                    onChangeText={(text) => {
-                      setEmail(text);
-                    }}
-                    onBlur={() => {
-                      setIsBlurEmail(true);
-                    }}
+                    onChangeText={handleEmail}
                   />
                 </View>
-                {isBlurEmail && email.trim().length === 0 ? (
-                  <Text className="text-maxRed mx-5 mt-2">Email is not required</Text>
-                ) : null}
+                {isEmailEmpty && <Text className="text-maxRed mx-5 mt-2">Email is required</Text>}
               </View>
-
               <View className="mb-5">
                 <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
                   <AntDesign name="lock1" size={20} color="#fff" />
@@ -168,21 +88,16 @@ const SignUpScreen = () => {
                     placeholder="Password"
                     placeholderTextColor="#F8F7FF"
                     className="px-3"
-                    onChangeText={(text) => {
-                      setPassword(text);
-                    }}
-                    onBlur={() => {
-                      setIsBlurPassword(true);
-                    }}
+                    onChangeText={handlePassword}
+                    onSubmitEditing={handleSignUp}
                   />
                 </View>
-                {isBlurPassword && email.trim().length === 0 ? (
-                  <Text className="text-maxRed mx-5 mt-2">Password is not required</Text>
-                ) : null}
+                {isPasswordEmpty && (
+                  <Text className="text-maxRed mx-5 mt-2">Password is required</Text>
+                )}
               </View>
-
               <View className=" border-maxRed border-2 rounded-md mx-5 mt-7" style={styles.shadow}>
-                <TouchableOpacity className="bg-black px-5 rounded-md" onPress={signUpHandler}>
+                <TouchableOpacity className="bg-black px-5 rounded-md" onPress={handleSignUp}>
                   <Text className="text-ghostWhite text-center py-3 font-main font-bold">
                     Sign Up
                   </Text>
