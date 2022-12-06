@@ -1,7 +1,7 @@
-import { View, Text, Image, TouchableOpacity, TextInput, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, Dimensions, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import auth from '@react-native-firebase/auth';
+import FastImage from 'react-native-fast-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
@@ -23,6 +23,11 @@ export default function UserScreen() {
       .signOut()
       .then(() => console.log('User signed out!'));
   };
+
+import { useAuth } from '@app/hooks/useAuth';
+
+  const { user, isLoading, handleSignOut } = useAuth();
+  isLoading && <ActivityIndicator />;
 
   return (
     <SafeAreaView className="flex-1 bg-black ">
@@ -59,6 +64,15 @@ export default function UserScreen() {
           <AntDesign name="edit" size={20} color="#f8f7ffff" />
         </TouchableOpacity>
       </View>
+      <Text className="text-center mt-3 text-lg mb-3 text-ghostWhite">User Name</Text>
+      <TouchableOpacity
+        className="flex-row justify-center"
+        onPress={() => {
+          navigation.navigate('ChangeUserInfo');
+        }}>
+        <Text className="text-center text-base mb-10 mr-3 text-ghostWhite">Change Information</Text>
+        <AntDesign name="edit" size={25} color="#f8f7ffff" />
+      </TouchableOpacity>
       <TouchableOpacity
         className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md"
         onPress={() => {
@@ -79,7 +93,6 @@ export default function UserScreen() {
           <AntDesign name="right" size={25} color="#6a6a6a" />
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity
         className="bg-davysGrey p-3 absolute bottom-0 mb-10 rounded-xl self-center"
         style={{ width: width - 50 }}
@@ -89,5 +102,3 @@ export default function UserScreen() {
     </SafeAreaView>
   );
 }
-
-// className="text-xl self-center rounded-md px-4 py-2 mt-20 text-ghostWhite"
