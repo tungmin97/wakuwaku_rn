@@ -96,8 +96,6 @@ export const useAuth = () => {
       .then(async () => {
         handleSuccessToast();
         const { uid } = auth().currentUser!;
-        console.log(uid);
-        console.log(auth().currentUser);
         dispatch(setCurrentUser(await getUser(uid)));
         setIsWrongEmail(false);
         setIsWrongPassword(false);

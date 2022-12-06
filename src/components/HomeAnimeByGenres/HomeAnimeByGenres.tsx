@@ -5,7 +5,7 @@ import MainLoading from '@components/Loading/MainLoading';
 import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
 import CardFooterLoading from '@components/Loading/CardFooterLoading';
 import { useAnimeGenreQuery } from '@app/hooks/useAnimeGenreQuery';
-import { genresDict } from '@utils/genresDictionary';
+import { genresDict } from '@src/utils/genresDictionary';
 
 interface Props {
   name: string;

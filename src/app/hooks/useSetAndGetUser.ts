@@ -21,5 +21,11 @@ export const useSetAndGetUser = () => {
 
   const getUser = async (uid: string) => await firestore().collection('users').doc(uid).get();
 
-  return { setUser, storeUserSocial, getUser };
+  const updateUsername = async (uid: string, username: string) =>
+    await firestore().collection('users').doc(uid).update({ username: username });
+
+  const updateUserAvatar = async (uid: string, avatar: string) =>
+    await firestore().collection('users').doc(uid).update({ avatar: avatar });
+
+  return { setUser, storeUserSocial, getUser, updateUsername, updateUserAvatar };
 };
