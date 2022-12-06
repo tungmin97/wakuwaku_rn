@@ -11,15 +11,10 @@
   },
   "dependencies": {
     "@notifee/react-native": "^7.1.0",
-    "@react-firebase/auth": "^0.2.10",
-    "@react-firebase/database": "^0.3.11",
     "@react-native-async-storage/async-storage": "^1.17.11",
-    "@react-native-community/slider": "^4.3.3",
     "@react-native-firebase/app": "^16.4.6",
-    "@react-native-firebase/app-distribution": "^16.4.6",
     "@react-native-firebase/auth": "^16.4.6",
     "@react-native-firebase/firestore": "^16.4.6",
-    "@react-native-firebase/messaging": "^16.4.6",
     "@react-native-google-signin/google-signin": "^8.2.1",
     "@react-native-masked-view/masked-view": "^0.2.8",
     "@react-navigation/bottom-tabs": "^6.4.1",
@@ -34,6 +29,7 @@
     "react-native": "0.70.4",
     "react-native-fast-image": "^8.6.3",
     "react-native-get-random-values": "^1.8.0",
+    "react-native-image-picker": "^4.10.2",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-modal": "^13.0.1",
     "react-native-pager-view": "^6.1.2",
@@ -47,8 +43,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "^11.25.0",
     "react-native-youtube-iframe": "^2.2.2",
-    "react-redux": "^8.0.2",
-    "redux-persist": "^6.0.0"
+    "react-redux": "^8.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

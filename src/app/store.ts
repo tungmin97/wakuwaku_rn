@@ -1,10 +1,12 @@
-import { animeAPI } from '@services/api/apiSlice';
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { animeAPI } from '@services/api/apiSlice';
+import userReducer from '@services/users/userSlice';
 
 export const store = configureStore({
   reducer: {
     [animeAPI.reducerPath]: animeAPI.reducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';

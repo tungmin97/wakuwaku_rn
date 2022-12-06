@@ -7,14 +7,12 @@ import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
 import { AnimeById } from 'src/types/animeTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useWatchList } from '@app/hooks/useWatchList';
+import { DetailScreenProps } from 'src/types/types';
 
-export default function DetailScreen({ route }) {
+export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const dimensionForScreen = Dimensions.get('screen');
-  const navigation = useNavigation();
-
-  const item: AnimeById = route.params.item;
+  const { item } = route.params;
   const { handleAddWatchList, getWatchList } = useWatchList(item);
-  console.log('333', getWatchList());
 
   return (
     <SafeAreaView className="flex-1 bg-black">
@@ -23,13 +21,13 @@ export default function DetailScreen({ route }) {
           onPress={() => {
             navigation.goBack();
           }}>
-          <AntDesign name="arrowleft" size={20} color="white" />
+          <AntDesign name="arrowleft" size={25} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Search');
           }}>
-          <AntDesign name="search1" size={20} color="white" />
+          <AntDesign name="search1" size={25} color="white" />
         </TouchableOpacity>
       </View>
 
@@ -40,26 +38,30 @@ export default function DetailScreen({ route }) {
           videoId={item.trailer.youtube_id}
         />
         <View className="mx-5">
-          <Text className=" text-ghostWhite mt-5 font-main text-2xl font-bold">{item.title}</Text>
+          <Text className=" text-ghostWhite mt-5 font-main text-2xl font-bold font-main">
+            {item.title}
+          </Text>
           <View className="flex-row my-2">
-            <Text className="text-platinum text-[10px]">{item.year}</Text>
-            <Text className="text-platinum mx-2 text-[10px]">{item.rating.slice(3, 8)}</Text>
-            <Text className="text-platinum text-[10px]">{item.episodes} Episodes</Text>
+            <Text className="text-platinum text-[10px] font-main">{item.year}</Text>
+            <Text className="text-platinum mx-2 text-[10px] font-main">
+              {item.rating.slice(3, 8)}
+            </Text>
+            <Text className="text-platinum text-[10px] font-main">{item.episodes} Episodes</Text>
           </View>
         </View>
 
         <View className="flex-row justify-around items-center my-5">
           <TouchableOpacity className="flex-col items-center" onPress={handleAddWatchList}>
             <AntDesign name="plus" size={22} color="white" />
-            <Text className=" text-ghostWhite text-[13px] mt-1">My list</Text>
+            <Text className=" text-ghostWhite text-[13px] mt-2 font-main">My list</Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-col items-center">
-            <AntDesign name="like2" size={22} color="white" />
-            <Text className=" text-ghostWhite text-[13px] mt-1">Rate</Text>
+            <Text className="text-ghostWhite font-main text-lg">{item.score}</Text>
+            <Text className=" text-ghostWhite text-[13px] font-main">Score</Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-col items-center">
             <AntDesign name="sharealt" size={22} color="white" />
-            <Text className=" text-ghostWhite text-[13px] mt-1">Share</Text>
+            <Text className=" text-ghostWhite text-[13px] mt-2 font-main">Share</Text>
           </TouchableOpacity>
         </View>
       </View>

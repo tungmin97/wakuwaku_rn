@@ -15,7 +15,7 @@ import {
 } from '@src/services/api/apiSlice';
 import EspisodeCard from './EspisodeCard';
 import ReviewCard from './ReviewCard';
-import { AnimeEspisode, AnimeReviewData } from 'src/types/animeTypes';
+import { AnimeEspisode, AnimeReviewData } from '@src/types/animeTypes';
 
 interface componentPropsInterface {
   synopsis: string;
@@ -94,7 +94,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
           });
 
           return (
-            <TouchableOpacity style={styles.tabItem} onPress={() => setIndex(i)}>
+            <TouchableOpacity key={i} style={styles.tabItem} onPress={() => setIndex(i)}>
               <Animated.Text
                 className="font-main text-[13px]"
                 style={[styles.tabItemText, { opacity }]}>

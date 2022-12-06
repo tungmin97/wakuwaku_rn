@@ -20,7 +20,9 @@ export default function ScheduleList({ date }: Props) {
     .filter((item) => item.broadcast.time && item.broadcast.day);
   return (
     <View className="flex-row p-2 pb-5">
-      <Text className="font-bold text-2xl text-platinum w-1/6">{date.slice(0, 3)}</Text>
+      <Text className="font-extrabold font-main text-2xl text-platinum w-1/5">
+        {date.slice(0, 3)}
+      </Text>
       <View className="w-5/6">
         {sortedSchedule.map((item) => (
           <ScheduleCard key={item.mal_id} item={item} />

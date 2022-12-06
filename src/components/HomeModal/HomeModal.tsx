@@ -33,7 +33,7 @@ export default function HomeModal({ visible, item, handleNavigation, handleModal
             />
             <View className="ml-4 w-2/3">
               <View className="flex-row justify-between items-center mb-1">
-                <Text className="text-ghostWhite font-bold text-xl">{item.title}</Text>
+                <Text className="text-ghostWhite font-bold text-xl font-main">{item.title}</Text>
                 <TouchableOpacity
                   onPress={handleModal}
                   className="h-7 rounded-full border border-darkGray bg-darkGray">
@@ -41,15 +41,17 @@ export default function HomeModal({ visible, item, handleNavigation, handleModal
                 </TouchableOpacity>
               </View>
               <View className="flex-row mb-1 gap-3">
-                {item.year && <Text className="text-platinum text-xs">{item.year}</Text>}
+                {item.year && <Text className="text-platinum text-xs font-main">{item.year}</Text>}
                 {item.rating !== null && (
-                  <Text className="text-platinum text-xs">{item.rating.split(' - ')[0]}</Text>
+                  <Text className="text-platinum text-xs font-main">
+                    {item.rating.split(' - ')[0]}
+                  </Text>
                 )}
                 {item.episodes !== null && (
-                  <Text className="text-platinum text-xs">{item.episodes} Episodes</Text>
+                  <Text className="text-platinum text-xs font-main">{item.episodes} Episodes</Text>
                 )}
               </View>
-              <Text numberOfLines={4} className="text-platinum">
+              <Text numberOfLines={4} className="text-platinum font-main">
                 {item.synopsis}
               </Text>
             </View>
@@ -61,7 +63,7 @@ export default function HomeModal({ visible, item, handleNavigation, handleModal
               <View className="border-2 border-ghostWhite rounded-full">
                 <Ionicons name="information" size={15} color="#fff" />
               </View>
-              <Text className="text-ghostWhite text-base">Episode & Info</Text>
+              <Text className="text-ghostWhite text-base font-main">Episode & Info</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" sie={20} color="#fff" />
           </TouchableOpacity>
