@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, Dimensions, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
@@ -12,6 +12,8 @@ import { SetUserProps } from 'src/types/authTypes';
 export default function UserScreen({ navigation }: RootStackProps) {
   const { isLoading, handleSignOut } = useAuth();
   const user = useAppSelector((state) => state.user.currentUser?.data() as SetUserProps);
+  const { width } = Dimensions.get('screen');
+
 
   const [isOnEdit, setIsOnEdit] = useState(false);
   const [editUsername, setEditUsername] = useState('');
@@ -20,10 +22,9 @@ export default function UserScreen({ navigation }: RootStackProps) {
 
   return (
     <SafeAreaView className="flex-1 bg-black ">
-      <TouchableOpacity className="flex-row items-center ml-2 mt-2">
-        <AntDesign name="arrowleft" size={25} color="#f8f7ffff" />
-        <Text className="text-xl ml-2 text-ghostWhite">Profile & Setting</Text>
-      </TouchableOpacity>
+      <Text className="mr-auto font-main font-extrabold text-3xl text-platinum p-3">
+        Profile & Setting
+      </Text>
       <View className="flex">
         <Image source={{ uri: user.avatar }} className="w-36 h-36 mt-10 self-center rounded-2xl" />
         <TouchableOpacity
@@ -40,9 +41,9 @@ export default function UserScreen({ navigation }: RootStackProps) {
           <AntDesign name="camera" size={25} color="#f8f7ffff" />
         </TouchableOpacity>
       </View>
-      <View className="flex-row justify-center mt-5 items-center">
+      <View className="flex-row justify-center mt-2 mb-10 items-center">
         <TextInput
-          className="text-lg text-ghostWhite mr-2"
+          className="text-lg text-ghostWhite mr-2 font-main"
           defaultValue={user.username}
           editable={isOnEdit}
           onChangeText={(text) => setEditUsername(text)}
@@ -62,7 +63,6 @@ export default function UserScreen({ navigation }: RootStackProps) {
         <Text className="text-center text-base mb-10 mr-3 text-ghostWhite">Change Information</Text>
         <AntDesign name="edit" size={25} color="#f8f7ffff" />
       </TouchableOpacity>
-
       <TouchableOpacity
         className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md"
         onPress={() => {
@@ -70,7 +70,7 @@ export default function UserScreen({ navigation }: RootStackProps) {
         }}>
         <View className="flex flex-row justify-center items-center">
           <AntDesign name="menuunfold" size={25} color="#f8f7ffff" />
-          <Text className="text-base ml-3 text-ghostWhite">My List</Text>
+          <Text className="text-base ml-3 text-ghostWhite font-main">My List</Text>
         </View>
         <AntDesign name="right" size={25} color="#6a6a6a" />
       </TouchableOpacity>
@@ -78,16 +78,16 @@ export default function UserScreen({ navigation }: RootStackProps) {
         <View className="flex-row justify-between w-11/12 p-3 mx-auto bg-gray rounded-md">
           <View className="flex flex-row justify-center items-center">
             <AntDesign name="retweet" size={25} color="#f8f7ffff" />
-            <Text className="text-base ml-3 text-ghostWhite">Switch Mode</Text>
+            <Text className="text-base ml-3 text-ghostWhite font-main">Switch Mode</Text>
           </View>
           <AntDesign name="right" size={25} color="#6a6a6a" />
         </View>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress={handleSignOut}>
-        <Text className="text-xl self-center rounded-md px-4 py-2 mt-20 text-ghostWhite">
-          Sign Out
-        </Text>
+      <TouchableOpacity
+        className="bg-davysGrey p-3 absolute bottom-0 mb-10 rounded-xl self-center"
+        style={{ width: width - 50 }}
+        onPress={signOutHandler}>
+        <Text className="text-ghostWhite text-center font-main text-base">Sign Out</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

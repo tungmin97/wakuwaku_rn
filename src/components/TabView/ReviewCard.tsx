@@ -22,16 +22,18 @@ const ReviewCard = (props: PropsInterface) => {
               }}
               style={styles.image}
             />
-            <Text className="text-ghostWhite text-sm mx-2">{props.userName}</Text>
+            <Text className="text-ghostWhite text-sm mx-2 font-main">{props.userName}</Text>
           </View>
-          <Text className="text-ghostWhite opacity-50 text-[10px] my-2">{props.date}</Text>
+          <Text className="text-ghostWhite opacity-50 text-[10px] my-2 font-main">
+            {props.date}
+          </Text>
         </View>
         <TouchableOpacity>
           <AntDesign name="hearto" size={20} color="white" />
         </TouchableOpacity>
       </View>
 
-      <Text className="text-ghostWhite text-sm mr-3" numberOfLines={3}>
+      <Text className="text-ghostWhite text-sm mr-3 font-main" numberOfLines={3}>
         {props.review}
       </Text>
     </View>
