@@ -11,9 +11,10 @@ export type RootStackParamList = {
   SplashScreen: undefined;
   HomeTab: NavigatorScreenParams<HomeStackParamList>;
   Details: { item: AnimeById };
-  Search: undefined;
   Login: undefined;
   SignUp: undefined;
+  Search: undefined;
+  ChangeUserInfo: undefined;
 };
 
 export type HomeStackParamList = {

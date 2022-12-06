@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+import firestore from '@react-native-firebase/firestore';
 
 const { width } = Dimensions.get('screen');
 
@@ -55,13 +56,26 @@ const SignUpScreen = () => {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        console.log('User account created & signed in!');
+        const currentUser = auth().currentUser;
+        const currentUserId = currentUser?.uid;
+        firestore()
+          .collection('users')
+          .doc(currentUserId)
+          .set({
+            username,
+            email,
+            password,
+            avatar:
+              'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-couple-boy-cute-avatar-image_1153281.jpg',
+          })
+          .then(() => {
+            console.log('User added!');
+          });
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
           showToastEmailUsed();
         }
-
         if (error.code === 'auth/invalid-email') {
           showToastEmailInvalid();
         }

@@ -30,10 +30,8 @@ const LoginScreen = ({ navigation }: RootStackProps) => {
   } = useAuth();
 
   const { vw, vh } = useViewportUnits();
-
   const handleNavigation = () => navigation.navigate('SignUp');
   isLoading && <ActivityIndicator />;
-
   const handeDismissKeyboard = () => Keyboard.dismiss();
 
   return (

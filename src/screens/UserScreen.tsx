@@ -7,7 +7,6 @@ import { useAuth } from '@app/hooks/useAuth';
 
 export default function UserScreen() {
   const { user, isLoading, handleSignOut } = useAuth();
-  console.log(user);
   isLoading && <ActivityIndicator />;
 
   return (
@@ -24,22 +23,24 @@ export default function UserScreen() {
         />
       </View>
       <Text className="text-center mt-3 text-lg mb-3 text-ghostWhite">User Name</Text>
-      <TouchableOpacity>
-        <View className="flex-row justify-center">
-          <Text className="text-center text-base mb-10 mr-3 text-ghostWhite">
-            Change Information
-          </Text>
-          <AntDesign name="edit" size={25} color="#f8f7ffff" />
-        </View>
+      <TouchableOpacity
+        className="flex-row justify-center"
+        onPress={() => {
+          navigation.navigate('ChangeUserInfo');
+        }}>
+        <Text className="text-center text-base mb-10 mr-3 text-ghostWhite">Change Information</Text>
+        <AntDesign name="edit" size={25} color="#f8f7ffff" />
       </TouchableOpacity>
-      <TouchableOpacity>
-        <View className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md">
-          <View className="flex flex-row justify-center items-center">
-            <AntDesign name="menuunfold" size={25} color="#f8f7ffff" />
-            <Text className="text-base ml-3 text-ghostWhite">My List</Text>
-          </View>
-          <AntDesign name="right" size={25} color="#6a6a6a" />
+      <TouchableOpacity
+        className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md"
+        onPress={() => {
+          navigation.navigate('Watchlist');
+        }}>
+        <View className="flex flex-row justify-center items-center">
+          <AntDesign name="menuunfold" size={25} color="#f8f7ffff" />
+          <Text className="text-base ml-3 text-ghostWhite">My List</Text>
         </View>
+        <AntDesign name="right" size={25} color="#6a6a6a" />
       </TouchableOpacity>
       <TouchableOpacity>
         <View className="flex-row justify-between w-11/12 p-3 mx-auto bg-gray rounded-md">
