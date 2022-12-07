@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import UserScreen from '@screens/UserScreen';
-// import SplashScreen from '@screens/SplashScreen';
 import WatchlistScreen from '@screens/WatchlistScreen';
 import DetailScreen from '@screens/DetailScreen';
 import ScheduleScreen from '@screens/ScheduleScreen';
@@ -83,7 +82,6 @@ export default function AppNavigation() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>
-            {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
             <Stack.Screen name="HomeTab" component={HomeTab} />
             <Stack.Screen name="Details" component={DetailScreen} />
             <Stack.Screen name="Search" component={SearchScreen} />

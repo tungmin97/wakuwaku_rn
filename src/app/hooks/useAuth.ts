@@ -1,10 +1,10 @@
-import Toast from 'react-native-toast-message';
 import { useCallback, useEffect, useState } from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useSetAndGetUser } from '@app/hooks/useSetAndGetUser';
 import { useAppDispatch } from './main';
 import { setCurrentUser } from '@services/users/userSlice';
+import { useToast } from './useToast';
 
 export const useAuth = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
@@ -17,27 +17,12 @@ export const useAuth = () => {
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
 
   const { getUser, storeUserSocial } = useSetAndGetUser();
+  const { handleSuccessToast, handleFailureToast } = useToast();
   const dispatch = useAppDispatch();
 
   GoogleSignin.configure({
     webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
   });
-
-  const handleSuccessToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Sign in successfully',
-      text2: 'Welcome to wakuwaku',
-    });
-  };
-
-  const handleUnsuccessfulLogin = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Sign in failed',
-      text2: 'Something went wrong :(',
-    });
-  };
 
   const handleEmail = (input: string) => {
     if (!input.trim()) {
@@ -84,13 +69,13 @@ export const useAuth = () => {
 
   const handleSignIn = () => {
     if (!email.trim() || !password.trim()) {
-      handleUnsuccessfulLogin();
+      handleFailureToast({ title: 'Sign in failed', body: 'Something went wrong :(' });
       return;
     }
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
-        handleSuccessToast();
+        handleSuccessToast({ title: 'Sign in successfully', body: 'Welcome to wakuwaku' });
         const { uid } = auth().currentUser!;
         dispatch(setCurrentUser(await getUser(uid)));
         setIsWrongEmail(false);
@@ -103,7 +88,7 @@ export const useAuth = () => {
         if (error.code === 'auth/wrong-password') {
           setIsWrongPassword(true);
         }
-        handleUnsuccessfulLogin();
+        handleFailureToast({ title: 'Sign in failed', body: 'Something went wrong :(' });
       });
     setIsWrongEmail(false);
     setIsWrongPassword(false);

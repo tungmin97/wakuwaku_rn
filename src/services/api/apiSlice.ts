@@ -40,7 +40,7 @@ export const animeAPI = createApi({
       query: (id) => `/anime/${id}/full`,
     }),
     getAnimeSearch: builder.query<TopAnime, string>({
-      query: (string) => `/anime?q=${string}`,
+      query: (input) => `/anime?letter=${input}&sfw=true&order_by=favorites&sort=desc`,
     }),
     getAnimeVideosEpisodes: builder.query<AnimeVideosEpisodes, number>({
       query: (id) => `/anime/${id}/videos/episodes`,

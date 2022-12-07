@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import Toast from 'react-native-toast-message';
 import { useSetAndGetUser } from './useSetAndGetUser';
 import { useAppDispatch } from './main';
+import { useToast } from './useToast';
 import { setCurrentUser } from '@services/users/userSlice';
 
 export const useSignUp = () => {
@@ -15,7 +15,7 @@ export const useSignUp = () => {
 
   const dispatch = useAppDispatch();
   const { getUser, setUser } = useSetAndGetUser();
-
+  const { handleSuccessToast, handleFailureToast } = useToast();
   const handleUsername = (input: string) => {
     if (!input.trim()) {
       setisUsernameEmpty(true);
@@ -43,49 +43,12 @@ export const useSignUp = () => {
     }
   };
 
-  const handleToastEmailUsed = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Invalid email address',
-      text2: 'Email address is already in use!',
-    });
-  };
-
-  const handleToastEmailInvalid = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Invalid email address',
-      text2: 'The email address is badly formatted.',
-    });
-  };
-
-  const handleToastPasswordInvalid = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Invalid password',
-      text2: 'Password should be at least 6 characters',
-    });
-  };
-
-  const handleSuccessToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Sign up successfully',
-      text2: 'Welcome to wakuwaku',
-    });
-  };
-
-  const handleUnsuccessfulSignUp = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Sign up failed',
-      text2: 'No field can be empty :(',
-    });
-  };
-
   const handleSignUp = () => {
     if (!email.trim() || !password.trim()) {
-      handleUnsuccessfulSignUp();
+      handleFailureToast({
+        title: 'Sign up failed',
+        body: 'No field can be empty :(',
+      });
       return;
     }
     auth()
@@ -96,17 +59,26 @@ export const useSignUp = () => {
         setUser({ uid, username, email, password }).then(async () =>
           dispatch(setCurrentUser(await getUser(uid))),
         );
-        handleSuccessToast();
+        handleSuccessToast({ title: 'Sign up successfully', body: 'Welcome to wakuwaku' });
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
-          handleToastEmailUsed();
+          handleFailureToast({
+            title: 'Invalid email address',
+            body: 'Email address is already in use!',
+          });
         }
         if (error.code === 'auth/invalid-email') {
-          handleToastEmailInvalid();
+          handleFailureToast({
+            title: 'Invalid email address',
+            body: 'Make sure you entered the correct email address!',
+          });
         }
         if (error.code === 'auth/weak-password') {
-          handleToastPasswordInvalid();
+          handleFailureToast({
+            title: 'Invalid password',
+            body: 'Password should be at least 6 characters',
+          });
         }
       });
   };
