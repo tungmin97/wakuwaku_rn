@@ -6,6 +6,7 @@ import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DetailScreenProps } from '@src/types/types';
 import { useViewportUnits } from '@app/hooks/main';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { useToggleWatchList } from '@app/hooks/useToggleWatchList';
 
 export default function DetailScreen({ route, navigation }: DetailScreenProps) {
@@ -14,6 +15,9 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const { watchlistHandler, isOnWatchList, isReady } = useToggleWatchList(item);
   const handleGoBack = () => navigation.goBack();
   const handleNavigation = () => navigation.navigate('Search');
+   const shareHandler = () => {
+    Clipboard.setString(item.trailer.url);
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-black">
@@ -25,7 +29,6 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
           <AntDesign name="search1" size={25} color="white" />
         </TouchableOpacity>
       </View>
-
       <View>
         <YoutubeIframe height={220} width={vw * 100} videoId={item.trailer.youtube_id} />
         <View className="mx-5">
@@ -63,7 +66,7 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
               <Text className=" text-ghostWhite text-[13px] font-main">Score</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity className="flex-col items-center">
+          <TouchableOpacity className="flex-col items-center" onPress={shareHandler}>
             <AntDesign name="sharealt" size={22} color="white" />
             <Text className=" text-ghostWhite text-[13px] mt-2 font-main">Share</Text>
           </TouchableOpacity>

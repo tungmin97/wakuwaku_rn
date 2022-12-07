@@ -103,12 +103,13 @@ export default function UserScreen({ navigation }: RootStackProps) {
       <TouchableOpacity>
         <View className="flex-row justify-between w-11/12 p-3 mx-auto bg-gray rounded-md">
           <View className="flex flex-row justify-center items-center">
-            <AntDesign name="retweet" size={25} color="#f8f7ffff" />
-            <Text className="text-base ml-3 text-ghostWhite font-main">Switch Mode</Text>
+            <AntDesign name="setting" size={25} color="#f8f7ffff" />
+            <Text className="text-base ml-3 text-ghostWhite font-main">App Settings</Text>
           </View>
           <AntDesign name="right" size={25} color="#6a6a6a" />
         </View>
       </TouchableOpacity>
+
       <TouchableOpacity
         className="bg-davysGrey p-3 absolute bottom-0 mb-10 rounded-xl self-center"
         style={style.signOut}
