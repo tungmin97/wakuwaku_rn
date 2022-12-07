@@ -1,17 +1,17 @@
-import { AnimeByGenres } from './../../types/animeTypes';
+import { AnimeByGenres } from '@src/types/animeTypes';
 import { useEffect, useState } from 'react';
 import { AnimeById, TopAnime } from '@src/types/animeTypes';
 import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { QueryDefinition } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
 
-interface Props {
+type Props = {
   data: TopAnime | undefined;
   trigger: LazyQueryTrigger<QueryDefinition<AnimeByGenres, any, never, TopAnime, 'animeAPI'>>;
   isFetching: boolean;
   isSuccess: boolean;
   originalArgs: AnimeByGenres | undefined;
   genre: number;
-}
+};
 
 export const useAnimeGenreQuery = ({
   data,

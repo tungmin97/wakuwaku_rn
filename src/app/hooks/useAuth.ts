@@ -1,10 +1,10 @@
+import { useMMKVObject } from 'react-native-mmkv';
 import { useCallback, useEffect, useState } from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useSetAndGetUser } from '@app/hooks/useSetAndGetUser';
-import { useAppDispatch } from './main';
-import { setCurrentUser } from '@services/users/userSlice';
 import { useToast } from './useToast';
+import { SetUserProps } from '@src/types/authTypes';
 
 export const useAuth = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
@@ -15,10 +15,9 @@ export const useAuth = () => {
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
-
-  const { getUser, storeUserSocial } = useSetAndGetUser();
+  const [data, setData] = useMMKVObject<SetUserProps>('credential');
+  const { storeUserSocial } = useSetAndGetUser();
   const { handleSuccessToast, handleFailureToast } = useToast();
-  const dispatch = useAppDispatch();
 
   GoogleSignin.configure({
     webClientId: '1059353179213-ct2p9blvdl8j05opqqhvqic7vthjqeks.apps.googleusercontent.com',
@@ -61,9 +60,11 @@ export const useAuth = () => {
       .signInWithCredential(googleCredential)
       .then(() => {
         const { uid, displayName, photoURL } = auth().currentUser!;
-        storeUserSocial({ uid, username: displayName, avatar: photoURL }).then(async () => {
-          dispatch(setCurrentUser(await getUser(uid)));
-        });
+        if (data?.uid !== uid) {
+          storeUserSocial({ uid, username: displayName!, avatar: photoURL! }).then(async () => {
+            setData({ uid, username: displayName!, avatar: photoURL! });
+          });
+        }
       });
   };
 
@@ -76,10 +77,18 @@ export const useAuth = () => {
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
         handleSuccessToast({ title: 'Sign in successfully', body: 'Welcome to wakuwaku' });
-        const { uid } = auth().currentUser!;
-        dispatch(setCurrentUser(await getUser(uid)));
-        setIsWrongEmail(false);
-        setIsWrongPassword(false);
+        const { uid, displayName } = auth().currentUser!;
+        if (data?.uid !== uid) {
+          setData({
+            uid,
+            username: displayName!,
+            email,
+            password,
+            avatar: 'https://i.imgur.com/guEoEon.jpg',
+          });
+          setIsWrongEmail(false);
+          setIsWrongPassword(false);
+        }
       })
       .catch((error) => {
         if (error.code === 'auth/user-not-found') {

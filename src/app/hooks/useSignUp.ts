@@ -1,3 +1,5 @@
+import { SetUserProps } from 'src/types/authTypes';
+import { useMMKVObject } from 'react-native-mmkv';
 import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { useSetAndGetUser } from './useSetAndGetUser';
@@ -12,7 +14,7 @@ export const useSignUp = () => {
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
   const [isUsernameEmpty, setisUsernameEmpty] = useState(false);
-
+  const [data, setData] = useMMKVObject<SetUserProps>('credential');
   const dispatch = useAppDispatch();
   const { getUser, setUser } = useSetAndGetUser();
   const { handleSuccessToast, handleFailureToast } = useToast();
@@ -54,11 +56,11 @@ export const useSignUp = () => {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        const currentUser = auth().currentUser;
-        const { uid } = currentUser!;
-        setUser({ uid, username, email, password }).then(async () =>
-          dispatch(setCurrentUser(await getUser(uid))),
-        );
+        const { uid } = auth().currentUser!;
+        setUser({ uid, username, email, password }).then(async () => {
+          setData({ uid, username, email, password, avatar: 'https://i.imgur.com/guEoEon.jpg' });
+          dispatch(setCurrentUser(await getUser(uid)));
+        });
         handleSuccessToast({ title: 'Sign up successfully', body: 'Welcome to wakuwaku' });
       })
       .catch((error) => {

@@ -14,7 +14,7 @@ export default function HomeScreen({ navigation }: RootStackProps) {
 
   return (
     <SafeAreaView className="bg-black">
-      <ScrollView className="mb-2">
+      <ScrollView showsVerticalScrollIndicator={false} className="mb-2">
         <View className="flex-row justify-between items-center p-2 mx-2">
           <Text className="font-title text-maxRed text-5xl">W</Text>
           <TouchableOpacity onPress={handleNavigation}>

@@ -2,13 +2,13 @@ import { Image, StyleSheet, Text, TouchableOpacity, Linking } from 'react-native
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-interface propsInterface {
+type propsInterface = {
   img: string;
   espisode: number;
   title: string;
   id: number;
   url: string;
-}
+};
 
 const EspisodeCard = (props: propsInterface) => {
   return (

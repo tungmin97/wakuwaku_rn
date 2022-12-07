@@ -5,9 +5,9 @@ import TabViewLoading from '@components/Loading/TabViewLoading';
 import { AnimeReviewData } from '@src/types/animeTypes';
 import ReviewCard from './ReviewCard';
 
-interface Props {
+type Props = {
   id: number;
-}
+};
 
 export const ReviewRoute = ({ id }: Props) => {
   const { data, isFetching } = useGetAnimeReviewsQuery(id);

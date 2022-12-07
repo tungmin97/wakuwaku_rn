@@ -7,9 +7,9 @@ import { useAnimeGenreQuery } from '@app/hooks/useAnimeGenreQuery';
 import { genresDict } from '@utils/genresDictionary';
 import NormalLoading from '@components/Loading/NormalLoading';
 
-interface Props {
+type Props = {
   name: string;
-}
+};
 
 export default function HomeAnimeByGenres({ name }: Props) {
   const [trigger, { data, isFetching, isSuccess, originalArgs }] = useLazyGetAnimeByGenresQuery();

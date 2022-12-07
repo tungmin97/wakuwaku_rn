@@ -2,9 +2,9 @@ import React from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useViewportUnits } from '@app/hooks/main';
 
-interface Props {
+type Props = {
   num: number;
-}
+};
 
 export default function SearchLoading({ num }: Props) {
   const { vw } = useViewportUnits();

@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SetUserProps } from 'src/types/authTypes';
 
-interface Props {
+type Props = {
   currentUser: {
     data: () => SetUserProps;
   } | null;
-}
+};
 const initialState: Props = {
   currentUser: null,
 };

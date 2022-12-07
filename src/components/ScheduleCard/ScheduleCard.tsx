@@ -1,39 +1,52 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { AnimeById } from '@src/types/animeTypes';
 import { formatTime } from '@utils/formatTime';
 import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProps } from '@src/types/types';
+import HomeModal from '@components/HomeModal/HomeModal';
 
-interface Props {
+type Props = {
   item: AnimeById;
-}
+};
 
 export default function ScheduleCard({ item }: Props) {
   const navigation = useNavigation<RootStackNavigationProps>();
   const { day, time } = item.broadcast;
   const airingData = formatTime(day, time);
   const handleNavigation = () => navigation.navigate('Details', { item: item });
+  const [isModalVisible, setModalVisible] = useState(false);
+  const handleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   return (
-    <TouchableOpacity onPress={handleNavigation} className="pb-5">
-      <Text className="text-white font-bold font-main text-2xl">{item.title}</Text>
-      <Text className="text-ghostWhite font-main mb-1">{airingData}</Text>
-      <View className="flex-row items-center gap-2 mb-1">
-        {item.score ? (
-          <>
-            <Feather name={item.score > 6 ? 'smile' : 'frown'} size={15} color="#fff" />
-            <Text className="text-platinum font-main text-xs">{item.score}</Text>
-          </>
-        ) : (
-          <>
-            <Feather name="meh" size={15} color="#fff" />
-            <Text className="text-platinum font-main text-xs">N/A</Text>
-          </>
-        )}
-      </View>
-      <Text className="text-darkGray text-xs font-main capitalize">Source • {item.source}</Text>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity onPress={handleModal} className="pb-5">
+        <Text className="text-white font-bold font-main text-2xl">{item.title}</Text>
+        <Text className="text-ghostWhite font-main mb-1">{airingData}</Text>
+        <View className="flex-row items-center gap-2 mb-1">
+          {item.score ? (
+            <>
+              <Feather name={item.score > 6 ? 'smile' : 'frown'} size={15} color="#fff" />
+              <Text className="text-platinum font-main text-xs">{item.score}</Text>
+            </>
+          ) : (
+            <>
+              <Feather name="meh" size={15} color="#fff" />
+              <Text className="text-platinum font-main text-xs">N/A</Text>
+            </>
+          )}
+        </View>
+        <Text className="text-darkGray text-xs font-main capitalize">Source • {item.source}</Text>
+      </TouchableOpacity>
+      <HomeModal
+        visible={isModalVisible}
+        item={item}
+        handleNavigation={handleNavigation}
+        handleModal={handleModal}
+      />
+    </>
   );
 }

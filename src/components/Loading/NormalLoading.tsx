@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native';
 import React from 'react';
-import SkeletonLoader from './SkeletonLoader';
+import SkeletonLoader from '@components/Loading/SkeletonLoader';
 
-interface Props {
+type Props = {
   num: number;
-}
+};
 
 export default function NormalLoading({ num }: Props) {
   const numOfPlaceholders = [...Array(num)].map((e, i) => i + 1);

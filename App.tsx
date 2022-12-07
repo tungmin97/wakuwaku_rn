@@ -4,31 +4,27 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import notifee, { EventType } from '@notifee/react-native';
 import { StatusBar } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { useAppSelector } from '@app/hooks/main';
-import { useAsyncStorage } from '@app/hooks/useAsyncStorage';
 import { useToast } from '@app/hooks/useToast';
 
 const App = () => {
-  const { setStorage } = useAsyncStorage('credential');
-  const curUser = useAppSelector((state) => state.user.currentUser?.data());
-  curUser && setStorage(curUser);
   const { handleFailureToast } = useToast();
+
   useEffect(() => {
-    return notifee.onForegroundEvent(({ type, detail }) => {
+    return notifee.onForegroundEvent(({ type }) => {
       if (type === EventType.APP_BLOCKED) {
-        handleFailureToast({ title: 'App blocked', body: detail.blocked });
+        handleFailureToast({
+          title: 'App blocked',
+          body: "We don't have the neccessary permission",
+        });
       }
     });
   }, [handleFailureToast]);
 
-  notifee.onBackgroundEvent(async ({ type, detail }) => {
+  notifee.onBackgroundEvent(async ({ detail }) => {
     const { notification, pressAction } = detail;
 
     if (pressAction?.id === 'dismiss' && notification?.id) {
       await notifee.cancelNotification(notification.id);
-    }
-    if (type === EventType.APP_BLOCKED) {
-      handleFailureToast({ title: 'App blocked', body: detail.blocked });
     }
   });
 

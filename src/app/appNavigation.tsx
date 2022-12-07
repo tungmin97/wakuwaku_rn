@@ -84,11 +84,23 @@ export default function AppNavigation() {
         {user ? (
           <>
             <Stack.Screen name="HomeTab" component={HomeTab} />
-            <Stack.Screen name="Details" component={DetailScreen} />
-            <Stack.Screen name="Search" component={SearchScreen} />
+            <Stack.Screen
+              name="Details"
+              component={DetailScreen}
+              options={{ animation: 'slide_from_bottom' }}
+            />
+            <Stack.Screen
+              name="Search"
+              component={SearchScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
             <Stack.Screen name="ChangeUserInfo" component={ChangeUserInfo} />
             <Stack.Screen name="Watchlist" component={WatchlistScreen} />
-            <Stack.Screen name="Notification" component={NotificationScreen} />
+            <Stack.Screen
+              name="Notification"
+              component={NotificationScreen}
+              options={{ animation: 'slide_from_right' }}
+            />
           </>
         ) : (
           <>

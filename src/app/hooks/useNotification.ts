@@ -47,7 +47,7 @@ export const useNotification = () => {
   const createReminderNotification = async (notificationDetails: {
     id: number;
     name: string;
-    time: any;
+    time: number;
   }) => {
     const notificationData = {
       id: `${notificationDetails.id}`,
@@ -72,7 +72,7 @@ export const useNotification = () => {
   };
 
   const createTimestampNotification = async (
-    date: Date,
+    date: number,
     notification: Notification,
   ): Promise<void> => {
     await createAndroidNotifChannel();
@@ -80,16 +80,23 @@ export const useNotification = () => {
 
     const trigger: TimestampTrigger = {
       type: TriggerType.TIMESTAMP,
-      timestamp: date.getTime(),
+      timestamp: date,
     };
 
     await notifee.createTriggerNotification(notification, trigger);
     await notifee.getTriggerNotifications();
+
+    handleSuccessToast({ title: 'Congrats', body: "We'll remind you when it's on air" });
+  };
+
+  const getAllReminderNotifications = async () => {
+    const notifications = await notifee.getTriggerNotifications();
+    return notifications;
   };
 
   const getReminderNotifications = async (id: string): Promise<TriggerNotification[]> => {
     const triggerNotifs = await notifee.getTriggerNotifications();
-    return triggerNotifs.filter(({ notification }) => notification.data?.id === id) || [];
+    return triggerNotifs.filter(({ notification }) => notification.id === id) || [];
   };
 
   const deleteNotifications = async (id: string) => {
@@ -101,15 +108,16 @@ export const useNotification = () => {
   };
 
   const clearAllNotifications = async () => {
+    await notifee.cancelAllNotifications();
     handleSuccessToast({
       title: 'Notification cleared',
       body: 'Successfully deleted all notifications',
     });
-    await notifee.cancelAllNotifications();
   };
 
   return {
     createReminderNotification,
+    getAllReminderNotifications,
     getReminderNotifications,
     deleteNotifications,
     clearAllNotifications,

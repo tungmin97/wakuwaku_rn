@@ -3,9 +3,9 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AnimeById } from './animeTypes';
 
-export interface AnimeCardProps {
+export type AnimeCardProps = {
   item: AnimeById;
-}
+};
 
 export type RootStackParamList = {
   SplashScreen: undefined;

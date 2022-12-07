@@ -13,7 +13,9 @@ export const toUnix = (input: string) => dayjs(input, 'HH:mm').unix();
 export const formatTime = (day: string, time: string) => {
   const convertedDay = dayjs().day(weekDayDict[day]).format('DD/MM/YYYY');
 
-  const airedTimeDiff = dayjs(`${convertedDay} ${time}`, 'DD/MM/YYYY HH:mm').add(2, 'hour').diff();
+  const airedTimeDiff = dayjs(`${convertedDay} ${time}`, 'DD/MM/YYYY HH:mm')
+    .subtract(2, 'hour')
+    .diff();
 
   return airedTimeDiff > 0
     ? 'Airing in ' +

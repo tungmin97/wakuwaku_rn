@@ -5,9 +5,9 @@ import TabViewLoading from '@components/Loading/TabViewLoading';
 import EspisodeCard from './EspisodeCard';
 import { AnimeEspisode } from '@src/types/animeTypes';
 
-interface Props {
+type Props = {
   id: number;
-}
+};
 export const EpisodesRoute = ({ id }: Props) => {
   const { data, isFetching } = useGetAnimeVideosEpisodesQuery(id);
 
