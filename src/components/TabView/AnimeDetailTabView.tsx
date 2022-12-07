@@ -1,22 +1,10 @@
-import {
-  View,
-  Text,
-  useWindowDimensions,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-} from 'react-native';
+import { View, useWindowDimensions, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import React, { useState } from 'react';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import {
-  useGetAnimeReviewsQuery,
-  useGetAnimeVideosEpisodesQuery,
-} from '@src/services/api/apiSlice';
-import EspisodeCard from './EspisodeCard';
-import ReviewCard from './ReviewCard';
-import { AnimeEspisode, AnimeReviewData } from '@src/types/animeTypes';
-import SkeletonListLoader from '../Loading/SkeletonListLoader';
+import { EpisodesRoute } from './EpisodeRoute';
+import { SynopsisRoute } from './SynopsisRoute';
+import { ReviewRoute } from './ReviewRoute';
+import { useViewportUnits } from '@app/hooks/main';
 
 interface componentPropsInterface {
   synopsis: string;
@@ -24,67 +12,23 @@ interface componentPropsInterface {
 }
 
 const AnimeDetailTabView = (props: componentPropsInterface) => {
+  const { vw } = useViewportUnits();
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
 
-  const SynopsisRoute = () => (
-    <ScrollView style={styles.tab} key={1}>
-      <Text className="text-ghostWhite font-main mx-5 my-2">{props.synopsis}</Text>
-    </ScrollView>
-  );
-
-  const EpisodesRoute = () => {
-    const { data } = useGetAnimeVideosEpisodesQuery(props.id);
-
-    if (!data) {
-      return <SkeletonListLoader />;
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'synopsis':
+        return <SynopsisRoute synopsis={props.synopsis} />;
+      case 'episodes':
+        return <EpisodesRoute id={props.id} />;
+      case 'review':
+        return <ReviewRoute id={props.id} />;
+      default:
+        return null;
     }
-
-    return (
-      <ScrollView key={2}>
-        {data?.data?.map((item: AnimeEspisode) => (
-          <EspisodeCard
-            img={item?.images?.jpg.image_url}
-            espisode={item.mal_id}
-            title={item.title}
-            id={item.mal_id}
-            key={item.mal_id}
-            url={item.url}
-          />
-        ))}
-      </ScrollView>
-    );
   };
-
-  const ReviewRoute = () => {
-    const { data } = useGetAnimeReviewsQuery(props.id);
-
-    if (!data) {
-      return <SkeletonListLoader />;
-    }
-
-    return (
-      <ScrollView style={styles.tab} key={3}>
-        {data?.data.map((item: AnimeReviewData) => (
-          <ReviewCard
-            userName={item.user.username}
-            date={item.date.slice(0, 10)}
-            image={item.user.images.jpg.image_url}
-            review={item.review}
-            id={item.mal_id}
-            key={item.mal_id}
-          />
-        ))}
-      </ScrollView>
-    );
-  };
-
-  const renderScene = SceneMap({
-    synopsis: SynopsisRoute,
-    episodes: EpisodesRoute,
-    review: ReviewRoute,
-  });
-
+  
   const [routes] = useState([
     { key: 'synopsis', title: 'Synopsis' },
     { key: 'episodes', title: 'Episodes' },
@@ -92,7 +36,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
   ]);
 
   const renderTabBar = (props) => {
-    const inputRange = props.navigationState.routes.map((x, i) => i);
+    const inputRange = props.navigationState.routes.map((_x, i: number) => i);
 
     return (
       <View style={styles.tabBar}>
@@ -118,13 +62,12 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
 
   return (
     <TabView
-      lazy
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
+      initialLayout={{ width: vw * 100 }}
       renderTabBar={renderTabBar}
-      style={styles.tabView}
+      className="flex-1"
     />
   );
 };

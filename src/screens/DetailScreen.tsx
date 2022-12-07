@@ -12,8 +12,10 @@ import { AnimeFullById } from 'src/types/animeTypes';
 export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const { vw } = useViewportUnits();
   const { item } = route.params;
+  const { handleAddWatchList, handleRemoveWatchList } = useWatchList();
+  const handleGoBack = () => navigation.goBack();
+  const handleNavigation = () => navigation.navigate('Search');
   const [isOnWatchList, setIsOnWatchList] = useState(false);
-  const { handleAddWatchList, handleRemoveWatchList, watchList } = useWatchList();
 
   const watchlistHandler = () => {
     if (isOnWatchList) {
@@ -39,16 +41,10 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View className="flex-row justify-between m-4">
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
+        <TouchableOpacity onPress={handleGoBack}>
           <AntDesign name="arrowleft" size={25} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Search');
-          }}>
+        <TouchableOpacity onPress={handleNavigation}>
           <AntDesign name="search1" size={25} color="white" />
         </TouchableOpacity>
       </View>
@@ -58,14 +54,19 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
         <View className="mx-5">
           <Text className=" text-ghostWhite mt-5 text-2xl font-bold font-main">{item.title}</Text>
           <View className="flex-row my-2">
-            <Text className="text-platinum text-[10px] font-main">{item.year}</Text>
-            <Text className="text-platinum mx-2 text-[10px] font-main">
-              {item.rating.slice(3, 8)}
-            </Text>
-            <Text className="text-platinum text-[10px] font-main">{item.episodes} Episodes</Text>
+            {item.year !== null && (
+              <Text className="text-platinum text-xs font-main">{item.year}</Text>
+            )}
+            {item.rating !== null && (
+              <Text className="text-platinum mx-2 text-xs font-main">
+                {item.rating.split(' - ')[0]}
+              </Text>
+            )}
+            {item.episodes !== null && (
+              <Text className="text-platinum text-[10px] font-main">{item.episodes} Episodes</Text>
+            )}
           </View>
         </View>
-
         <View className="flex-row justify-around items-center my-5">
           <TouchableOpacity className="flex-col items-center" onPress={watchlistHandler}>
             {isOnWatchList ? (
@@ -75,10 +76,12 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
             )}
             <Text className=" text-ghostWhite text-[13px] mt-2 font-main">My list</Text>
           </TouchableOpacity>
-          <View className="flex-col items-center">
-            <Text className="text-ghostWhite font-main text-lg">{item.score}</Text>
-            <Text className=" text-ghostWhite text-[13px] font-main">Score</Text>
-          </View>
+          {item.score && (
+            <TouchableOpacity className="flex-col items-center">
+              <Text className="text-ghostWhite font-main text-lg">{item.score}</Text>
+              <Text className=" text-ghostWhite text-[13px] font-main">Score</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity className="flex-col items-center">
             <AntDesign name="sharealt" size={22} color="white" />
             <Text className=" text-ghostWhite text-[13px] mt-2 font-main">Share</Text>

@@ -1,11 +1,11 @@
 import { View, FlatList, Text } from 'react-native';
 import React from 'react';
 import { useLazyGetAnimeByGenresQuery } from '@services/api/apiSlice';
-import MainLoading from '@components/Loading/MainLoading';
 import SmallAnimeCard from '@components/AnimeCard/SmallAnimeCard';
 import CardFooterLoading from '@components/Loading/CardFooterLoading';
 import { useAnimeGenreQuery } from '@app/hooks/useAnimeGenreQuery';
-import { genresDict } from '@src/utils/genresDictionary';
+import { genresDict } from '@utils/genresDictionary';
+import NormalLoading from '@components/Loading/NormalLoading';
 
 interface Props {
   name: string;
@@ -19,7 +19,7 @@ export default function HomeAnimeByGenres({ name }: Props) {
     useAnimeGenreQuery(Props);
 
   if (isFirstLoad) {
-    return <MainLoading />;
+    return <NormalLoading num={4} />;
   }
 
   return (

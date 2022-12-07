@@ -4,9 +4,13 @@ import { AnimeById } from '@src/types/animeTypes';
 import { formatTime } from '@utils/formatTime';
 import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackNavigationProps } from 'src/types/types';
+import { RootStackNavigationProps } from '@src/types/types';
 
-export default function ScheduleCard({ item }: { item: AnimeById }) {
+interface Props {
+  item: AnimeById;
+}
+
+export default function ScheduleCard({ item }: Props) {
   const navigation = useNavigation<RootStackNavigationProps>();
   const { day, time } = item.broadcast;
   const airingData = formatTime(day, time);

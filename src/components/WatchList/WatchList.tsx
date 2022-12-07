@@ -6,9 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProps } from '@src/types/types';
 import HomeModal from '@components/HomeModal/HomeModal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { createReminderNotification } from '../../services/notification/notificationService';
-import { formatTime } from '@utils/formatTime';
 import LinearGradient from 'react-native-linear-gradient';
+import { createReminderNotification } from '@services/notification/notificationService';
 
 interface Props {
   item: AnimeById;
@@ -26,11 +25,6 @@ const WatchList = ({ item }: Props) => {
     createReminderNotification;
   };
 
-  const time = item.broadcast.time;
-  const day = item.broadcast.day;
-
-  const aringData = formatTime(day, time);
-  console.log(aringData);
   return (
     <>
       <TouchableOpacity activeOpacity={0.8} className="p-1.5" onPress={handleModal}>
