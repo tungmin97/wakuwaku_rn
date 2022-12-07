@@ -2,7 +2,7 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import WatchList from '@components/WatchList/WatchList';
+import WatchListCard from '@src/components/WatchList/WatchListCard';
 import { RootStackProps } from '@src/types/types';
 import { useWatchList } from '@app/hooks/useWatchList';
 
@@ -33,10 +33,12 @@ export default function WatchlistScreen({ navigation }: RootStackProps) {
     <SafeAreaView className="flex-1 bg-black">
       <View className="flex-row justify-between mx-4">
         <View className="flex-row items-center">
-          <Text className="text-ghostWhite text-2xl ml-5 font-bold">My List</Text>
+          <Text className="mr-auto font-main font-extrabold text-3xl text-platinum mb-5 pt-3">
+            My list
+          </Text>
         </View>
         <TouchableOpacity onPress={handleNavigation}>
-          <View className="flex items-center mt-1 mr-2 font-bold">
+          <View className="flex items-center mt-1 mr-2 font-bold pt-3">
             <AntDesign name="search1" size={25} color="#f8f7ffff" />
           </View>
         </TouchableOpacity>
@@ -44,14 +46,14 @@ export default function WatchlistScreen({ navigation }: RootStackProps) {
 
       <View className="m-2 mt-3 flex-1">
         <FlatList
-          numColumns={2}
+          // numColumns={2}
           showsHorizontalScrollIndicator={false}
           initialNumToRender={5}
           scrollEventThrottle={300}
           // eslint-disable-next-line dot-notation
           data={watchList['animeList']}
           keyExtractor={(item) => String(item.mal_id)}
-          renderItem={({ item }) => <WatchList item={item} />}
+          renderItem={({ item }) => <WatchListCard item={item} />}
           onEndReachedThreshold={0.3}
           className="h-96"
         />

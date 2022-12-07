@@ -7,12 +7,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useWatchList } from '@app/hooks/useWatchList';
 import { DetailScreenProps } from '@src/types/types';
 import { useViewportUnits } from '@app/hooks/main';
-import { AnimeFullById } from 'src/types/animeTypes';
+import { AnimeFullById } from '@src/types/animeTypes';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const { vw } = useViewportUnits();
   const { item } = route.params;
-  const { handleAddWatchList, handleRemoveWatchList } = useWatchList();
+  const { handleAddWatchList, handleRemoveWatchList, watchList } = useWatchList();
   const handleGoBack = () => navigation.goBack();
   const handleNavigation = () => navigation.navigate('Search');
   const [isOnWatchList, setIsOnWatchList] = useState(false);
@@ -25,6 +26,10 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
       handleAddWatchList(item);
       setIsOnWatchList(true);
     }
+  };
+
+  const shareHandler = () => {
+    Clipboard.setString(item.trailer.url);
   };
 
   useEffect(() => {
@@ -82,7 +87,7 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
               <Text className=" text-ghostWhite text-[13px] font-main">Score</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity className="flex-col items-center">
+          <TouchableOpacity className="flex-col items-center" onPress={shareHandler}>
             <AntDesign name="sharealt" size={22} color="white" />
             <Text className=" text-ghostWhite text-[13px] mt-2 font-main">Share</Text>
           </TouchableOpacity>
