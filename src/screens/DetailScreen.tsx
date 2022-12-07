@@ -6,27 +6,28 @@ import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DetailScreenProps } from '@src/types/types';
 import { useViewportUnits } from '@app/hooks/main';
-import Clipboard from '@react-native-clipboard/clipboard';
 import { useToggleWatchList } from '@app/hooks/useToggleWatchList';
+import Share from 'react-native-share';
 
 export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const { vw } = useViewportUnits();
   const { item } = route.params;
   const { watchlistHandler, isOnWatchList, isReady } = useToggleWatchList(item);
-  const handleGoBack = () => navigation.goBack();
-  const handleNavigation = () => navigation.navigate('Search');
-  const shareHandler = () => {
-    Clipboard.setString(item.trailer.url);
+  const handleNavigation = () => navigation.goBack();
+  const handleSharing = async () => {
+    const options = {
+      title: 'My new jam!!!',
+      url: item.trailer.url,
+    };
+    await Share.open(options);
   };
 
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View className="flex-row justify-between m-4">
-        <TouchableOpacity onPress={handleGoBack}>
-          <AntDesign name="arrowleft" size={25} color="white" />
-        </TouchableOpacity>
+        <View className="flex-1" />
         <TouchableOpacity onPress={handleNavigation}>
-          <AntDesign name="search1" size={25} color="white" />
+          <AntDesign name="close" size={25} color="white" />
         </TouchableOpacity>
       </View>
       <View>
@@ -66,7 +67,7 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
               <Text className=" text-ghostWhite text-[13px] font-main">Score</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity className="flex-col items-center" onPress={shareHandler}>
+          <TouchableOpacity className="flex-col items-center" onPress={handleSharing}>
             <AntDesign name="sharealt" size={22} color="white" />
             <Text className=" text-ghostWhite text-[13px] mt-2 font-main">Share</Text>
           </TouchableOpacity>

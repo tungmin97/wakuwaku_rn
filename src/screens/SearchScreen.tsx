@@ -15,10 +15,12 @@ import SearchItemCard from '@components/SearchItemCard/SearchItemCard';
 import SearchLoading from '@components/Loading/SearchLoading';
 import { RootStackProps } from 'src/types/types';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDebounce } from '@app/hooks/aniHooks';
 
 export default function SearchScreen({ navigation }: RootStackProps) {
   const [textInput, setTextInput] = useState('');
-  const { data, isFetching } = useGetAnimeSearchQuery(textInput);
+  const debouncedSearch = useDebounce(textInput);
+  const { data, isFetching } = useGetAnimeSearchQuery(debouncedSearch);
   const handleInput = (input: string) => {
     setTextInput(input);
   };
@@ -33,8 +35,8 @@ export default function SearchScreen({ navigation }: RootStackProps) {
     <SafeAreaView className="flex-1 bg-black pt-3">
       <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
         <View className="flex-row items-center pl-2">
-          <TouchableOpacity onPress={handleNavigation}>
-            <AntDesign name="arrowleft" size={25} color="#f8f7ff" />
+          <TouchableOpacity onPress={handleNavigation} className="ml-2">
+            <AntDesign name="left" size={25} color="#f8f7ff" />
           </TouchableOpacity>
           <View className="flex-1" />
         </View>
@@ -50,7 +52,7 @@ export default function SearchScreen({ navigation }: RootStackProps) {
             placeholder="Explore your favourites..."
             placeholderTextColor="#f8f7ff"
             value={textInput}
-            onChangeText={(text) => handleInput(text)}
+            onChangeText={handleInput}
           />
         </View>
         <TouchableOpacity className="flex-row items-center ml-3 mr-3" onPress={handleCancelInput}>

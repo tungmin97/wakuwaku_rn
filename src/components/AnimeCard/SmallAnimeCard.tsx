@@ -6,9 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProps } from 'src/types/types';
 import HomeModal from '@components/HomeModal/HomeModal';
 
-interface Props {
+type Props = {
   item: AnimeById;
-}
+};
 
 const SmallAnimeCard = ({ item }: Props) => {
   const navigation = useNavigation<RootStackNavigationProps>();

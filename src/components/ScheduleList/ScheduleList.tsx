@@ -3,11 +3,11 @@ import React from 'react';
 import { useGetAnimeScheduleQuery } from '@services/api/apiSlice';
 import { toUnix } from '@utils/formatTime';
 import ScheduleCard from '@components/ScheduleCard/ScheduleCard';
-import SkeletonListLoader from '../Loading/SkeletonListLoader';
+import SkeletonListLoader from '@components/Loading/SkeletonListLoader';
 
-interface Props {
+type Props = {
   date: string;
-}
+};
 export default function ScheduleList({ date }: Props) {
   const { data } = useGetAnimeScheduleQuery(date);
 

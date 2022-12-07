@@ -10,7 +10,7 @@ import {
 
 const baseURL: string = 'https://api.jikan.moe/v4';
 const staggeredBaseQuery = retry(fetchBaseQuery({ baseUrl: baseURL }), {
-  maxRetries: 5,
+  maxRetries: 10,
 });
 
 export const animeAPI = createApi({

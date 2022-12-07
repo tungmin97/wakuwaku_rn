@@ -1,19 +1,18 @@
-import { View, useWindowDimensions, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import React, { useState } from 'react';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView } from 'react-native-tab-view';
 import { EpisodesRoute } from './EpisodeRoute';
 import { SynopsisRoute } from './SynopsisRoute';
 import { ReviewRoute } from './ReviewRoute';
 import { useViewportUnits } from '@app/hooks/main';
 
-interface componentPropsInterface {
+type componentPropsInterface = {
   synopsis: string;
   id: number;
-}
+};
 
 const AnimeDetailTabView = (props: componentPropsInterface) => {
   const { vw } = useViewportUnits();
-  const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
 
   const renderScene = ({ route }) => {
@@ -28,7 +27,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
         return null;
     }
   };
-  
+
   const [routes] = useState([
     { key: 'synopsis', title: 'Synopsis' },
     { key: 'episodes', title: 'Episodes' },
@@ -36,7 +35,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
   ]);
 
   const renderTabBar = (props) => {
-    const inputRange = props.navigationState.routes.map((_x, i: number) => i);
+    const inputRange = props.navigationState.routes.map((_x: string, i: number) => i);
 
     return (
       <View style={styles.tabBar}>

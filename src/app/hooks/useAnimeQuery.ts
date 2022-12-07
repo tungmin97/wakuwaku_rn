@@ -3,13 +3,13 @@ import { AnimeById, TopAnime } from '@src/types/animeTypes';
 import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { QueryDefinition } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
 
-interface Props {
+type Props = {
   data: TopAnime | undefined;
   trigger: LazyQueryTrigger<QueryDefinition<number, any, never, TopAnime, 'animeAPI'>>;
   isFetching: boolean;
   isSuccess: boolean;
   originalArgs: number | undefined;
-}
+};
 
 export const useAnimeQuery = ({ data, trigger, isFetching, isSuccess, originalArgs }: Props) => {
   const [curPage, setCurPage] = useState(1);

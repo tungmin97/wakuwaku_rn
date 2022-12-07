@@ -4,7 +4,7 @@ import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { QueryDefinition } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
 import { getLastSeason } from '@utils/getLastSeason';
 
-interface Props {
+type Props = {
   data: TopAnime | undefined;
   trigger: LazyQueryTrigger<
     QueryDefinition<JustMissedAnimeProps, any, never, TopAnime, 'animeAPI'>
@@ -12,7 +12,7 @@ interface Props {
   isFetching: boolean;
   isSuccess: boolean;
   originalArgs: JustMissedAnimeProps | undefined;
-}
+};
 
 export const useAnimeSeasonQuery = ({
   data,

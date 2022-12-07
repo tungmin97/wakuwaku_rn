@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import { SetUserProps, SetUserSocialProps } from 'src/types/authTypes';
+import { SetUserProps } from '@src/types/authTypes';
 
 export const useSetAndGetUser = () => {
   const setUser = ({ uid, username, email, password }: SetUserProps) =>
@@ -8,11 +8,10 @@ export const useSetAndGetUser = () => {
       username,
       email,
       password,
-      avatar:
-        'https://png.pngtree.com/element_our/20190528/ourlarge/pngtree-couple-boy-cute-avatar-image_1153281.jpg',
+      avatar: 'https://i.imgur.com/guEoEon.jpg',
     });
 
-  const storeUserSocial = ({ uid, username, avatar }: SetUserSocialProps) =>
+  const storeUserSocial = ({ uid, username, avatar }: SetUserProps) =>
     firestore().collection('users').doc(uid).set({
       uid,
       username,

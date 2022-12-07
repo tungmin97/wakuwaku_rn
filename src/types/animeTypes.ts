@@ -1,4 +1,4 @@
-export interface AnimeFullById {
+export type AnimeFullById = {
   mal_id: number;
   url: string;
   images: AnimeImages;
@@ -39,14 +39,14 @@ export interface AnimeFullById {
   theme: AnimeTheme;
   external: AnimeLink[];
   streaming: AnimeLink[];
-}
+};
 
-export interface TopAnime {
+export type TopAnime = {
   data: AnimeById[];
   pagination: AnimePagination;
-}
+};
 
-export interface AnimeById {
+export type AnimeById = {
   mal_id: number;
   url: string;
   images: AnimeImages;
@@ -83,9 +83,9 @@ export interface AnimeById {
   explicit_genres: AnimeSubProps[];
   themes: AnimeSubProps[];
   demographics: AnimeSubProps[];
-}
+};
 
-export interface AnimeImages {
+export type AnimeImages = {
   jpg: {
     image_url: string;
     small_image_url: string;
@@ -96,20 +96,20 @@ export interface AnimeImages {
     small_image_url: string;
     large_image_url: string;
   };
-}
+};
 
-export interface AnimeTrailer {
+export type AnimeTrailer = {
   youtube_id: string;
   url: string;
   embed_url: string;
-}
+};
 
-export interface AnimeTitle {
+export type AnimeTitle = {
   type: string;
   title: string;
-}
+};
 
-export interface AnimeAired {
+export type AnimeAired = {
   from: string;
   to: string;
   prop: {
@@ -125,49 +125,49 @@ export interface AnimeAired {
     };
     string: string;
   };
-}
+};
 
-export interface AnimeBroadcast {
+export type AnimeBroadcast = {
   day: string;
   time: string;
   timezone: string;
   string: string;
-}
+};
 
-export interface AnimeSubProps {
+export type AnimeSubProps = {
   mal_id: number;
   type: string;
   name: string;
   url: string;
-}
+};
 
-export interface AnimeRelation {
+export type AnimeRelation = {
   relation: string;
   entry: AnimeSubProps[];
-}
+};
 
-export interface AnimeTheme {
+export type AnimeTheme = {
   openings: string[];
   endings: string[];
-}
+};
 
-export interface AnimeLink {
+export type AnimeLink = {
   name: string;
   url: string;
-}
+};
 
-export interface AnimePagination {
+export type AnimePagination = {
   last_visible_page: number;
   has_next_page: boolean;
   current_page: number;
   items: AnimePaginationItem;
-}
+};
 
-export interface AnimePaginationItem {
+export type AnimePaginationItem = {
   count: number;
   total: number;
   per_page: number;
-}
+};
 
 export enum AnimeSeason {
   Winter = 'winter',
@@ -176,65 +176,65 @@ export enum AnimeSeason {
   Fall = 'fall',
 }
 
-export interface SeasonQuery {
+export type SeasonQuery = {
   lastSeason: AnimeSeason;
   year: number;
-}
+};
 
-export interface JustMissedAnimeProps {
+export type JustMissedAnimeProps = {
   year: number;
   season: string;
   page: number;
-}
+};
 
-export interface AnimeByGenres {
+export type AnimeByGenres = {
   page: number;
   genre: number;
-}
+};
 
 // ESPISODE
 
-export interface Pagination {
+export type Pagination = {
   last_visible_page: number;
   has_next_page: boolean;
-}
+};
 
-export interface EspisodeImage {
+export type EspisodeImage = {
   jpg: {
     image_url: string;
   };
-}
+};
 
-export interface AnimeEspisode {
+export type AnimeEspisode = {
   mal_id: number;
   title: string;
   episode: string;
   url: string;
   images: EspisodeImage;
-}
+};
 
-export interface AnimeVideosEpisodes {
+export type AnimeVideosEpisodes = {
   pagination: Pagination;
   data: AnimeEspisode[];
-}
+};
 
 // REVIEW
-export interface UserImages {
+export type UserImages = {
   jpg: {
     image_url: string;
   };
   webp: {
     image_url: string;
   };
-}
+};
 
-export interface UserDetail {
+export type UserDetail = {
   username: string;
   url: string;
   images: UserImages;
-}
+};
 
-export interface AnimeReaction {
+export type AnimeReaction = {
   overall: number;
   nice: number;
   love_it: number;
@@ -243,9 +243,9 @@ export interface AnimeReaction {
   informative: number;
   well_written: number;
   creative: number;
-}
+};
 
-export interface AnimeReviewData {
+export type AnimeReviewData = {
   user: UserDetail;
   mal_id: number;
   url: string;
@@ -258,13 +258,13 @@ export interface AnimeReviewData {
   is_spoiler: null;
   is_preliminary: null;
   episodes_watched: number;
-}
+};
 
-export interface AnimeReviews {
+export type AnimeReviews = {
   pagination: Pagination;
   data: AnimeReviewData[];
-}
+};
 
-export interface WatchListProps {
+export type WatchListProps = {
   animeList: AnimeById[];
-}
+};

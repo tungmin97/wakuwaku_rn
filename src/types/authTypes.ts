@@ -1,13 +1,7 @@
-export interface SetUserProps {
+export type SetUserProps = {
   uid: string;
-  username: string | null;
+  username: string | undefined;
   avatar?: string;
   email?: string;
   password?: string;
-}
-
-export interface SetUserSocialProps {
-  uid: string;
-  username: string | null;
-  avatar: string | null;
-}
+};

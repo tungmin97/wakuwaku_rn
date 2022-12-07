@@ -2,17 +2,17 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import FastImage from 'react-native-fast-image';
-import { AnimeById } from 'src/types/animeTypes';
+import { AnimeById } from '@src/types/animeTypes';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
-interface Props {
+type Props = {
   visible: boolean;
   item: AnimeById;
   handleNavigation: () => void;
   handleModal: () => void;
-}
+};
 
 export default function HomeModal({ visible, item, handleNavigation, handleModal }: Props) {
   return (
