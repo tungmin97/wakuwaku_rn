@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import firestore, { firebase, FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 export const useWatchList = () => {
-  const [watchList, setWatchList] = useState<FirebaseFirestoreTypes.DocumentData | WatchListProps>({
-    animeList: [],
-  });
+  const [watchList, setWatchList] = useState<
+    FirebaseFirestoreTypes.DocumentData | WatchListProps | null
+  >(null);
 
   const { data } = useAsyncStorage('credential');
   const uid = data?.uid;
@@ -26,7 +26,7 @@ export const useWatchList = () => {
       .collection('anime')
       .doc(uid)
       .onSnapshot((documentSnapshot) => {
-        setWatchList(documentSnapshot.data() || { animeList: [] });
+        setWatchList(documentSnapshot.data() || null);
       });
 
     return () => subscriber();

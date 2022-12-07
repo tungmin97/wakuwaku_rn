@@ -9,9 +9,8 @@ interface Props {
   id: number;
 }
 export const EpisodesRoute = ({ id }: Props) => {
-  const { data, isFetching, isError } = useGetAnimeVideosEpisodesQuery(id);
+  const { data, isFetching } = useGetAnimeVideosEpisodesQuery(id);
 
-  console.log(isError);
   if (isFetching) {
     return (
       <ScrollView>

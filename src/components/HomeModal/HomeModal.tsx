@@ -24,8 +24,8 @@ export default function HomeModal({ visible, item, handleNavigation, handleModal
         onBackdropPress={handleModal}
         onBackButtonPress={handleModal}
         className="m-0">
-        <View className="basis-1/3 bg-dark mt-auto rounded-t-2xl p-3 justify-between">
-          <View className="flex-row">
+        <View className="max-h-fit bg-dark mt-auto rounded-t-2xl p-3 justify-between">
+          <View className="flex-row mb-3">
             <FastImage
               resizeMode={FastImage.resizeMode.cover}
               source={{ uri: item.images.jpg.image_url }}
@@ -33,7 +33,9 @@ export default function HomeModal({ visible, item, handleNavigation, handleModal
             />
             <View className="ml-4 w-2/3">
               <View className="flex-row justify-between items-center mb-1">
-                <Text className="text-ghostWhite font-bold text-xl font-main">{item.title}</Text>
+                <View className="w-5/6">
+                  <Text className="text-ghostWhite font-bold text-lg font-main">{item.title}</Text>
+                </View>
                 <TouchableOpacity
                   onPress={handleModal}
                   className="h-7 rounded-full border border-darkGray bg-darkGray">
@@ -58,7 +60,7 @@ export default function HomeModal({ visible, item, handleNavigation, handleModal
           </View>
           <TouchableOpacity
             onPress={handleNavigation}
-            className="flex-row justify-between items-center p-3 pb-1 border-t border-ghostWhite">
+            className="flex-row justify-between items-center p-3 pb-1 border-t border-platinum">
             <View className="flex-row items-center gap-2">
               <View className="border-2 border-ghostWhite rounded-full">
                 <Ionicons name="information" size={15} color="#fff" />
