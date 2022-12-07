@@ -15,7 +15,7 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const { watchlistHandler, isOnWatchList, isReady } = useToggleWatchList(item);
   const handleGoBack = () => navigation.goBack();
   const handleNavigation = () => navigation.navigate('Search');
-   const shareHandler = () => {
+  const shareHandler = () => {
     Clipboard.setString(item.trailer.url);
   };
 

@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProps } from '@src/types/types';
 import HomeModal from '@components/HomeModal/HomeModal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { createReminderNotification } from '@services/notification/notificationService';
+import { useNotification } from '@app/hooks/useNotification';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useWatchList } from '@src/app/hooks/useWatchList';
 
@@ -18,6 +18,7 @@ const WatchListCard = ({ item }: Props) => {
   const navigation = useNavigation<RootStackNavigationProps>();
   const handleNavigation = () => navigation.navigate('Details', { item: item });
   const { handleRemoveWatchList } = useWatchList();
+  const { createReminderNotification } = useNotification();
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [isNotify, setIsNotify] = useState(false);
@@ -47,11 +48,15 @@ const WatchListCard = ({ item }: Props) => {
             {item.title}
           </Text>
           <View className="flex-row">
-            <Text className="font-main text-ghostWhite text-xs">{item.year}</Text>
-            <Text className="font-main text-ghostWhite text-xs ml-2">
-              {item.rating.split(' - ')[0]}
-            </Text>
-            <Text className="font-main text-ghostWhite text-xs ml-2">{item.episodes} Episodes</Text>
+            {item.year && <Text className="font-main text-platinum text-xs">{item.year}</Text>}
+            {item.rating && (
+              <Text className="font-main text-platinum text-xs ml-2">
+                {item.rating.split(' - ')[0]}
+              </Text>
+            )}
+            {item.episodes && (
+              <Text className="font-main text-platinum text-xs ml-2">{item.episodes} Episodes</Text>
+            )}
           </View>
           <View className="flex-row justify-between mt-3">
             <TouchableOpacity

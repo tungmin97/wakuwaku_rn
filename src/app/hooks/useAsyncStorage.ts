@@ -1,10 +1,12 @@
 import { SetUserProps } from './../../types/authTypes';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useToast } from './useToast';
 
 export const useAsyncStorage = (key: string) => {
   const [data, setData] = useState<SetUserProps>();
   const [retrivedFromStorage, setRetrievedFromStorage] = useState(false);
+  const { handleFailureToast } = useToast();
 
   useEffect(() => {
     (async () => {
@@ -13,17 +15,23 @@ export const useAsyncStorage = (key: string) => {
         setData(JSON.parse(value!));
         setRetrievedFromStorage(true);
       } catch (error) {
-        console.error('useAsyncStorage getItem error:', error);
+        handleFailureToast({
+          title: "Can't get item from storage",
+          body: `Error mgs: ${error}`,
+        });
       }
     })();
-  }, [key]);
+  }, [handleFailureToast, key]);
 
   const setStorage = async (value: SetUserProps) => {
     try {
       await AsyncStorage.setItem(key, JSON.stringify(value));
       setData(value);
     } catch (error) {
-      console.error('useAsyncStorage setItem error:', error);
+      handleFailureToast({
+        title: "Can't save item to storage",
+        body: `Error mgs: ${error}`,
+      });
     }
   };
 
