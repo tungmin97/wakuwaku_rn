@@ -14,6 +14,7 @@ import SignUpScreen from '@src/screens/SignUpScreen';
 import { useAuth } from '@app/hooks/useAuth';
 import SearchScreen from '@src/screens/SearchScreen';
 import ChangeUserInfo from '@src/screens/ChangeUserInfo';
+import NotificationScreen from '@src/screens/NotificationScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<HomeStackParamList>();
@@ -87,6 +88,7 @@ export default function AppNavigation() {
             <Stack.Screen name="Search" component={SearchScreen} />
             <Stack.Screen name="ChangeUserInfo" component={ChangeUserInfo} />
             <Stack.Screen name="Watchlist" component={WatchlistScreen} />
+            <Stack.Screen name="Notification" component={NotificationScreen} />
           </>
         ) : (
           <>
