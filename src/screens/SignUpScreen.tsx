@@ -8,13 +8,14 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
 import { useSignUp } from '@app/hooks/useSignUp';
-import { RootStackProps } from 'src/types/types';
+import { RootStackProps } from '@src/types/types';
+import Loading from '@src/components/Loading/Loading';
 const { width } = Dimensions.get('screen');
 
 const SignUpScreen = ({ navigation }: RootStackProps) => {
@@ -30,6 +31,13 @@ const SignUpScreen = ({ navigation }: RootStackProps) => {
 
   const handleNavigation = () => navigation.navigate('Login');
 
+  const [onSignUp, setOnSignUp] = useState(false);
+
+  const onClickHandler = () => {
+    handleSignUp();
+    setOnSignUp(true);
+  };
+
   return (
     <SafeAreaView className="bg-black flex-1">
       <LinearGradient
@@ -40,72 +48,82 @@ const SignUpScreen = ({ navigation }: RootStackProps) => {
           source={require('../assets/Images/8afaf7262830dc9480760b8f4878c1c1.jpg')}
           className="flex-1"
           imageStyle={styles.imageBackground}>
-          <View className="flex-row items-center justify-between mx-5 my-2">
-            <Text className="text-5xl font-title text-maxRed">W</Text>
-            <TouchableOpacity onPress={handleNavigation}>
-              <Text className="text-ghostWhite font-bold"> SIGN IN</Text>
-            </TouchableOpacity>
-          </View>
-          <KeyboardAvoidingView className="flex-1">
-            <View style={styles.header}>
-              <Text className="text-ghostWhite font-bold text-center mb-7 text-2xl">
-                Create account
-              </Text>
-              <View className="mb-5">
-                <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
-                  <AntDesign name="user" size={20} color="#fff" />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Username"
-                    placeholderTextColor="#F8F7FF"
-                    className="px-3"
-                    onChangeText={handleUsername}
-                  />
-                </View>
-                {isUsernameEmpty && (
-                  <Text className="text-maxRed mx-5 mt-2">Username is required</Text>
-                )}
-              </View>
-              <View className="mb-5">
-                <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
-                  <AntDesign name="mail" size={20} color="#fff" />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Email"
-                    placeholderTextColor="#F8F7FF"
-                    className="px-3"
-                    onChangeText={handleEmail}
-                  />
-                </View>
-                {isEmailEmpty && <Text className="text-maxRed mx-5 mt-2">Email is required</Text>}
-              </View>
-              <View className="mb-5">
-                <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
-                  <AntDesign name="lock1" size={20} color="#fff" />
-                  <TextInput
-                    secureTextEntry={true}
-                    style={styles.textInput}
-                    placeholder="Password"
-                    placeholderTextColor="#F8F7FF"
-                    className="px-3"
-                    onChangeText={handlePassword}
-                    onSubmitEditing={handleSignUp}
-                  />
-                </View>
-                {isPasswordEmpty && (
-                  <Text className="text-maxRed mx-5 mt-2">Password is required</Text>
-                )}
-              </View>
-              <View className=" border-maxRed border-2 rounded-md mx-5 mt-7" style={styles.shadow}>
-                <TouchableOpacity className="bg-black px-5 rounded-md" onPress={handleSignUp}>
-                  <Text className="text-ghostWhite text-center py-3 font-main font-bold">
-                    Sign Up
-                  </Text>
+          {!onSignUp ? (
+            <>
+              <View className="flex-row items-center justify-between mx-5 my-2">
+                <Text className="text-5xl font-title text-maxRed">W</Text>
+                <TouchableOpacity onPress={handleNavigation}>
+                  <Text className="text-ghostWhite font-bold"> SIGN IN</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <Toast position="top" />
-          </KeyboardAvoidingView>
+              <KeyboardAvoidingView className="flex-1">
+                <View style={styles.header}>
+                  <Text className="text-ghostWhite font-bold text-center mb-7 text-2xl">
+                    Create account
+                  </Text>
+                  <View className="mb-5">
+                    <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
+                      <AntDesign name="user" size={20} color="#fff" />
+                      <TextInput
+                        style={styles.textInput}
+                        placeholder="Username"
+                        placeholderTextColor="#F8F7FF"
+                        className="px-3"
+                        onChangeText={handleUsername}
+                      />
+                    </View>
+                    {isUsernameEmpty && (
+                      <Text className="text-maxRed mx-5 mt-2">Username is required</Text>
+                    )}
+                  </View>
+                  <View className="mb-5">
+                    <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
+                      <AntDesign name="mail" size={20} color="#fff" />
+                      <TextInput
+                        style={styles.textInput}
+                        placeholder="Email"
+                        placeholderTextColor="#F8F7FF"
+                        className="px-3"
+                        onChangeText={handleEmail}
+                      />
+                    </View>
+                    {isEmailEmpty && (
+                      <Text className="text-maxRed mx-5 mt-2">Email is required</Text>
+                    )}
+                  </View>
+                  <View className="mb-5">
+                    <View className="bg-davysGrey rounded-md mx-5 px-3 flex-row items-center">
+                      <AntDesign name="lock1" size={20} color="#fff" />
+                      <TextInput
+                        secureTextEntry={true}
+                        style={styles.textInput}
+                        placeholder="Password"
+                        placeholderTextColor="#F8F7FF"
+                        className="px-3"
+                        onChangeText={handlePassword}
+                        onSubmitEditing={handleSignUp}
+                      />
+                    </View>
+                    {isPasswordEmpty && (
+                      <Text className="text-maxRed mx-5 mt-2">Password is required</Text>
+                    )}
+                  </View>
+                  <View
+                    className=" border-maxRed border-2 rounded-md mx-5 mt-7"
+                    style={styles.shadow}>
+                    <TouchableOpacity className="bg-black px-5 rounded-md" onPress={onClickHandler}>
+                      <Text className="text-ghostWhite text-center py-3 font-main font-bold">
+                        Sign Up
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <Toast position="top" />
+              </KeyboardAvoidingView>
+            </>
+          ) : (
+            <Loading />
+          )}
         </ImageBackground>
       </LinearGradient>
     </SafeAreaView>

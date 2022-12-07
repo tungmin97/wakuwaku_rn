@@ -16,6 +16,7 @@ import {
 import EspisodeCard from './EspisodeCard';
 import ReviewCard from './ReviewCard';
 import { AnimeEspisode, AnimeReviewData } from '@src/types/animeTypes';
+import SkeletonListLoader from '../Loading/SkeletonListLoader';
 
 interface componentPropsInterface {
   synopsis: string;
@@ -35,6 +36,10 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
   const EpisodesRoute = () => {
     const { data } = useGetAnimeVideosEpisodesQuery(props.id);
 
+    if (!data) {
+      return <SkeletonListLoader />;
+    }
+
     return (
       <ScrollView key={2}>
         {data?.data?.map((item: AnimeEspisode) => (
@@ -53,6 +58,10 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
 
   const ReviewRoute = () => {
     const { data } = useGetAnimeReviewsQuery(props.id);
+
+    if (!data) {
+      return <SkeletonListLoader />;
+    }
 
     return (
       <ScrollView style={styles.tab} key={3}>
