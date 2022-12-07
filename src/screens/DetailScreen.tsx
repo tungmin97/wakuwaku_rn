@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import YoutubeIframe from 'react-native-youtube-iframe';
 import AnimeDetailTabView from '@src/components/TabView/AnimeDetailTabView';
@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useWatchList } from '@app/hooks/useWatchList';
 import { DetailScreenProps } from '@src/types/types';
 import { useViewportUnits } from '@app/hooks/main';
+import { AnimeFullById } from 'src/types/animeTypes';
 
 export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const { vw } = useViewportUnits();
@@ -14,6 +15,28 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
   const { handleAddWatchList, handleRemoveWatchList } = useWatchList();
   const handleGoBack = () => navigation.goBack();
   const handleNavigation = () => navigation.navigate('Search');
+  const [isOnWatchList, setIsOnWatchList] = useState(false);
+
+  const watchlistHandler = () => {
+    if (isOnWatchList) {
+      handleRemoveWatchList(item);
+      setIsOnWatchList(false);
+    } else {
+      handleAddWatchList(item);
+      setIsOnWatchList(true);
+    }
+  };
+
+  useEffect(() => {
+    watchList.animeList.map((a: AnimeFullById) => {
+      if (a.mal_id === item.mal_id) {
+        setIsOnWatchList(true);
+      }
+      if (a.mal_id !== item.mal_id) {
+        setIsOnWatchList(false);
+      }
+    });
+  }, [item.mal_id, watchList.animeList]);
 
   return (
     <SafeAreaView className="flex-1 bg-black">
@@ -45,10 +68,12 @@ export default function DetailScreen({ route, navigation }: DetailScreenProps) {
           </View>
         </View>
         <View className="flex-row justify-around items-center my-5">
-          <TouchableOpacity
-            className="flex-col items-center"
-            onPress={() => handleAddWatchList(item)}>
-            <AntDesign name="plus" size={22} color="white" />
+          <TouchableOpacity className="flex-col items-center" onPress={watchlistHandler}>
+            {isOnWatchList ? (
+              <AntDesign name="check" size={22} color="white" />
+            ) : (
+              <AntDesign name="plus" size={22} color="white" />
+            )}
             <Text className=" text-ghostWhite text-[13px] mt-2 font-main">My list</Text>
           </TouchableOpacity>
           {item.score && (

@@ -28,7 +28,7 @@ const AnimeDetailTabView = (props: componentPropsInterface) => {
         return null;
     }
   };
-
+  
   const [routes] = useState([
     { key: 'synopsis', title: 'Synopsis' },
     { key: 'episodes', title: 'Episodes' },
