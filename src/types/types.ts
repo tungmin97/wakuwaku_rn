@@ -16,6 +16,7 @@ export type RootStackParamList = {
   Search: undefined;
   Watchlist: undefined;
   ChangeUserInfo: undefined;
+  Notification: undefined;
 };
 
 export type HomeStackParamList = {

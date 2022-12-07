@@ -92,6 +92,18 @@ export default function UserScreen({ navigation }: RootStackProps) {
       <TouchableOpacity
         className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md"
         onPress={() => {
+          navigation.navigate('Notification');
+        }}>
+        <View className="flex flex-row justify-center items-center">
+          <AntDesign name="bells" size={25} color="#f8f7ffff" />
+          <Text className="text-base ml-3 text-ghostWhite font-main">Notification</Text>
+        </View>
+        <AntDesign name="right" size={25} color="#6a6a6a" />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        className="flex-row justify-between w-11/12 p-3 mb-6 mx-auto bg-gray rounded-md"
+        onPress={() => {
           navigation.navigate('Watchlist');
         }}>
         <View className="flex flex-row justify-center items-center">
