@@ -8,6 +8,7 @@ import HomeModal from '@components/HomeModal/HomeModal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { createReminderNotification } from '../../services/notification/notificationService';
 import { formatTime } from '@utils/formatTime';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface Props {
   item: AnimeById;
@@ -36,19 +37,24 @@ const WatchList = ({ item }: Props) => {
         <FastImage
           resizeMode={FastImage.resizeMode.cover}
           source={{ uri: item.images.jpg.image_url }}
-          className="rounded-md w-44 h-64 justify-end bg-white relative"
-        />
-        <TouchableOpacity
-          className="absolute right-2 top-2"
-          onPress={() => {
-            setIsNotify(!isNotify);
-          }}>
-          {isNotify ? (
-            <AntDesign name="check" size={26} color="white" />
-          ) : (
-            <AntDesign name="bells" size={26} color="white" />
-          )}
-        </TouchableOpacity>
+          className="rounded-md w-44 h-64 justify-end bg-white relative">
+          <LinearGradient
+            colors={['rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0)']}
+            locations={[0, 1]}
+            className="absolute top-0 left-0 bottom-0 right-0 bg-transparent">
+            <TouchableOpacity
+              className="absolute right-2 top-2"
+              onPress={() => {
+                setIsNotify(!isNotify);
+              }}>
+              {isNotify ? (
+                <AntDesign name="check" size={26} color="white" />
+              ) : (
+                <AntDesign name="bells" size={26} color="white" />
+              )}
+            </TouchableOpacity>
+          </LinearGradient>
+        </FastImage>
       </TouchableOpacity>
       <HomeModal
         visible={isModalVisible}
