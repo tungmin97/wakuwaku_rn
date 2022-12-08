@@ -45,8 +45,10 @@ const NotificationScreen = ({ navigation }: RootStackProps) => {
               className="flex-row p-3 bg-dark mb-3 rounded-lg justify-between items-center"
               key={entry.notification.id}>
               <View>
-                <Text>{entry.notification.title}</Text>
-                <Text>{entry.notification.body}</Text>
+                <Text className="text-ghostWhite font-main text-base font-bold">
+                  {entry.notification.title}
+                </Text>
+                <Text className="text-ghostWhite font-main text-sm">{entry.notification.body}</Text>
               </View>
               <TouchableOpacity
                 onPress={() => handleRemoveNotif(entry.notification.id!)}
